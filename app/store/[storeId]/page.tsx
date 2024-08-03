@@ -1,13 +1,15 @@
-import Link from 'next/link'
-import React from 'react'
+import React from "react";
+import { FeaturedCollection, ImageBanner } from "../_components";
 
-const Page = ({params}: {params: {storeId: string}}) => {
-   const storeId = params.storeId
+const Page = ({ params }: { params: { storeId: string } }) => {
+  const storeId = params.storeId;
   return (
     <>
-    <div>Welcome store:  {storeId}</div>
-    <Link href={"/manage"}>GO TO Manage link</Link></>
-  )
-}
+      <ImageBanner />
 
-export default Page
+      <FeaturedCollection />
+    </>
+  );
+};
+
+export default Page;
