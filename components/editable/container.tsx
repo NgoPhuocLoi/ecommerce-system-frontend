@@ -9,12 +9,16 @@ interface IContainerProps {
   flexDirection?: "row" | "column";
 }
 
-const Container = ({ children, background = "#aaa", flexDirection = "row" }: IContainerProps) => {
+const Container = ({
+  children,
+  background = "#aaa",
+  flexDirection = "row",
+}: IContainerProps) => {
   const applyRef = useApplyRef();
   return (
     <div
       ref={applyRef}
-      className="p-4 rounded-md w-fit flex gap-4"
+      className="p-4 rounded-md w-full flex gap-4"
       style={{
         backgroundColor: background,
         flexDirection,

@@ -1,7 +1,8 @@
 import EditorClient from "./editor-client";
+import ViewPort from "./view-port";
 
 const Page = () => {
-  return <EditorClient />;
+  return <ViewPort />;
 };
 
 export default Page;
