@@ -4,13 +4,13 @@ import { StoreHeader, StoreFooter, AnnouncementBar } from "../_components";
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <AnnouncementBar />
+      {/* <AnnouncementBar />
 
-      <StoreHeader />
+      <StoreHeader /> */}
 
       {children}
 
-      <StoreFooter />
+      {/* <StoreFooter /> */}
     </>
   );
 };

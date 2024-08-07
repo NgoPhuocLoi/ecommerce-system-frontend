@@ -1,6 +1,8 @@
 "use client";
 import { useApplyRef } from "@/hooks/useApplyRef";
 import { useNode } from "@craftjs/core";
+import { useRef } from "react";
+import ContentEditable from "react-contenteditable";
 
 interface ITextProps {
   content: string;
@@ -8,17 +10,25 @@ interface ITextProps {
 }
 
 const Text = ({ content, padding = 8 }: ITextProps) => {
-  const applyRef = useApplyRef();
+  const { applyRef } = useApplyRef();
+  const text = useRef("");
   return (
-    <div
+    <ContentEditable
       ref={applyRef}
-      className="rounded-sm border w-fit"
-      style={{
-        padding: `${padding}px`,
+      html={text.current}
+      onChange={(e) => {
+        text.current = e.target.value;
       }}
-    >
-      {content}
-    </div>
+    />
+    // <div
+    //   ref={applyRef}
+    //   className="rounded-sm border w-fit"
+    //   style={{
+    //     padding: `${padding}px`,
+    //   }}
+    // >
+    //   {content}
+    // </div>
   );
 };
 

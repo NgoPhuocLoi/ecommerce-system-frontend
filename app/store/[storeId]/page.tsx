@@ -1,13 +1,14 @@
-import React from "react";
-import { FeaturedCollection, ImageBanner } from "../_components";
+import MyEditor from "@/app/editor/my-editor";
 
 const Page = ({ params }: { params: { storeId: string } }) => {
   const storeId = params.storeId;
   return (
     <>
-      <ImageBanner />
+      {/* <ImageBanner />
 
-      <FeaturedCollection />
+      <FeaturedCollection /> */}
+
+      <MyEditor />
     </>
   );
 };
