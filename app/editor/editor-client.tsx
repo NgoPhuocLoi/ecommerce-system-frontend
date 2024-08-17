@@ -58,13 +58,15 @@ const EditorClient = () => {
         <EditorHeader />
         <Toolbox />
         <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-16 sm:pr-[256px]">
-          <Frame data={json}>
-            <Element is="div" id="container" canvas>
-              <AnnouncementBar text="Welcome to my store" />
-              <StoreHeader />
-              <ImageBanner />
-            </Element>
-          </Frame>
+          {json && (
+            <Frame data={json}>
+              <Element is="div" id="container" canvas>
+                <AnnouncementBar text="Welcome to my store" />
+                <StoreHeader />
+                <ImageBanner />
+              </Element>
+            </Frame>
+          )}
         </div>
       </Editor>
     </div>

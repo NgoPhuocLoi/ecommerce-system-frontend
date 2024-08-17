@@ -1,5 +1,5 @@
 import Link from "next/link";
-import banner1 from "@/static/images/banner-1.svg";
+import banner1 from "@/public/images/banner-1.svg";
 import Image from "next/image";
 import { useApplyRef } from "@/hooks/useApplyRef";
 

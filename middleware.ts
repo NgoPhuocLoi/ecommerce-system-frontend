@@ -4,7 +4,7 @@ export function middleware(req: NextRequest) {
     const hostname = req?.headers?.get('host');
     console.log({hostname})
     const subdomain = hostname?.split('.');
-    if(!subdomain || subdomain.length < 2) {
+    if(!subdomain || subdomain.length < 2 || hostname?.startsWith("host.docker.internal")) {
         return NextResponse.next()
     }
     const url = req.nextUrl.clone();
