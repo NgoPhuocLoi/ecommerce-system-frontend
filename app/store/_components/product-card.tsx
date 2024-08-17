@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import product1 from "@/static/images/product-1.jpeg";
+import product1 from "@/public/images/product-1.jpeg";
 
 const ProductCard = () => {
   return (

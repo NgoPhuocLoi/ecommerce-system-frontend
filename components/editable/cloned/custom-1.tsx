@@ -12,7 +12,7 @@ export const OnlyButtons = ({
 }: {
   children: ReactNode;
 }) => {
-  const applyRef = useApplyRef();
+  const { applyRef } = useApplyRef();
   return (
     <div title="only-buttons" ref={applyRef} className="w-full mt-5" {...props}>
       {children}

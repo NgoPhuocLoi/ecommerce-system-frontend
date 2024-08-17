@@ -6,7 +6,7 @@ interface IMyButtonProps {
 }
 
 const MyButton = ({ label }: IMyButtonProps) => {
-  const applyRef = useApplyRef();
+  const { applyRef } = useApplyRef();
   return (
     <div ref={applyRef}>
       <Button>{label}</Button>

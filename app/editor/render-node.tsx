@@ -58,7 +58,7 @@ export const RenderNode = ({ render }: { render: any }) => {
   }));
 
   const currentRef = useRef<HTMLDivElement>(null);
-  const applyRef = useApplyRef();
+  const { applyRef } = useApplyRef();
   useEffect(() => {
     if (dom) {
       if (isActive || isHover) dom.classList.add("component-selected");
@@ -112,7 +112,7 @@ export const RenderNode = ({ render }: { render: any }) => {
             >
               <h2 className="flex-1 mr-4">{name}</h2>
               {moveable ? (
-                <Btn className="mr-2 cursor-move" ref={applyRef}>
+                <Btn className="mr-2 cursor-move" ref={applyRef as any}>
                   <MoveIcon color="red" />
                 </Btn>
               ) : null}

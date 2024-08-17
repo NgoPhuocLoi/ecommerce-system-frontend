@@ -48,7 +48,9 @@ export const Viewport: React.FC<{ children?: React.ReactNode }> = ({
                 "bg-red": enabled,
               }
             )}
-            ref={(ref) => connectors.select(connectors.hover(ref!, ""), "")}
+            ref={(ref) =>
+              connectors.select(connectors.hover(ref!, ""), "") as any
+            }
           >
             <div className="relative flex-col flex items-center pt-8">
               {children}
