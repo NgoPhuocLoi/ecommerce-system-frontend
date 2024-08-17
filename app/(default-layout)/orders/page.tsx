@@ -1,7 +1,11 @@
-import React from "react";
+import TestTable from "@/components/test-table";
 
 const Page = () => {
-  return <div>Orders</div>;
+  return (
+    <div className="px-4">
+      <TestTable />
+    </div>
+  );
 };
 
 export default Page;
