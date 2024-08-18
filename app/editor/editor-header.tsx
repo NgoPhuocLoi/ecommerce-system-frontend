@@ -18,7 +18,7 @@ const EditorHeader = () => {
   };
 
   return (
-    <header className="sticky top-0 flex justify-between h-14 items-center gap-4 border-b bg-white px-4 md:px-6">
+    <header className="sticky z-10 top-0 flex justify-between h-14 items-center gap-4 border-b bg-white px-4 md:px-6">
       <Link
         href="/dashboard"
         className="p-2 hover:bg-gray-100 rounded-md cursor-pointer "
