@@ -1,7 +1,39 @@
 import ProductCard from "@/app/store/_components/product-card";
+import { InputSetting } from "@/components/settings";
 import { Button } from "@/components/ui/button";
 import { useApplyRef } from "@/hooks/useApplyRef";
+import { useSetting } from "@/hooks/useSetting";
 import React from "react";
+
+const ProductsSectionSetting = () => {
+  const {
+    props: { title },
+    handlePropChange,
+  } = useSetting();
+  return (
+    <div className="flex flex-col gap-5 pt-1">
+      <InputSetting
+        onChange={(value) => {
+          handlePropChange("title", value);
+        }}
+        id="products-section-title"
+        title="Title"
+        description="Change Title"
+        value={title}
+      />
+      {/* <MultiSelectionSetting
+        id="image-banner-image-size"
+        title="Banner height"
+        description="Change the banner height. For best results, use an image with a 3:2 aspect ratio"
+        value={bannerHeight}
+        onValueChange={(value) => {
+          handlePropChange("bannerHeight", value);
+        }}
+        selections={bannerHeightSelections}
+      /> */}
+    </div>
+  );
+};
 
 interface IProductsSectionProps {
   title: string;
@@ -23,4 +55,13 @@ export const ProductsSection = ({ title }: IProductsSectionProps) => {
       </div>
     </div>
   );
+};
+
+ProductsSection.craft = {
+  props: {
+    title: "Featured Products",
+  },
+  related: {
+    setting: ProductsSectionSetting,
+  },
 };

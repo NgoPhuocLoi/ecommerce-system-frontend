@@ -18,6 +18,7 @@ import {
   SheetPortal,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useSetting } from "@/hooks/useSetting";
 import { useNode } from "@craftjs/core";
 import clsx from "clsx";
 import { CircleUser, Menu, Package2, Search, ShoppingCart } from "lucide-react";
@@ -51,19 +52,8 @@ const headerModes = [
 ];
 
 const StoreHeaderSetting = () => {
-  const {
-    actions: { setProp },
-    bgColor,
-    headerMode,
-    textColor,
-    showSearchbar,
-  } = useNode((node) => {
-    return { ...node.data.props };
-  });
-
-  const handlePropChange = (key: string, value: any) => {
-    setProp((prop: any) => (prop[key] = value));
-  };
+  const { props, handlePropChange } = useSetting();
+  const { bgColor, headerMode, textColor, showSearchbar } = props;
 
   return (
     <div className="flex flex-col gap-4 pt-1">

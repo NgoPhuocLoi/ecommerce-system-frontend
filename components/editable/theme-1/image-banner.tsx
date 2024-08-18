@@ -1,5 +1,6 @@
 import FileUploadSetting from "@/components/settings/file-upload-setting";
 import MultiSelectionSetting from "@/components/settings/multi-selection-setting";
+import { useSetting } from "@/hooks/useSetting";
 import banner1 from "@/public/images/banner-1.svg";
 import { useNode } from "@craftjs/core";
 import Image from "next/image";
@@ -21,16 +22,9 @@ const bannerHeightSelections = [
 
 const ImageBannerSetting = () => {
   const {
-    actions: { setProp },
-    imageUrl,
-    bannerHeight,
-  } = useNode((node) => {
-    return { ...node.data.props };
-  });
-
-  const handlePropChange = (key: string, value: any) => {
-    setProp((prop: any) => (prop[key] = value));
-  };
+    props: { imageUrl, bannerHeight },
+    handlePropChange,
+  } = useSetting();
   return (
     <div className="flex flex-col gap-5 pt-1">
       <FileUploadSetting
@@ -64,10 +58,16 @@ interface IImageBannerProps {
 export const ImageBanner = ({ imageUrl, bannerHeight }: IImageBannerProps) => {
   return (
     <div
-      style={{ height: bannerHeight + "px" }}
+      style={{
+        height: bannerHeight + "px",
+        backgroundImage: `url("${imageUrl}")`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
       className="bg-[#54bbcb] relative z-0 w-full flex justify-center py-14"
     >
-      <Image fill alt="banner" src={imageUrl || banner1} />
+      {!imageUrl && <Image src={banner1} fill alt="Banner" />}
     </div>
   );
 };

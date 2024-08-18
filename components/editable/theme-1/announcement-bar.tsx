@@ -1,6 +1,7 @@
 import { SliderSetting, InputSetting } from "@/components/settings";
 import ColorSetting from "@/components/settings/color-setting";
 import { useApplyRef } from "@/hooks/useApplyRef";
+import { useSetting } from "@/hooks/useSetting";
 import { useNode } from "@craftjs/core";
 import clsx from "clsx";
 import { useRef } from "react";
@@ -13,19 +14,8 @@ interface IAnnouncementBarProps {
 }
 
 export const AnnouncementBarSetting = () => {
-  const {
-    actions: { setProp },
-    fontSize,
-    text,
-    bgColor,
-    textColor,
-  } = useNode((node) => {
-    return { ...node.data.props };
-  });
-
-  const handlePropChange = (key: string, value: any) => {
-    setProp((prop: any) => (prop[key] = value));
-  };
+  const { props, handlePropChange } = useSetting();
+  const { fontSize, text, bgColor, textColor } = props;
 
   return (
     <div className="flex flex-col gap-4 pt-1">
