@@ -14,7 +14,7 @@ const Setting = () => {
   const { selected } = useEditor((state) => {
     const currentNodeId = state.events.selected.values().next().value;
     // NOTE: render too much times
-    console.log({ currentNodeId });
+    // console.log({ currentNodeId });
     let selected;
 
     if (currentNodeId) {
@@ -26,13 +26,18 @@ const Setting = () => {
           state.nodes[currentNodeId].related.setting,
       };
     }
-    console.log({ selected });
+    // console.log({ selected });
     return {
       selected,
     };
   });
   return (
-    <Tabs>
+    <Tabs
+      onValueChange={(value) => {
+        console.log(value);
+      }}
+      defaultValue="complete"
+    >
       <div className="fixed w-[248px] bg-white top-14 right-0 h-full p-4">
         <div className="hidden flex-col space-y-4 sm:flex md:order-2">
           <div className="grid gap-2">
@@ -67,10 +72,6 @@ const Setting = () => {
           {selected &&
             selected.settings &&
             React.createElement(selected.settings)}
-          {/* <ModelSelector types={types} models={models} />
-        <TemperatureSelector defaultValue={[0.56]} />
-        <MaxLengthSelector defaultValue={[256]} />
-        <TopPSelector defaultValue={[0.9]} /> */}
         </div>
       </div>
     </Tabs>

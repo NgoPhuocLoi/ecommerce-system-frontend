@@ -1,4 +1,7 @@
 "use client";
+import CheckboxSetting from "@/components/settings/checkbox-setting";
+import ColorSetting from "@/components/settings/color-setting";
+import TabSelectionSetting from "@/components/settings/tab-selection-setting";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,13 +12,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { SheetContent, SheetTrigger, Sheet } from "@/components/ui/sheet";
-import { useApplyRef } from "@/hooks/useApplyRef";
+import {
+  Sheet,
+  SheetContent,
+  SheetPortal,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { useNode } from "@craftjs/core";
 import clsx from "clsx";
 import { CircleUser, Menu, Package2, Search, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
 
 const links = [
   {
@@ -32,19 +39,158 @@ const links = [
   },
 ];
 
-export const StoreHeader = () => {
-  const pathname = usePathname();
-  const { applyRef } = useApplyRef();
-  return (
-    <header className="flex bg-white h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
-      <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-        <Link
-          href="#"
-          className="flex items-center gap-2 text-lg font-semibold md:text-xl whitespace-nowrap"
-        >
-          My Store
-        </Link>
+const headerModes = [
+  {
+    title: "Menu",
+    value: "menu",
+  },
+  {
+    title: "Drawer",
+    value: "drawer",
+  },
+];
 
+const StoreHeaderSetting = () => {
+  const {
+    actions: { setProp },
+    bgColor,
+    headerMode,
+    textColor,
+    showSearchbar,
+  } = useNode((node) => {
+    return { ...node.data.props };
+  });
+
+  const handlePropChange = (key: string, value: any) => {
+    setProp((prop: any) => (prop[key] = value));
+  };
+
+  return (
+    <div className="flex flex-col gap-4 pt-1">
+      <TabSelectionSetting
+        id="store-header-mode"
+        title="Header mode"
+        description="Config header mode"
+        value={headerMode}
+        selections={headerModes}
+        onValueChange={(value) => {
+          console.log({ value });
+          handlePropChange("headerMode", value);
+        }}
+      />
+
+      <ColorSetting
+        id="store-header-bg"
+        title="Background"
+        description="Change background color"
+        value={bgColor}
+        onChange={(color) => {
+          handlePropChange("bgColor", color);
+        }}
+      />
+
+      <ColorSetting
+        id="store-header-text-color"
+        title="Text color"
+        description="Change text color"
+        value={textColor}
+        onChange={(color) => {
+          handlePropChange("textColor", color);
+        }}
+      />
+      <CheckboxSetting
+        id="store-header-show-search"
+        title="Show searchbar"
+        description="Show or hide the search bar"
+        value={showSearchbar}
+        onCheckedChange={() => {
+          handlePropChange("showSearchbar", !showSearchbar);
+        }}
+      />
+    </div>
+  );
+};
+
+interface IStoreHeaderProps {
+  bgColor?: string;
+  headerMode?: "menu" | "drawer";
+  textColor?: string;
+  showSearchbar?: boolean;
+}
+
+const NavigationDrawer = ({ isDrawerMode }: { isDrawerMode: boolean }) => {
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button
+          variant="outline"
+          size="icon"
+          className={clsx("shrink-0 ", {
+            "md:hidden": !isDrawerMode,
+          })}
+        >
+          <Menu className="h-5 w-5" />
+          <span className="sr-only">Toggle navigation menu</span>
+        </Button>
+      </SheetTrigger>
+      <SheetContent side="left">
+        <nav className="grid gap-6 text-lg font-medium">
+          <Link
+            href="#"
+            className="flex items-center gap-2 text-lg font-semibold"
+          >
+            <Package2 className="h-6 w-6" />
+            <span className="sr-only">Acme Inc</span>
+          </Link>
+          <Link
+            href="#"
+            className="text-muted-foreground hover:text-foreground"
+          >
+            Dashboard
+          </Link>
+          <Link
+            href="#"
+            className="text-muted-foreground hover:text-foreground"
+          >
+            Orders
+          </Link>
+          <Link
+            href="#"
+            className="text-muted-foreground hover:text-foreground"
+          >
+            Products
+          </Link>
+          <Link
+            href="#"
+            className="text-muted-foreground hover:text-foreground"
+          >
+            Customers
+          </Link>
+          <Link href="#" className="hover:text-foreground">
+            Settings
+          </Link>
+        </nav>
+      </SheetContent>
+    </Sheet>
+  );
+};
+
+const NavigationMenu = ({ isMenuMode }: { isMenuMode: boolean }) => {
+  const pathname = usePathname();
+  return (
+    <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+      <Link
+        href="#"
+        className="flex items-center gap-2 text-lg font-semibold md:text-xl whitespace-nowrap"
+      >
+        My Store
+      </Link>
+
+      <div
+        className={clsx("flex gap-6", {
+          hidden: !isMenuMode,
+        })}
+      >
         {links.map((link) => {
           const isActiveLink = pathname === link.path;
           return (
@@ -60,64 +206,45 @@ export const StoreHeader = () => {
             </Link>
           );
         })}
-      </nav>
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="shrink-0 md:hidden">
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Toggle navigation menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left">
-          <nav className="grid gap-6 text-lg font-medium">
-            <Link
-              href="#"
-              className="flex items-center gap-2 text-lg font-semibold"
-            >
-              <Package2 className="h-6 w-6" />
-              <span className="sr-only">Acme Inc</span>
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Orders
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Products
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground"
-            >
-              Customers
-            </Link>
-            <Link href="#" className="hover:text-foreground">
-              Settings
-            </Link>
-          </nav>
-        </SheetContent>
-      </Sheet>
-      <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-        <form className="ml-auto flex-1 sm:flex-initial">
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search products..."
-              className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-            />
+      </div>
+    </nav>
+  );
+};
+
+export const StoreHeader = ({
+  bgColor,
+  headerMode,
+  textColor,
+  showSearchbar,
+}: IStoreHeaderProps) => {
+  return (
+    <header
+      style={{
+        backgroundColor: bgColor,
+        color: textColor,
+      }}
+      className="flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6"
+    >
+      <NavigationDrawer isDrawerMode={headerMode === "drawer"} />
+      <NavigationMenu isMenuMode={headerMode === "menu"} />
+
+      <div className="flex w-fit items-center gap-3 md:ml-auto md:gap-2 lg:gap-4">
+        {showSearchbar ? (
+          <form className="ml-auto flex-1 sm:flex-initial">
+            <div className="relative">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Search products..."
+                className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+              />
+            </div>
+          </form>
+        ) : (
+          <div className="w-10 h-10 flex-center rounded-full hover:bg-gray-100 cursor-pointer">
+            <Search size={17} />
           </div>
-        </form>
+        )}
         <div className="w-10 h-10 flex-center rounded-full hover:bg-gray-100 cursor-pointer">
           <ShoppingCart size={17} />
         </div>
@@ -140,4 +267,16 @@ export const StoreHeader = () => {
       </div>
     </header>
   );
+};
+
+StoreHeader.craft = {
+  props: {
+    bgColor: "#ffffff",
+    headerMode: "drawer",
+    textColor: "#000000",
+    showSearchbar: true,
+  },
+  related: {
+    setting: StoreHeaderSetting,
+  },
 };

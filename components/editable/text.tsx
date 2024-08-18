@@ -10,11 +10,9 @@ interface ITextProps {
 }
 
 const Text = ({ content, padding = 8 }: ITextProps) => {
-  const { applyRef } = useApplyRef();
   const text = useRef("");
   return (
     <ContentEditable
-      ref={applyRef}
       html={text.current}
       onChange={(e) => {
         text.current = e.target.value;

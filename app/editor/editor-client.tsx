@@ -5,8 +5,9 @@ import {
   MyButton,
   Text,
   AnnouncementBar,
+  GridContainer,
 } from "@/components/editable";
-import { Editor, Element, Frame } from "@craftjs/core";
+import { Editor, Element, Frame, useEditor, useNode } from "@craftjs/core";
 import Toolbox from "./toolbox";
 import EditorHeader from "./editor-header";
 import { ReactElement, useEffect, useState } from "react";
@@ -58,6 +59,7 @@ const EditorClient = () => {
           Container,
           MyButton,
           Text,
+          GridContainer,
           ...theme1,
         }}
       >

@@ -8,15 +8,13 @@ interface IProductsSectionProps {
 }
 
 export const ProductsSection = ({ title }: IProductsSectionProps) => {
-  const { applyRef } = useApplyRef();
-
   return (
-    <div ref={applyRef} className="px-10 mt-10 pb-9 border-b">
+    <div className="px-10 mt-10 pb-9 border-b">
       <h1 className="mb-8 text-2xl font-bold">{title}</h1>
 
       <div className="grid grid-cols-4 gap-4">
         {[1, 2, 3, 4, 5, 6].map((i) => (
-          <ProductCard />
+          <ProductCard key={i} />
         ))}
       </div>
 

@@ -2,6 +2,7 @@
 import {
   AnnouncementBar,
   Container,
+  GridContainer,
   MyButton,
   Text,
 } from "@/components/editable";
@@ -24,6 +25,7 @@ const MyEditor = () => {
       enabled={false}
       resolver={{
         Container,
+        GridContainer,
         MyButton,
         Text,
         ...theme1,

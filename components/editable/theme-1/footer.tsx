@@ -7,9 +7,8 @@ import React from "react";
 import { useApplyRef } from "@/hooks/useApplyRef";
 
 export const Footer = () => {
-  const { applyRef } = useApplyRef();
   return (
-    <div ref={applyRef}>
+    <div>
       <div className="py-9 flex flex-col items-center gap-4 border-b">
         <h2>Subscribe to our emails</h2>
         <div className="flex gap-4">

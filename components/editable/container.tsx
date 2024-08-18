@@ -20,10 +20,8 @@ const Container = ({
   margin = 0,
   gap = 0,
 }: IContainerProps) => {
-  const { applyRef } = useApplyRef();
   return (
     <div
-      ref={applyRef}
       className="p-4 rounded-md w-full flex h-screen"
       style={{
         backgroundColor: background,
