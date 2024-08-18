@@ -5,7 +5,7 @@ import {
   MyButton,
   Text,
 } from "@/components/editable";
-import { ImageBanner, StoreHeader } from "@/components/editable/theme-1";
+import * as theme1 from "@/components/editable/theme-1";
 import { Editor, Frame } from "@craftjs/core";
 import React, { useEffect, useState } from "react";
 import lz from "lz-string";
@@ -26,9 +26,7 @@ const MyEditor = () => {
         Container,
         MyButton,
         Text,
-        AnnouncementBar,
-        StoreHeader,
-        ImageBanner,
+        ...theme1,
       }}
     >
       {/* <EditorHeader /> */}

@@ -1,17 +1,8 @@
+import { SliderSetting, InputSetting } from "@/components/settings";
 import { useApplyRef } from "@/hooks/useApplyRef";
-import React, { useRef } from "react";
-import Text from "../text";
-import ContentEditable from "react-contenteditable";
-import clsx from "clsx";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import { useNode } from "@craftjs/core";
-import { Input } from "@/components/ui/input";
+import clsx from "clsx";
+import { useRef } from "react";
 
 interface IAnnouncementBarProps {
   text: string;
@@ -25,51 +16,32 @@ export const AnnouncementBarSetting = () => {
     fontSize,
     text,
   } = useNode((node) => {
-    console.log({ data: node.data });
     return { fontSize: node.data.props.fontSize, text: node.data.props.text };
   });
   return (
-    <div className="grid gap-2 pt-2">
-      <HoverCard openDelay={200}>
-        <HoverCardTrigger asChild>
-          <div className="grid gap-4">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="temperature">Font size</Label>
-              <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
-                {fontSize}
-              </span>
-            </div>
-            <Slider
-              id="temperature"
-              max={100}
-              defaultValue={[fontSize]}
-              step={1}
-              onValueChange={(values) =>
-                setProp((props: any) => (props.fontSize = values[0]))
-              }
-              className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
-              aria-label="Temperature"
-            />
-          </div>
-        </HoverCardTrigger>
-        <HoverCardContent
-          align="start"
-          className="w-[260px] text-sm"
-          side="left"
-        >
-          Controls randomness: lowering results in less random completions. As
-          the temperature approaches zero, the model will become deterministic
-          and repetitive.
-        </HoverCardContent>
-      </HoverCard>
-
-      <Input
-        value={text}
-        onChange={(e) => {
-          setProp((props: any) => {
-            props.text = e.target.value;
+    <div className="flex flex-col gap-4 pt-1">
+      <SliderSetting
+        id="font-size"
+        title="Font size"
+        description="Adjust the font size"
+        onValueChange={(values) => {
+          setProp((prop: any) => {
+            prop.fontSize = values[0];
           });
         }}
+        value={fontSize}
+        range={[1, 40]}
+        step={1}
+      />
+
+      <InputSetting
+        id="welcome-text"
+        title="Text"
+        value={text}
+        onChange={(value) => {
+          setProp((prop: any) => (prop.text = value));
+        }}
+        description="Change the text"
       />
     </div>
   );

@@ -1,12 +1,15 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import visa from "@/public/images/visa.svg";
 import mastercard from "@/public/images/mastercard.svg";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import React from "react";
+import { useApplyRef } from "@/hooks/useApplyRef";
 
-const StoreFooter = () => {
+export const Footer = () => {
+  const { applyRef } = useApplyRef();
   return (
-    <>
+    <div ref={applyRef}>
       <div className="py-9 flex flex-col items-center gap-4 border-b">
         <h2>Subscribe to our emails</h2>
         <div className="flex gap-4">
@@ -23,8 +26,6 @@ const StoreFooter = () => {
 
         <p> © 2024, test-store-nploi Powered by NgoPhuocLoi </p>
       </div>
-    </>
+    </div>
   );
 };
-
-export default StoreFooter;

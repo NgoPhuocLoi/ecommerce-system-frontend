@@ -13,7 +13,7 @@ import { SheetContent, SheetTrigger, Sheet } from "@/components/ui/sheet";
 import clsx from "clsx";
 import { CircleUser, Menu, Package2, Search, ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import React from "react";
 
 const links = [
@@ -23,16 +23,17 @@ const links = [
   },
   {
     title: "Products",
-    path: "/products",
+    path: "products",
   },
   {
     title: "Contact",
-    path: "/contact",
+    path: "contact",
   },
 ];
 
 const StoreHeader = () => {
   const pathname = usePathname();
+  const shopId = useParams().storeId;
   return (
     <header className="flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
@@ -48,7 +49,7 @@ const StoreHeader = () => {
           return (
             <Link
               key={link.path}
-              href={link.path}
+              href={`/store/${shopId}/${link.path}`}
               className={clsx("transition-colors", {
                 "border-b-2 border-b-gray-800 text-gray-800": isActiveLink,
                 "hover:text-gray-800 text-gray-600": !isActiveLink,
