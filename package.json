@@ -34,6 +34,7 @@
     "luxon": "^3.5.0",
     "lz-string": "^1.5.0",
     "next": "14.2.5",
+    "next-auth": "^5.0.0-beta.20",
     "re-resizable": "^6.9.17",
     "react": "^18",
     "react-contenteditable": "^3.3.7",
