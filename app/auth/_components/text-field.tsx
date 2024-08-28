@@ -24,6 +24,10 @@ const TextField = ({
       <Label htmlFor={id}>{label}</Label>
       <Input
         id={id}
+        value={value}
+        onChange={(e) => {
+          onChange(e.target.value);
+        }}
         placeholder={placeholder}
         type={type}
         autoCapitalize="none"

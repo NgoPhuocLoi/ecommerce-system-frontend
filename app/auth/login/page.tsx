@@ -8,19 +8,32 @@ import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { FormEventHandler, useState } from "react";
+import TextField from "../_components/text-field";
 
 const LoginPage = () => {
   const [isLoading, setLoading] = useState(false);
+  const [loginInfo, setLoginInfo] = useState({
+    email: "",
+    password: "",
+  });
   const router = useRouter();
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    console.log(loginInfo);
     console.log("Submit");
     const data = new FormData();
-    data.append("email", "shop1@gmail.com");
-    data.append("password", "12345678");
+    data.append("email", loginInfo.email);
+    data.append("password", loginInfo.password);
     await handleLogin(data);
     router.push("/api/auth/session");
+  };
+
+  const onChangeValue = (field: "email" | "password", value: string) => {
+    setLoginInfo((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
   return (
@@ -36,30 +49,25 @@ const LoginPage = () => {
       <div className="grid gap-6">
         <form onSubmit={onSubmit}>
           <div className="grid gap-6">
-            <div className="grid gap-1">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                placeholder="name@example.com"
-                type="email"
-                autoCapitalize="none"
-                autoComplete="email"
-                autoCorrect="off"
-                disabled={isLoading}
-              />
-            </div>
+            <TextField
+              type={"email"}
+              value={loginInfo.email}
+              onChange={(value) => {
+                onChangeValue("email", value);
+              }}
+              label={"Email"}
+              id={"login-email"}
+            />
 
-            <div className="grid gap-1">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                autoCapitalize="none"
-                autoComplete="password"
-                autoCorrect="off"
-                disabled={isLoading}
-              />
-            </div>
+            <TextField
+              type={"password"}
+              value={loginInfo.password}
+              onChange={(value) => {
+                onChangeValue("password", value);
+              }}
+              label={"Password"}
+              id={"login-password"}
+            />
 
             <Button disabled={isLoading}>
               {isLoading && <LoaderCircle />}

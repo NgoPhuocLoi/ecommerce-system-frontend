@@ -1,4 +1,4 @@
-import ProductCard from "@/app/store/_components/product-card";
+import ProductCard from "@/app/shop/_components/product-card";
 import { InputSetting } from "@/components/settings";
 import { Button } from "@/components/ui/button";
 import { useApplyRef } from "@/hooks/useApplyRef";
