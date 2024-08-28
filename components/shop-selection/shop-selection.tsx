@@ -29,9 +29,9 @@ const ShopSelection = async () => {
   const shops: Shop[] = await getShops(session.accessToken);
   console.log({ shops });
   return (
-    <div className="h-screen w-screen flex justify-center items-center py-20">
-      <Card className="w-[476px] h-full">
-        <div className="flex justify-between items-center">
+    <div className="flex h-screen w-screen items-center justify-center py-20">
+      <Card className="h-full w-[476px]">
+        <div className="flex items-center justify-between">
           <CardHeader>
             <CardTitle>Welcome back, Loi</CardTitle>
             <CardDescription>Select your shop to continue.</CardDescription>
@@ -42,18 +42,18 @@ const ShopSelection = async () => {
         <Separator />
         <CardContent>
           {/* <ScrollArea> */}
-          <div className="flex flex-col gap-1 py-3 overflow-auto flex-1">
+          <div className="flex flex-1 flex-col gap-1 overflow-auto py-3">
             {shops.map((shop) => (
               <Link
                 href={"/dashboard"}
                 key={shop.id}
-                className="p-3 group hover:bg-gray-100 flex gap-2 items-center rounded-md cursor-pointer duration-75"
+                className="group flex cursor-pointer items-center gap-2 rounded-md p-3 duration-75 hover:bg-gray-100"
               >
-                <div className="w-10 h-10 rounded-md bg-green-400 text-xs flex justify-center items-center">
+                <div className="flex h-10 w-10 items-center justify-center rounded-md bg-green-400 text-xs">
                   {shop.name[0]}
                 </div>
 
-                <div className="group-hover:translate-x-1 duration-100">
+                <div className="duration-100 group-hover:translate-x-1">
                   <p className="text-sm font-bold">{shop.name}</p>
                   <p className="text-xs">test-store@gmail.com</p>
                 </div>
