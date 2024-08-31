@@ -27,7 +27,9 @@ const LoginPage = () => {
     setLoading(true);
     try {
       await handleLogin(data);
-      router.push("/");
+      setTimeout(() => {
+        router.push("/");
+      });
     } catch (error) {
       if (error instanceof Error) {
         console.log({ authErroraaaa: error });

@@ -1,21 +1,15 @@
-import React from "react";
+import { getShops } from "@/app/services/shop";
+import { auth } from "@/auth";
+import Link from "next/link";
+import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import { ChevronRight } from "lucide-react";
-import { ScrollArea } from "../ui/scroll-area";
-import { auth, updateSession } from "@/auth";
-import { getShops } from "@/actions/shops";
-import { redirect } from "next/navigation";
-import Link from "next/link";
-import { handleUpdateSession } from "@/actions/auth";
 import ShopList from "./shop-list";
 
 export interface Shop {
@@ -25,10 +19,12 @@ export interface Shop {
 
 const ShopSelection = async () => {
   const session = await auth();
+
   if (!session) {
-    redirect("/login");
+    return null;
   }
-  const shops: Shop[] = await getShops(session.accessToken);
+
+  const shops: Shop[] = (await getShops(session.accessToken)).metadata;
 
   return (
     <div className="flex h-screen w-screen items-center justify-center py-20">
@@ -46,7 +42,8 @@ const ShopSelection = async () => {
         <Separator />
         <CardContent>
           {/* <ScrollArea> */}
-          <ShopList shops={shops ?? []} />
+          <ShopList shops={shops} />
+
           {/* </ScrollArea> */}
         </CardContent>
       </Card>
