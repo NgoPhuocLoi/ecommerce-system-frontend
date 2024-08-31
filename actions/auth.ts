@@ -1,8 +1,6 @@
 "use server";
 
 import { signIn, signOut, updateSession } from "@/auth";
-import { AuthError } from "next-auth";
-import { redirect } from "next/navigation";
 
 export const handleLogin = async (data: FormData) => {
   await signIn("credentials", data);

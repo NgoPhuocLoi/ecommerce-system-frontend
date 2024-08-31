@@ -1,9 +1,8 @@
 import NextAuth, { AuthError, User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { login } from "./app/services/auth";
-import { redirect } from "next/navigation";
-import { authenticatedFetch } from "./utils/fetch";
 import { AUTH_API } from "./constants";
+import { authenticatedFetch } from "./utils/fetch";
 
 declare module "next-auth" {
   interface User {
@@ -93,6 +92,7 @@ export const {
       if (trigger === "update" && session.selectedShopId) {
         token.selectedShopId = session.selectedShopId;
       }
+
       // token.accessToken = user.tokens.accessToken;
       // token.refreshToken = user.tokens.refreshToken;
       return token;
