@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardHeader,
@@ -6,24 +7,17 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import React from "react";
+import OnboardingQuestions from "./_components/onboarding-questions";
 
 const Page = () => {
   return (
-    <div>
-      <Card>
-        <CardHeader>
-          <CardTitle>Card Title</CardTitle>
-          <CardDescription>Card Description</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>Card Content</p>
-        </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-        </CardFooter>
-      </Card>
-    </div>
+    <>
+      <OnboardingQuestions />
+    </>
   );
 };
 
