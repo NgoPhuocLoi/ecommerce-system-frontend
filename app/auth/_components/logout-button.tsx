@@ -1,14 +1,13 @@
 "use client";
 import { logout } from "@/actions/auth";
-import { Button } from "@/components/ui/button";
-import React from "react";
+import { ReactNode } from "react";
 
-const LogoutButton = () => {
+const LogoutButton = ({ children }: { children: ReactNode }) => {
   const handleLogout = async () => {
     await logout();
   };
 
-  return <Button onClick={handleLogout}>Logout</Button>;
+  return <div onClick={handleLogout}>{children}</div>;
 };
 
 export default LogoutButton;

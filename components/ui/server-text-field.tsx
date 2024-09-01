@@ -10,6 +10,8 @@ interface IServerTextFieldProps {
   id: string;
   placeholder?: string;
   type: string;
+  defaultValue?: string | number;
+  disabled?: boolean;
 }
 
 const ServerTextField = ({
@@ -19,10 +21,12 @@ const ServerTextField = ({
   id,
   placeholder,
   type,
+  defaultValue,
+  disabled,
 }: IServerTextFieldProps) => {
   return (
     <div>
-      <div className="grid gap-1">
+      <div className="grid gap-3">
         <Label htmlFor={id}>{label}</Label>
         <Input
           id={id}
@@ -35,6 +39,8 @@ const ServerTextField = ({
           className={clsx({
             "border-red-500": error,
           })}
+          defaultValue={defaultValue}
+          disabled={disabled}
         />
       </div>
       <span className="text-xs text-red-500">{error}</span>

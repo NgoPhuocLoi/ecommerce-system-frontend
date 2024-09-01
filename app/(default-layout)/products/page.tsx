@@ -10,6 +10,10 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { File, ListFilter, PlusCircle } from "lucide-react";
 import ProductTable from "./_components/product-table";
+import { tenantSpecificFetch } from "@/utils/fetch";
+import { PRODUCTS_API } from "@/constants";
+import { getProducts } from "@/app/services/product";
+import Link from "next/link";
 
 const Page = () => {
   return (
@@ -50,11 +54,13 @@ const Page = () => {
                 Export
               </span>
             </Button>
-            <Button size="sm" className="h-8 gap-1">
-              <PlusCircle className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Add Product
-              </span>
+            <Button asChild size="sm" className="h-8 gap-1">
+              <Link href={"/products/add"}>
+                <PlusCircle className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  Add Product
+                </span>
+              </Link>
             </Button>
           </div>
         </div>

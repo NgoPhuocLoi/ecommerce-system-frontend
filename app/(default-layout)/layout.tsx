@@ -31,6 +31,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Sidebar } from "./dashboard/_components";
+import LogoutButton from "../auth/_components/logout-button";
 
 export default function DefautlLayout({
   children,
@@ -173,7 +174,9 @@ export default function DefautlLayout({
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem>
+                <LogoutButton>Logout</LogoutButton>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>

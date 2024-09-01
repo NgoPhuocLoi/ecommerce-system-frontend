@@ -1,37 +1,13 @@
 import React from "react";
-import { columns, Product } from "./columns";
+import { columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
+import { getProducts } from "@/app/services/product";
+import { Product } from "@/app/interfaces/product";
 
-const products: Product[] = [
-  {
-    id: "product-1",
-    name: "Product 1",
-    imageUrl:
-      "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    price: 200,
-    status: "active",
-    quantity: 20,
-    totalSales: 20,
-    createdAt: new Date(),
-    category: "Apparel & Accessories",
-    link: "/products/1",
-  },
-  {
-    id: "product-2",
-    name: "Product 2 ",
-    imageUrl:
-      "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    price: 200,
-    status: "draft",
-    quantity: 10,
-    totalSales: 20,
-    createdAt: new Date(),
-    category: "Apparel & Accessories",
-    link: "/products/2",
-  },
-];
-
-const ProductTable = () => {
+const ProductTable = async () => {
+  const products: Product[] = (await getProducts()).metadata;
+  console.log({ products });
+  // const
   return (
     <div>
       <DataTable columns={columns} data={products} />

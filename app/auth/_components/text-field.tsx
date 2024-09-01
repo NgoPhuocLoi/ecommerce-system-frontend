@@ -4,14 +4,16 @@ import clsx from "clsx";
 import React from "react";
 
 interface ITextFieldProps {
-  type: "text" | "email" | "password";
-  value: string;
+  type: "text" | "email" | "password" | "number";
+  value: string | number | undefined;
   onChange: (value: string) => void;
   label: string;
   id: string;
   placeholder?: string;
   error?: string;
   name?: string;
+  defaultValue?: string | number;
+  disabled?: boolean;
 }
 
 const TextField = ({
@@ -23,6 +25,8 @@ const TextField = ({
   placeholder,
   error,
   name,
+  defaultValue,
+  disabled,
 }: ITextFieldProps) => {
   return (
     <div>
@@ -43,6 +47,8 @@ const TextField = ({
           className={clsx({
             "border-red-500": error,
           })}
+          defaultValue={defaultValue}
+          disabled={disabled}
         />
       </div>
       <span className="text-xs text-red-500">{error}</span>
