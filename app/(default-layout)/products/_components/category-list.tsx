@@ -27,11 +27,13 @@ const CategoryList = ({ topLevelCategories }: ICategoryListProps) => {
   );
 
   const handleLoadSubCategory = async (parentId: number) => {
+    console.log("HERE");
     setPreviousParents((prev) => [
       ...prev,
       parentCategory !== null ? parentCategory : null,
     ]);
     const res = (await getSubCategories(parentId)).metadata;
+    console.log({ res });
     setParentCategory(
       displayedCategories.find((category) => category.id === parentId) ?? null,
     );
@@ -86,7 +88,7 @@ const CategoryList = ({ topLevelCategories }: ICategoryListProps) => {
             </>
           )}
           {displayedCategories.map((category) => (
-            <div className="flex w-full items-center">
+            <div key={category.id} className="flex w-full items-center">
               <SelectItem key={category.id} value={category.id + ""}>
                 <div className="flex w-full items-center gap-2">
                   <span>{category.name}</span>

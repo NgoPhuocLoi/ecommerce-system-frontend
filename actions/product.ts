@@ -13,3 +13,12 @@ export const createProduct = async (productData: CreateProductData) => {
 
   return await res?.json();
 };
+
+export const getProductById = async (id: string) => {
+  const res = await tenantSpecificFetch({
+    url: `${PRODUCTS_API}/${id}`,
+    method: "GET",
+  });
+
+  return await res?.json();
+};

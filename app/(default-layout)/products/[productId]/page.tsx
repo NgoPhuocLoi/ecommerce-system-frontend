@@ -1,3 +1,4 @@
+import { getProductById } from "@/actions/product";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,20 +29,37 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { ChevronLeft, PlusCircle, Upload } from "lucide-react";
+import { redirect } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
+import { Product } from "@/app/interfaces/product";
 
-const Page = () => {
+interface IProductDetailPage {
+  params: {
+    productId: string;
+  };
+}
+
+const Page = async ({ params }: IProductDetailPage) => {
+  const product: Product = (await getProductById(params.productId)).metadata;
+  if (!product) {
+    return redirect("/auth/login");
+  }
+
+  console.log({ product });
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-      <div className="mx-auto grid  flex-1 auto-rows-max gap-4">
+      <div className="mx-auto grid flex-1 auto-rows-max gap-4">
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="icon" className="h-7 w-7">
-            <ChevronLeft className="h-4 w-4" />
-            <span className="sr-only">Back</span>
+          <Button asChild variant="outline" size="icon" className="h-7 w-7">
+            <Link href="/products">
+              <ChevronLeft className="h-4 w-4" />
+              <span className="sr-only">Back</span>
+            </Link>
           </Button>
           <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-            Pro Controller
+            {product.name}
           </h1>
           <Badge variant="outline" className="ml-auto sm:ml-0">
             In stock
@@ -58,9 +76,7 @@ const Page = () => {
             <Card x-chunk="dashboard-07-chunk-0">
               <CardHeader>
                 <CardTitle>Product Details</CardTitle>
-                <CardDescription>
-                  Lipsum dolor sit amet, consectetur adipiscing elit
-                </CardDescription>
+                <CardDescription>{product.description}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-6">
@@ -70,14 +86,14 @@ const Page = () => {
                       id="name"
                       type="text"
                       className="w-full"
-                      defaultValue="Gamer Gear Pro Controller"
+                      defaultValue={product.name}
                     />
                   </div>
                   <div className="grid gap-3">
                     <Label htmlFor="description">Description</Label>
                     <Textarea
                       id="description"
-                      defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl nec ultricies ultricies, nunc nisl ultricies nunc, nec ultricies nunc nisl nec nunc."
+                      defaultValue={product.description}
                       className="min-h-32"
                     />
                   </div>
@@ -300,7 +316,7 @@ const Page = () => {
                       />
                     </button>
                     <button className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
-                      <Upload className="h-4 w-4 text-muted-foreground" />
+                      <Upload className="text-muted-foreground h-4 w-4" />
                       <span className="sr-only">Upload</span>
                     </button>
                   </div>

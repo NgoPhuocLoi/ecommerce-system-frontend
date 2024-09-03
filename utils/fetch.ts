@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 export const authenticatedFetch = (
   url: string,
@@ -27,7 +28,7 @@ export const tenantSpecificFetch = async ({
 }) => {
   const session = await auth();
   if (!session || !session.selectedShopId) {
-    return null;
+    return redirect("/auth/login");
   }
   return fetch(url, {
     method,

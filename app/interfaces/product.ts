@@ -1,3 +1,5 @@
+import { UploadedContentPreview } from "../(default-layout)/products/_components/product-image-list";
+
 export interface Product {
   id: number;
   category_id: number;
@@ -15,6 +17,13 @@ export interface Product {
     id: number;
     name: string;
   };
+  link?: string;
+  images: {
+    id: string;
+    product_id: number;
+    uploaded_image_public_id: string;
+    uploaded_image_url: string;
+  }[];
 }
 
 export interface CreateProductData {
@@ -26,4 +35,5 @@ export interface CreateProductData {
   isActive: boolean;
   categoryId: number;
   availableQuantity: number;
+  uploadedImages: UploadedContentPreview[];
 }

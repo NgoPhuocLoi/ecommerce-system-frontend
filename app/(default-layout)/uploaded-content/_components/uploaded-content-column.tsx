@@ -6,18 +6,7 @@ import { DateTime } from "luxon";
 import prettyBytes from "pretty-bytes";
 import { Link2 } from "lucide-react";
 import { toast } from "sonner";
-
-interface UploadedContent {
-  asset_id: string;
-  public_id: string;
-  format: string;
-  created_at: string;
-  bytes: number;
-  width: number;
-  height: number;
-  url: string;
-  secure_url: string;
-}
+import { UploadedContent } from "@/app/interfaces/uploaded-content";
 
 export const columns: ColumnDef<UploadedContent>[] = [
   {

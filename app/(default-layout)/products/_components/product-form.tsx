@@ -10,6 +10,7 @@ import ProductImages from "./product-images";
 import ProductPricing from "./product-pricing";
 import ProductStatus from "./product-status";
 import ProductStock from "./product-stock";
+import { UploadedContentPreview } from "./product-image-list";
 
 interface IProductFormProps {
   title: string;
@@ -20,19 +21,22 @@ const ProductForm = ({ badgeLabel, title }: IProductFormProps) => {
   const handleCreateNewProduct = async (formData: FormData) => {
     "use server";
     console.log(formData);
-    // await createProduct({
-    //   name: formData.get("name") as string,
-    //   description: formData.get("description") as string,
-    //   price: Number(formData.get("price")),
-    //   compareAtPrice: Number(formData.get("compareAtPrice")),
-    //   cost: Number(formData.get("cost")),
-    //   isActive: formData.get("isActive") === "true",
-    //   categoryId: Number(formData.get("categoryId")),
-    //   availableQuantity: Number(formData.get("availableQuantity")),
-    // });
+    const images = JSON.parse(formData.get("productImages") as string) ?? [];
+    console.log({ images });
+    await createProduct({
+      name: formData.get("name") as string,
+      description: formData.get("description") as string,
+      price: Number(formData.get("price")),
+      compareAtPrice: Number(formData.get("compareAtPrice")),
+      cost: Number(formData.get("cost")),
+      isActive: formData.get("isActive") === "true",
+      categoryId: Number(formData.get("categoryId")),
+      availableQuantity: Number(formData.get("availableQuantity")),
+      uploadedImages: images,
+    });
 
-    // revalidatePath("/products");
-    // redirect("/products/");
+    revalidatePath("/products");
+    redirect("/products/");
   };
 
   return (

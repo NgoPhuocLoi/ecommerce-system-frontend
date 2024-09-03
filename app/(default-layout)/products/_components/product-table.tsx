@@ -10,7 +10,13 @@ const ProductTable = async () => {
   // const
   return (
     <div>
-      <DataTable columns={columns} data={products} />
+      <DataTable
+        columns={columns}
+        data={products.map((product) => ({
+          ...product,
+          link: `/products/${product.id}`,
+        }))}
+      />
     </div>
   );
 };

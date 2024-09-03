@@ -1,5 +1,3 @@
-import React from "react";
-import ProductTable from "../products/_components/product-table";
 import UploadedContentTable from "./_components/uploaded-content-table";
 
 const Page = () => {

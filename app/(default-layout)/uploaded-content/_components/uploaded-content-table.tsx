@@ -1,7 +1,7 @@
 import { DataTable } from "@/components/ui/data-table";
 import React from "react";
 import { columns } from "./uploaded-content-column";
-import { getUploadedImages } from "@/app/services/uploaded-content";
+import { getUploadedImages } from "@/actions/uploaded-content";
 
 const UploadedContentTable = async () => {
   const uploadedContents = (await getUploadedImages()).metadata;

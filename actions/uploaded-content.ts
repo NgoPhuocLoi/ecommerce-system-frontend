@@ -1,3 +1,4 @@
+"use server";
 import { UPLOADED_CONTENT_API } from "@/constants";
 import { tenantSpecificFetch } from "@/utils/fetch";
 
