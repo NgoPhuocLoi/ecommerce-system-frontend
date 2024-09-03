@@ -8,8 +8,12 @@ import {
 import { Upload } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import UploadButton from "./upload-btn";
+import { auth } from "@/auth";
 
-const ProductImages = () => {
+const ProductImages = async () => {
+  const session = await auth();
+  if (!session) return null;
   return (
     <div>
       <Card className="overflow-hidden">
@@ -20,38 +24,50 @@ const ProductImages = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-2">
-            <Image
-              alt="Product image"
-              className="aspect-square w-full rounded-md object-cover"
-              height="300"
-              src="/placeholder.svg"
-              width="300"
+          <div className="grid grid-cols-3 gap-2">
+            <button>
+              <Image
+                alt="Product image"
+                className="aspect-square w-full rounded-md object-cover"
+                height="84"
+                src="https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/186.png"
+                width="84"
+              />
+            </button>
+            <button>
+              <Image
+                alt="Product image"
+                className="aspect-square w-full rounded-md object-cover"
+                height="84"
+                src="https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/186.png"
+                width="84"
+              />
+            </button>
+            <button>
+              <Image
+                alt="Product image"
+                className="aspect-square w-full rounded-md object-cover"
+                height="84"
+                src="https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/186.png"
+                width="84"
+              />
+            </button>
+            <button>
+              <Image
+                alt="Product image"
+                className="aspect-square w-full rounded-md object-cover"
+                height="84"
+                src="https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/186.png"
+                width="84"
+              />
+            </button>
+            <button className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
+              <Upload className="text-muted-foreground h-4 w-4" />
+              <span className="sr-only">Upload</span>
+            </button>
+            <UploadButton
+              folder={session.selectedShopId?.replace(/-/g, "_") ?? ""}
             />
-            <div className="grid grid-cols-3 gap-2">
-              {/* <button>
-                  <Image
-                    alt="Product image"
-                    className="aspect-square w-full rounded-md object-cover"
-                    height="84"
-                    src="/placeholder.svg"
-                    width="84"
-                  />
-                </button>
-                <button>
-                  <Image
-                    alt="Product image"
-                    className="aspect-square w-full rounded-md object-cover"
-                    height="84"
-                    src="/placeholder.svg"
-                    width="84"
-                  />
-                </button> */}
-              <button className="flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
-                <Upload className="text-muted-foreground h-4 w-4" />
-                <span className="sr-only">Upload</span>
-              </button>
-            </div>
           </div>
         </CardContent>
       </Card>

@@ -24,29 +24,8 @@ const ProductCategory = async () => {
           <CardTitle>Product Category</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-6 sm:grid-cols-3">
-            <div className="grid gap-3">
-              <ServerTextField
-                name={"categoryId"}
-                label={"Category Id"}
-                id={"category-idd"}
-                type={"number"}
-              />
-            </div>
+          <div className="w-full">
             <CategoryList topLevelCategories={topLevelCategories} />
-            <div className="grid gap-3">
-              <Label htmlFor="subcategory">Subcategory (optional)</Label>
-              <Select>
-                <SelectTrigger id="subcategory" aria-label="Select subcategory">
-                  <SelectValue placeholder="Select subcategory" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="t-shirts">T-Shirts</SelectItem>
-                  <SelectItem value="hoodies">Hoodies</SelectItem>
-                  <SelectItem value="sweatshirts">Sweatshirts</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
           </div>
         </CardContent>
       </Card>

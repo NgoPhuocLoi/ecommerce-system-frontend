@@ -10,8 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { Separator } from "@/components/ui/separator";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRef, useState } from "react";
 
 interface ICategoryListProps {
   topLevelCategories: Category[];
@@ -20,28 +21,73 @@ interface ICategoryListProps {
 const CategoryList = ({ topLevelCategories }: ICategoryListProps) => {
   const [displayedCategories, setDisplayedCategories] =
     useState<Category[]>(topLevelCategories);
+  const [parentCategory, setParentCategory] = useState<Category | null>(null);
+  const [previousParents, setPreviousParents] = useState<(Category | null)[]>(
+    [],
+  );
 
   const handleLoadSubCategory = async (parentId: number) => {
-    console.log({ parent });
+    setPreviousParents((prev) => [
+      ...prev,
+      parentCategory !== null ? parentCategory : null,
+    ]);
     const res = (await getSubCategories(parentId)).metadata;
-    console.log(setDisplayedCategories(res));
+    setParentCategory(
+      displayedCategories.find((category) => category.id === parentId) ?? null,
+    );
+    setDisplayedCategories(res);
+  };
+
+  const handleBack = async () => {
+    const previousParent = previousParents.pop();
+    if (previousParent === undefined) {
+      return;
+    }
+
+    if (previousParent === null) {
+      setPreviousParents([]);
+      setDisplayedCategories(topLevelCategories);
+      setParentCategory(null);
+      return;
+    }
+
+    const res = (await getSubCategories(previousParent.id)).metadata;
+    setParentCategory(previousParent);
+    setDisplayedCategories(res);
   };
 
   return (
     <div className="grid gap-3">
       <Label htmlFor="category">Category</Label>
-      <Select>
+      <Select name="categoryId">
         <SelectTrigger id="category" aria-label="Select category">
           <SelectValue placeholder="Select category" />
         </SelectTrigger>
         <SelectContent>
+          {parentCategory && (
+            <>
+              <div className="cursor-pointer" onClick={handleBack}>
+                {previousParents.length > 1 && (
+                  <>
+                    <div className="pl-8 pt-2 text-xs text-gray-400">
+                      {previousParents
+                        .slice(1)
+                        .map((parent) => parent?.name)
+                        .join(" > ")}
+                    </div>
+                  </>
+                )}
+                <div className="flex w-full items-center gap-2 rounded-md p-2 text-sm hover:bg-gray-100">
+                  <ChevronLeft size={16} />
+                  <span className="font-semibold">{parentCategory?.name}</span>
+                </div>
+              </div>
+              <Separator className="my-2" />
+            </>
+          )}
           {displayedCategories.map((category) => (
             <div className="flex w-full items-center">
-              <SelectItem
-                className="hover:bg-gray-800"
-                key={category.id}
-                value={category.id + ""}
-              >
+              <SelectItem key={category.id} value={category.id + ""}>
                 <div className="flex w-full items-center gap-2">
                   <span>{category.name}</span>
                 </div>

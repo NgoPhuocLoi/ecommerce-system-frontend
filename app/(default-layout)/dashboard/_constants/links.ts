@@ -36,7 +36,7 @@ export const links = [
     iconComponent: Users,
   },
   {
-    id: 5,
+    id: 10,
     title: "Uploaded Content",
     path: "/uploaded-content",
     iconComponent: Images,
