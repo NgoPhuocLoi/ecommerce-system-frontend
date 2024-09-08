@@ -11,6 +11,7 @@ import ProductPricing from "./product-pricing";
 import ProductStatus from "./product-status";
 import ProductStock from "./product-stock";
 import { UploadedContentPreview } from "./product-image-list";
+import ProductVariants from "./product-variants";
 
 interface IProductFormProps {
   title: string;
@@ -68,10 +69,11 @@ const ProductForm = ({ badgeLabel, title }: IProductFormProps) => {
               <ProductDetails />
               <ProductCategory />
               <ProductPricing />
-              <ProductStock />
+              <ProductVariants />
             </div>
             <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
               <ProductStatus />
+              <ProductStock />
               <ProductImages />
             </div>
           </div>

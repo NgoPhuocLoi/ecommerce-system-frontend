@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,29 +20,31 @@ import {
   Table,
 } from "@/components/ui/table";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, Trash } from "lucide-react";
+import ProductVariantList from "./product-variant-list";
 
-const ProductStock = () => {
+const ProductVariants = () => {
   return (
     <div>
       <Card>
         <CardHeader>
-          <CardTitle>Stock</CardTitle>
+          <CardTitle>Variants</CardTitle>
+          <CardDescription>
+            The maximum number of variants you can create is 3.
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="mb-2 w-fit">
-            <ServerTextField
-              name={"availableQuantity"}
-              label={"Total quantity"}
-              id={"add-product-availableQuantity"}
-              type={"number"}
-              defaultValue={0}
-            />
-          </div>
+          <ProductVariantList />
         </CardContent>
+        <CardFooter className="justify-center border-t p-4">
+          <Button size="sm" variant="ghost" className="gap-1">
+            <PlusCircle className="h-3.5 w-3.5" />
+            Add Variant
+          </Button>
+        </CardFooter>
       </Card>
     </div>
   );
 };
 
-export default ProductStock;
+export default ProductVariants;

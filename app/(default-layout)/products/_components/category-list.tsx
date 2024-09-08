@@ -2,6 +2,7 @@
 
 import { getSubCategories } from "@/actions/categories";
 import { Category } from "@/app/interfaces/category";
+import { selectedCategoryAtom } from "@/atoms/category-atom";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -11,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useAtom } from "jotai";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
 
@@ -25,6 +27,7 @@ const CategoryList = ({ topLevelCategories }: ICategoryListProps) => {
   const [previousParents, setPreviousParents] = useState<(Category | null)[]>(
     [],
   );
+  const [, setSelectedCategory] = useAtom(selectedCategoryAtom);
 
   const handleLoadSubCategory = async (parentId: number) => {
     console.log("HERE");
@@ -61,7 +64,16 @@ const CategoryList = ({ topLevelCategories }: ICategoryListProps) => {
   return (
     <div className="grid gap-3">
       <Label htmlFor="category">Category</Label>
-      <Select name="categoryId">
+      <Select
+        onValueChange={(value) => {
+          const selectedCategory = displayedCategories.find(
+            (category) => category.id === Number(value),
+          );
+          console.log({ selectedCategory, displayedCategories });
+          setSelectedCategory(selectedCategory);
+        }}
+        name="categoryId"
+      >
         <SelectTrigger id="category" aria-label="Select category">
           <SelectValue placeholder="Select category" />
         </SelectTrigger>

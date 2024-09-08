@@ -47,7 +47,6 @@ const TextField = ({
           className={clsx({
             "border-red-500": error,
           })}
-          defaultValue={defaultValue}
           disabled={disabled}
         />
       </div>

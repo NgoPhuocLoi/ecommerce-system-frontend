@@ -1,13 +1,10 @@
 "use client";
-import React from "react";
-import { ColumnDef } from "@tanstack/react-table";
-import { Checkbox } from "@/components/ui/checkbox";
-import { DataTableColumnHeader } from "@/components/ui/data-table/column-header";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
-import clsx from "clsx";
 import { Product } from "@/app/interfaces/product";
+import { Badge } from "@/components/ui/badge";
+import { DataTableColumnHeader } from "@/components/ui/data-table/column-header";
+import { ColumnDef } from "@tanstack/react-table";
+import clsx from "clsx";
+import Image from "next/image";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -23,6 +20,7 @@ export const columns: ColumnDef<Product>[] = [
             className="aspect-square rounded-md object-cover"
             height="40"
             src={
+              original.images[0]?.url ??
               "https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
             }
             width="40"

@@ -9,29 +9,38 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import CreateShopForm from "./create-store-form";
+import { useRouter } from "next/navigation";
 
 const NUMBER_OF_QUESTIONS = 5;
 
 const OnboardingQuestions = () => {
   const [question, setQuestion] = React.useState(0);
+  const router = useRouter();
 
   const percentageComplete = useMemo(() => {
     return Math.ceil((question * 100) / NUMBER_OF_QUESTIONS);
   }, [question]);
 
+  useEffect(() => {
+    if (question === NUMBER_OF_QUESTIONS) {
+      router.push("/shop/create");
+    }
+  }, [question]);
+
   return (
     <>
       {question === NUMBER_OF_QUESTIONS ? (
-        <CreateShopForm
-          onBack={() => {
-            if (question > 0) {
-              setQuestion((prev) => prev - 1);
-            }
-          }}
-        />
+        <></>
       ) : (
+        // <CreateShopForm
+        //   onBack={() => {
+        //     if (question > 0) {
+        //       setQuestion((prev) => prev - 1);
+        //     }
+        //   }}
+        // />
         <div className="mx-auto h-screen w-2/3 bg-gray-50 py-12">
           <Card className="flex h-full flex-col">
             <CardHeader>

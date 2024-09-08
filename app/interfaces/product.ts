@@ -22,7 +22,7 @@ export interface Product {
     id: string;
     product_id: number;
     uploaded_image_public_id: string;
-    uploaded_image_url: string;
+    url: string;
   }[];
 }
 

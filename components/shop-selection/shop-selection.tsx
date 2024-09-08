@@ -36,7 +36,7 @@ const ShopSelection = async () => {
           </CardHeader>
 
           <Button className="mr-6" asChild>
-            <Link href="/shop/create">Create Shop</Link>
+            <Link href="/shop/question">Create Shop</Link>
           </Button>
         </div>
         <Separator />

@@ -107,7 +107,7 @@ const LoginPage = () => {
           </div>
         </div>
         <Button variant="outline" type="button" disabled={isLoading}>
-          {isLoading ? <LoaderCircle /> : <LoaderCircle />} GitHub
+          Google Sign
         </Button>
       </div>
     </>
