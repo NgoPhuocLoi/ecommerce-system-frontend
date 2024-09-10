@@ -14,6 +14,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useAtom } from "jotai";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
 interface ICategoryListProps {
@@ -32,6 +33,7 @@ const CategoryList = ({
     [],
   );
   const [, setSelectedCategory] = useAtom(selectedCategoryAtom);
+  const t = useTranslations("ProductDetailAndAddPage");
 
   useEffect(() => {
     if (initialCategory) {
@@ -74,7 +76,9 @@ const CategoryList = ({
 
   return (
     <div className="grid gap-3">
-      <Label htmlFor="category">Category</Label>
+      <Label htmlFor="category">
+        {t("productCategory.categoryInput.label")}
+      </Label>
       <Select
         defaultValue={initialCategory?.id + ""}
         onValueChange={(value) => {

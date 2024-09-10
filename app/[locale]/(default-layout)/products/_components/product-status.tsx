@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 interface IProductStatusProps {
@@ -14,16 +15,19 @@ interface IProductStatusProps {
 }
 
 const ProductStatus = ({ initialStatus }: IProductStatusProps) => {
+  const t = useTranslations("ProductDetailAndAddPage");
   return (
     <div>
       <Card x-chunk="dashboard-07-chunk-3">
         <CardHeader>
-          <CardTitle>Product Status</CardTitle>
+          <CardTitle>{t("productStatus.title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-6">
             <div className="grid gap-3">
-              <Label htmlFor="status">Status</Label>
+              <Label htmlFor="status">
+                {t("productStatus.statusInput.label")}
+              </Label>
               <Select
                 defaultValue={initialStatus === true ? "true" : "false"}
                 name="isActive"
@@ -32,8 +36,12 @@ const ProductStatus = ({ initialStatus }: IProductStatusProps) => {
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="false">Draft</SelectItem>
-                  <SelectItem value="true">Active</SelectItem>
+                  <SelectItem value="false">
+                    {t("productStatus.statusInput.options.draft")}
+                  </SelectItem>
+                  <SelectItem value="true">
+                    {t("productStatus.statusInput.options.active")}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>

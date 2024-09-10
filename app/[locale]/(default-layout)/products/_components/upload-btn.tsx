@@ -30,6 +30,7 @@ import Image from "next/image";
 import prettyBytes from "pretty-bytes";
 import { useEffect, useRef, useState } from "react";
 import { saveUploadedImagesInfo } from "@/actions/uploaded-content";
+import { useTranslations } from "next-intl";
 
 interface IUploadButtonProps {
   folder: string;
@@ -61,6 +62,7 @@ const UploadButton = ({
     PreviewUploadedContent[]
   >([]);
   const selectedExistingImages = useRef<Set<string>>(new Set());
+  const t = useTranslations("ProductDetailAndAddPage");
 
   useEffect(() => {
     selectedExistingImages.current = new Set(
@@ -109,20 +111,24 @@ const UploadButton = ({
               className="flex flex-col items-center gap-1 rounded-lg px-4 py-2 hover:bg-gray-100"
             >
               <Upload className="text-muted-foreground h-4 w-4" />
-              <span className="text-xs text-gray-400">Upload</span>
+              <span className="text-xs text-gray-400">
+                {t("productImage.imageInput.uploadButtonLabel")}
+              </span>
             </button>
             <div className="text-xs text-black">or</div>
             <Dialog>
               <DialogTrigger onClick={handleLoadUploadedImages}>
                 <div className="cursor-pointer text-xs text-gray-400 hover:text-gray-500 hover:underline">
-                  Select existing
+                  {t("productImage.imageInput.selectExistingButtonLabel")}
                 </div>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Select file</DialogTitle>
+                  <DialogTitle>
+                    {t("productImage.selectExistingFilesModal.title")}
+                  </DialogTitle>
                   <DialogDescription>
-                    Choose yout file from existing files
+                    {t("productImage.selectExistingFilesModal.description")}
                   </DialogDescription>
                 </DialogHeader>
 
@@ -180,7 +186,9 @@ const UploadButton = ({
                 <DialogFooter className="flex gap-1">
                   <DialogClose asChild>
                     <Button size={"sm"} variant={"outline"}>
-                      Cancel
+                      {t(
+                        "productImage.selectExistingFilesModal.secondaryButtonLabel",
+                      )}
                     </Button>
                   </DialogClose>
                   <DialogClose asChild>
@@ -197,7 +205,9 @@ const UploadButton = ({
                       }}
                       size={"sm"}
                     >
-                      Done
+                      {t(
+                        "productImage.selectExistingFilesModal.primaryButtonLabel",
+                      )}
                     </Button>
                   </DialogClose>
                 </DialogFooter>

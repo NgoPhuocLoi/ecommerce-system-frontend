@@ -1,9 +1,8 @@
 "use client";
-import { CloudinaryUploadWidgetInfo } from "next-cloudinary";
+import { PreviewUploadedContent } from "@/app/interfaces/uploaded-content";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import UploadButton from "./upload-btn";
-import { PreviewUploadedContent } from "@/app/interfaces/uploaded-content";
 
 interface IProductImageListProps {
   shopId: string;

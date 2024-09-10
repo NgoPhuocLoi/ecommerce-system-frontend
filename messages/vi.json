@@ -1,6 +1,109 @@
 {
   "DashBoard": {
     "title": "Các bước nên làm tiếp theo",
-    "about": "Go to the about page"
+    "cardTitle": "Thiết lập cửa hàng của bạn ngay!",
+    "cardDescription": "Bắt đầu bán hàng ngay hôm nay bằng cách tạo cửa hàng của bạn. Chúng tôi sẽ hướng dẫn bạn qua từng bước.",
+    "completedProgressTitle": "đã hoàn thành",
+    "setupSteps": {
+      "step1": {
+        "title": "Thêm sản phẩm đầu tiên của bạn",
+        "description": "Viết mô tả, thêm hình ảnh và đặt giá cho sản phẩm bạn muốn bán.",
+        "primaryButtonTitle": "Thêm sản phẩm",
+        "secondaryButtonTitle": "Nhập sản phẩm từ file"
+      },
+      "step2": {
+        "title": "Cấu hình cửa hàng trực tuyến của bạn",
+        "description": "Chọn một chủ đề và thêm logo, màu sắc và hình ảnh để phản ánh thương hiệu của bạn.",
+        "primaryButtonTitle": "Tùy chỉnh"
+      },
+      "step3": {
+        "title": "Cài đặt nhà cung cấp thanh toán",
+        "description": "Chọn một nhà cung cấp thanh toán để bắt đầu chấp nhận thanh toán.",
+        "primaryButtonTitle": "Cấu hình thanh toán"
+      },
+      "step4": {
+        "title": "Thực hiện một đơn hàng thử",
+        "description": "Đảm bảo mọi thứ diễn ra suôn sẻ bằng cách đặt một đơn hàng thử từ cửa hàng của bạn.",
+        "primaryButtonTitle": "Học cách thực hiện"
+      }
+    }
+  },
+  "ProductDetailAndAddPage": {
+    "addProductTitle": "Thêm sản phẩm",
+    "productDetail": {
+      "title": "Chi tiết sản phẩm",
+      "nameInput": {
+        "label": "Tên",
+        "placeholder": "Nhập tên sản phẩm"
+      },
+      "descriptionInput": {
+        "label": "Mô tả",
+        "placeholder": "Nhập mô tả sản phẩm"
+      }
+    },
+    "productCategory": {
+      "title": "Danh mục sản phẩm",
+      "categoryInput": {
+        "label": "Danh mục",
+        "placeholder": "Chọn một danh mục"
+      }
+    },
+    "productPricing": {
+      "title": "Giá cả",
+      "priceInput": {
+        "label": "Giá",
+        "placeholder": "Nhập giá sản phẩm"
+      },
+      "comparePriceInput": {
+        "label": "Giá so sánh",
+        "placeholder": "Nhập giá so sánh"
+      },
+      "costPerItemInput": {
+        "label": "Giá thành mỗi sản phẩm",
+        "placeholder": "Nhập giá thành mỗi sản phẩm"
+      },
+      "profitInput": {
+        "label": "Lợi nhuận"
+      }
+    },
+    "productStatus": {
+      "title": "Trạng thái sản phẩm",
+      "statusInput": {
+        "label": "Trạng thái",
+        "placeholder": "Chọn trạng thái",
+        "options": {
+          "draft": "Nháp",
+          "active": "Hoạt động"
+        }
+      }
+    },
+    "productStock": {
+      "title": "Hàng tồn kho",
+      "stockInput": {
+        "label": "Tổng số lượng"
+      }
+    },
+    "productImage": {
+      "title": "Hình ảnh sản phẩm",
+      "imageInput": {
+        "uploadButtonLabel": "Tải lên",
+        "selectExistingButtonLabel": "Chọn ảnh đã đăng"
+      },
+      "selectExistingFilesModal": {
+        "title": "Chọn hình ảnh từ danh sách đã có",
+        "description": "Chọn hình ảnh bạn muốn thêm vào sản phẩm của mình.",
+        "primaryButtonLabel": "Chọn",
+        "secondaryButtonLabel": "Hủy"
+      }
+    },
+    "productVariants": {
+      "title": "Biến thể sản phẩm",
+      "description": "Bạn có thể thêm tối đa được 3 thuộc tính cho sản phẩm. Ví dụ: màu sắc, kích thước, v.v.",
+      "addOptionLabel": "Thêm thuộc tính"
+    },
+    "button": {
+      "saveButton": "Lưu",
+      "cancelButton": "Hủy"
+    }
   }
 }

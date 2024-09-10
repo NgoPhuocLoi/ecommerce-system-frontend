@@ -2,20 +2,21 @@ import { getTopLevelCategories } from "@/actions/categories";
 import { Category, CategoryResponse } from "@/app/interfaces/category";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CategoryList from "./category-list";
+import { useTranslations } from "next-intl";
 
 interface IProductCategoryProps {
   initialCategory?: CategoryResponse;
 }
 
 const ProductCategory = async ({ initialCategory }: IProductCategoryProps) => {
+  const t = useTranslations("ProductDetailAndAddPage");
   const topLevelCategories: Category[] = (await getTopLevelCategories())
     .metadata;
-  console.log({ topLevelCategories });
   return (
     <div>
       <Card>
         <CardHeader>
-          <CardTitle>Product Category</CardTitle>
+          <CardTitle>{t("productCategory.title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="w-full">

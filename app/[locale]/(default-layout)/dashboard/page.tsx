@@ -25,12 +25,10 @@ export default function Dashboard() {
 
       <Card className="bg-gray-50 shadow-md">
         <CardHeader>
-          <CardTitle className="text-xl">Set up your shop now!</CardTitle>
-          <CardDescription>
-            Use this personalized guide to get your shop up and running.
-          </CardDescription>
+          <CardTitle className="text-xl">{t("cardTitle")}</CardTitle>
+          <CardDescription>{t("cardDescription")}</CardDescription>
           <Badge className="w-fit" variant="outline">
-            1/4 completed
+            1/4 {t("completedProgressTitle")}
           </Badge>
         </CardHeader>
         <CardContent>
@@ -39,18 +37,17 @@ export default function Dashboard() {
               <AccordionTrigger className="hover:no-underline">
                 <div className="flex items-center gap-2">
                   <SquareCheckBig size={16} />
-                  <span>Add your first product</span>
+                  <span>{t("setupSteps.step1.title")}</span>
                 </div>
               </AccordionTrigger>
               <AccordionContent className="px-6">
-                <p className="pb-2">
-                  Write a description, add photos, and set pricing for the
-                  products you plan to sell.
-                </p>
+                <p className="pb-2">{t("setupSteps.step1.description")}</p>
                 <div className="flex gap-2">
-                  <Button size={"sm"}>Add product</Button>
+                  <Button size={"sm"}>
+                    {t("setupSteps.step1.primaryButtonTitle")}
+                  </Button>
                   <Button variant={"outline"} size={"sm"}>
-                    Import products
+                    {t("setupSteps.step1.secondaryButtonTitle")}
                   </Button>
                 </div>
               </AccordionContent>
@@ -60,16 +57,15 @@ export default function Dashboard() {
               <AccordionTrigger className="hover:no-underline">
                 <div className="flex items-center gap-2">
                   <Square size={16} />
-                  <span>Cusomize your online shop</span>
+                  <span>{t("setupSteps.step2.title")}</span>
                 </div>
               </AccordionTrigger>
               <AccordionContent className="px-6">
-                <p className="pb-2">
-                  Choose a theme and add your logo, colors, and images to
-                  reflect your brand.
-                </p>
+                <p className="pb-2">{t("setupSteps.step2.description")}</p>
                 <div className="flex gap-2">
-                  <Button size={"sm"}>Customize</Button>
+                  <Button size={"sm"}>
+                    {t("setupSteps.step2.primaryButtonTitle")}
+                  </Button>
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -78,15 +74,15 @@ export default function Dashboard() {
               <AccordionTrigger className="hover:no-underline">
                 <div className="flex items-center gap-2">
                   <Square size={16} />
-                  <span>Setup a payment provider </span>
+                  <span>{t("setupSteps.step3.title")}</span>
                 </div>
               </AccordionTrigger>
               <AccordionContent className="px-6">
-                <p className="pb-2">
-                  Choose a payment provider to start accepting payments.
-                </p>
+                <p className="pb-2">{t("setupSteps.step3.description")}</p>
                 <div className="flex gap-2">
-                  <Button size={"sm"}>Set up Payment</Button>
+                  <Button size={"sm"}>
+                    {t("setupSteps.step1.primaryButtonTitle")}
+                  </Button>
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -95,16 +91,15 @@ export default function Dashboard() {
               <AccordionTrigger className="hover:no-underline">
                 <div className="flex items-center gap-2">
                   <Square size={16} />
-                  <span>Place a test order</span>
+                  <span>{t("setupSteps.step4.title")}</span>
                 </div>
               </AccordionTrigger>
               <AccordionContent className="px-6">
-                <p className="pb-2">
-                  Make sure things are running smoothly by placing a test order
-                  from your own store.
-                </p>
+                <p className="pb-2">{t("setupSteps.step4.description")}</p>
                 <div className="flex gap-2">
-                  <Button size={"sm"}>Learn how to do</Button>
+                  <Button size={"sm"}>
+                    {t("setupSteps.step4.primaryButtonTitle")}
+                  </Button>
                 </div>
               </AccordionContent>
             </AccordionItem>

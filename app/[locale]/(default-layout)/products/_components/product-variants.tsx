@@ -11,6 +11,7 @@ import { PlusCircle } from "lucide-react";
 import ProductVariantList from "./product-variant-list";
 import { Attribute } from "@/app/interfaces/category";
 import { VariantResponse } from "@/app/interfaces/product";
+import { useTranslations } from "next-intl";
 
 interface IProductVariantsProps {
   initialVariants?: VariantResponse[];
@@ -21,14 +22,13 @@ const ProductVariants = ({
   initialVariants,
   initialAttributes,
 }: IProductVariantsProps) => {
+  const t = useTranslations("ProductDetailAndAddPage");
   return (
     <div>
       <Card>
         <CardHeader>
-          <CardTitle>Variants</CardTitle>
-          <CardDescription>
-            The maximum number of variants you can create is 3.
-          </CardDescription>
+          <CardTitle>{t("productVariants.title")}</CardTitle>
+          <CardDescription>{t("productVariants.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <ProductVariantList initialAttributes={initialAttributes} />

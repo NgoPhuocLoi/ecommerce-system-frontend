@@ -1,10 +1,12 @@
 import React from "react";
 import ProductForm from "../_components/product-form";
+import { useTranslations } from "next-intl";
 
 const AddProductPage = () => {
+  const t = useTranslations("ProductDetailAndAddPage");
   return (
     <>
-      <ProductForm title="Add product" />
+      <ProductForm title={t("addProductTitle")} />
     </>
   );
 };

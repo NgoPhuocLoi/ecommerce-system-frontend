@@ -1,6 +1,109 @@
 {
   "DashBoard": {
-    "title": "Hello world!",
-    "about": "Go to the about page"
+    "title": "Things to do next",
+    "cardTitle": "Set up your shop now!",
+    "cardDescription": "Use this personalized guide to get your shop up and running.",
+    "completedProgressTitle": "completed",
+    "setupSteps": {
+      "step1": {
+        "title": "Add your first product",
+        "description": "Write a description, add photos, and set pricing for the products you plan to sell.",
+        "primaryButtonTitle": "Add product",
+        "secondaryButtonTitle": "Import products"
+      },
+      "step2": {
+        "title": "Customize your online shop",
+        "description": "Choose a theme and add your logo, colors, and images to reflect your brand.",
+        "primaryButtonTitle": "Customize"
+      },
+      "step3": {
+        "title": "Set up a payment provider",
+        "description": "Choose a payment provider to start accepting payments.",
+        "primaryButtonTitle": "Set up Payment"
+      },
+      "step4": {
+        "title": "Play a test order",
+        "description": "Make sure things are running smoothly by placing a test order from your own store.",
+        "primaryButtonTitle": "Learn how to do"
+      }
+    }
+  },
+  "ProductDetailAndAddPage": {
+    "addProductTitle": "Add product",
+    "productDetail": {
+      "title": "Product details",
+      "nameInput": {
+        "label": "Name",
+        "placeholder": "Enter product name"
+      },
+      "descriptionInput": {
+        "label": "Description",
+        "placeholder": "Enter product description"
+      }
+    },
+    "productCategory": {
+      "title": "Product category",
+      "categoryInput": {
+        "label": "Category",
+        "placeholder": "Select a category"
+      }
+    },
+    "productPricing": {
+      "title": "Pricing",
+      "priceInput": {
+        "label": "Price",
+        "placeholder": "Enter product price"
+      },
+      "comparePriceInput": {
+        "label": "Compare at price",
+        "placeholder": "Enter compare at price"
+      },
+      "costPerItemInput": {
+        "label": "Cost per item",
+        "placeholder": "Enter cost per item"
+      },
+      "profitInput": {
+        "label": "Profit"
+      }
+    },
+    "productStatus": {
+      "title": "Product Status",
+      "statusInput": {
+        "label": "Status",
+        "placeholder": "Select a status",
+        "options": {
+          "draft": "Draft",
+          "active": "Active"
+        }
+      }
+    },
+    "productStock": {
+      "title": "Stock",
+      "stockInput": {
+        "label": "Total quantity"
+      }
+    },
+    "productImage": {
+      "title": "Product Images",
+      "imageInput": {
+        "uploadButtonLabel": "Upload",
+        "selectExistingButtonLabel": "Select existing"
+      },
+      "selectExistingFilesModal": {
+        "title": "Select files",
+        "description": "Choose yout file from existing files",
+        "primaryButtonLabel": "Done",
+        "secondaryButtonLabel": "Cancel"
+      }
+    },
+    "productVariants": {
+      "title": "Variants",
+      "description": "The maximum number of variants you can create is 3.",
+      "addOptionLabel": "Add options like color"
+    },
+    "button": {
+      "saveButton": "Save",
+      "cancelButton": "Cancel"
+    }
   }
 }
