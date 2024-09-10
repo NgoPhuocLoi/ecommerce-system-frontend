@@ -9,3 +9,13 @@ export interface UploadedContent {
   url: string;
   secure_url: string;
 }
+
+export interface PreviewUploadedContent {
+  id: number;
+  uploaded_public_id: string;
+  url: string;
+  format: string;
+  size: number;
+  created_at: string;
+  updated_at: string;
+}

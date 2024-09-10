@@ -1,6 +1,12 @@
 "use client";
-import { getUploadedImages } from "@/actions/uploaded-content";
-import { UploadedContent } from "@/app/interfaces/uploaded-content";
+import {
+  getPreviewUploadedImages,
+  getUploadedImages,
+} from "@/actions/uploaded-content";
+import {
+  PreviewUploadedContent,
+  UploadedContent,
+} from "@/app/interfaces/uploaded-content";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -17,18 +23,19 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Upload } from "lucide-react";
 import {
   CldUploadWidget,
+  CloudinaryUploadWidgetInfo,
   CloudinaryUploadWidgetResults,
 } from "next-cloudinary";
 import Image from "next/image";
 import prettyBytes from "pretty-bytes";
 import { useEffect, useRef, useState } from "react";
-import { UploadedContentPreview } from "./product-image-list";
+import { saveUploadedImagesInfo } from "@/actions/uploaded-content";
 
 interface IUploadButtonProps {
   folder: string;
-  onSuccess: (result: CloudinaryUploadWidgetResults) => void;
-  onSelectExisting: (selectedImages: UploadedContentPreview[]) => void;
-  selectedImages: UploadedContentPreview[];
+  onSuccess: (result: PreviewUploadedContent) => void;
+  onSelectExisting: (selectedImages: PreviewUploadedContent[]) => void;
+  selectedImages: PreviewUploadedContent[];
 }
 
 const ImageSkeleton = () => {
@@ -50,18 +57,20 @@ const UploadButton = ({
   selectedImages,
 }: IUploadButtonProps) => {
   const [fetchingExistingImages, setFetchingExistingImages] = useState(false);
-  const [existingImages, setExistingImages] = useState<UploadedContent[]>([]);
+  const [existingImages, setExistingImages] = useState<
+    PreviewUploadedContent[]
+  >([]);
   const selectedExistingImages = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     selectedExistingImages.current = new Set(
-      selectedImages.map((image) => image.publicId),
+      selectedImages.map((image) => image.uploaded_public_id),
     );
   }, [selectedImages]);
 
   const handleLoadUploadedImages = async () => {
     setFetchingExistingImages(true);
-    const res = await getUploadedImages();
+    const res = await getPreviewUploadedImages();
     setExistingImages(res.metadata);
     setFetchingExistingImages(false);
   };
@@ -73,8 +82,16 @@ const UploadButton = ({
         folder,
       }}
       uploadPreset="buhtvapd"
-      onSuccess={(result, { widget }) => {
-        onSuccess(result);
+      onSuccess={async (result, { widget }) => {
+        const info = result.info as CloudinaryUploadWidgetInfo;
+
+        const res = await saveUploadedImagesInfo({
+          uploadedPublicId: info.public_id,
+          url: info.url,
+          format: info.format,
+          size: info.bytes,
+        });
+        onSuccess(res.metadata);
       }}
       onQueuesEnd={(result, { widget }) => {
         widget.close();
@@ -113,29 +130,29 @@ const UploadButton = ({
                   {existingImages.map((existingImage) => (
                     <div className="rounded-md p-2 hover:bg-gray-100">
                       <div
-                        key={existingImage.public_id}
+                        key={existingImage.uploaded_public_id}
                         className="relative cursor-pointer"
                       >
                         <Checkbox
                           defaultChecked={selectedExistingImages.current.has(
-                            existingImage.public_id,
+                            existingImage.uploaded_public_id,
                           )}
                           name="heelo"
                           className="absolute left-2 top-2"
-                          id={existingImage.public_id}
+                          id={existingImage.uploaded_public_id}
                           onCheckedChange={(checked) => {
                             if (checked) {
                               selectedExistingImages.current.add(
-                                existingImage.public_id,
+                                existingImage.uploaded_public_id,
                               );
                             } else {
                               selectedExistingImages.current.delete(
-                                existingImage.public_id,
+                                existingImage.uploaded_public_id,
                               );
                             }
                           }}
                         />
-                        <label htmlFor={existingImage.public_id}>
+                        <label htmlFor={existingImage.uploaded_public_id}>
                           <div className="cursor-pointer rounded-md border p-1">
                             <Image
                               alt="Product image"
@@ -150,7 +167,7 @@ const UploadButton = ({
 
                       <div className="mt-2 flex flex-col gap-1 text-center text-xs">
                         <p className="text-gray-400">
-                          {prettyBytes(existingImage.bytes)}
+                          {prettyBytes(existingImage.size)}
                         </p>
                         <p className="uppercase">{existingImage.format}</p>
                       </div>
@@ -172,16 +189,11 @@ const UploadButton = ({
                         const selectedImages = existingImages.filter(
                           (image) => {
                             return selectedExistingImages.current.has(
-                              image.public_id,
+                              image.uploaded_public_id,
                             );
                           },
                         );
-                        onSelectExisting(
-                          selectedImages.map((image) => ({
-                            publicId: image.public_id,
-                            url: image.url,
-                          })),
-                        );
+                        onSelectExisting(selectedImages);
                       }}
                       size={"sm"}
                     >

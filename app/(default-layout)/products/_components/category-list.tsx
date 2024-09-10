@@ -1,7 +1,7 @@
 "use client";
 
 import { getSubCategories } from "@/actions/categories";
-import { Category } from "@/app/interfaces/category";
+import { Category, CategoryResponse } from "@/app/interfaces/category";
 import { selectedCategoryAtom } from "@/atoms/category-atom";
 import { Label } from "@/components/ui/label";
 import {
@@ -14,13 +14,17 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useAtom } from "jotai";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ICategoryListProps {
   topLevelCategories: Category[];
+  initialCategory?: CategoryResponse;
 }
 
-const CategoryList = ({ topLevelCategories }: ICategoryListProps) => {
+const CategoryList = ({
+  topLevelCategories,
+  initialCategory,
+}: ICategoryListProps) => {
   const [displayedCategories, setDisplayedCategories] =
     useState<Category[]>(topLevelCategories);
   const [parentCategory, setParentCategory] = useState<Category | null>(null);
@@ -28,6 +32,13 @@ const CategoryList = ({ topLevelCategories }: ICategoryListProps) => {
     [],
   );
   const [, setSelectedCategory] = useAtom(selectedCategoryAtom);
+
+  useEffect(() => {
+    if (initialCategory) {
+      console.log({ initialCategory });
+      handleLoadSubCategory(initialCategory.parent_id);
+    }
+  }, [initialCategory]);
 
   const handleLoadSubCategory = async (parentId: number) => {
     console.log("HERE");
@@ -65,6 +76,7 @@ const CategoryList = ({ topLevelCategories }: ICategoryListProps) => {
     <div className="grid gap-3">
       <Label htmlFor="category">Category</Label>
       <Select
+        defaultValue={initialCategory?.id + ""}
         onValueChange={(value) => {
           const selectedCategory = displayedCategories.find(
             (category) => category.id === Number(value),

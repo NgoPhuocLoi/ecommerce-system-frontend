@@ -1,14 +1,14 @@
 "use client";
+import { PreviewUploadedContent } from "@/app/interfaces/uploaded-content";
 import { DataTableColumnHeader } from "@/components/ui/data-table/column-header";
 import { ColumnDef } from "@tanstack/react-table";
-import Image from "next/image";
-import { DateTime } from "luxon";
-import prettyBytes from "pretty-bytes";
 import { Link2 } from "lucide-react";
+import { DateTime } from "luxon";
+import Image from "next/image";
+import prettyBytes from "pretty-bytes";
 import { toast } from "sonner";
-import { UploadedContent } from "@/app/interfaces/uploaded-content";
 
-export const columns: ColumnDef<UploadedContent>[] = [
+export const columns: ColumnDef<PreviewUploadedContent>[] = [
   {
     accessorKey: "public_id",
     header: ({ column }) => {
@@ -24,7 +24,7 @@ export const columns: ColumnDef<UploadedContent>[] = [
             src={original.url}
             width="40"
           />
-          <p>{original.public_id}</p>
+          <p>{original.uploaded_public_id}</p>
         </div>
       );
     },
@@ -53,7 +53,7 @@ export const columns: ColumnDef<UploadedContent>[] = [
       return <DataTableColumnHeader column={column} title="Size" />;
     },
     cell: ({ row }) => {
-      return <span>{prettyBytes(row.original.bytes)}</span>;
+      return <span>{prettyBytes(row.original.size)}</span>;
     },
   },
   {

@@ -9,7 +9,11 @@ import {
 } from "@/components/ui/select";
 import React from "react";
 
-const ProductStatus = () => {
+interface IProductStatusProps {
+  initialStatus?: boolean;
+}
+
+const ProductStatus = ({ initialStatus }: IProductStatusProps) => {
   return (
     <div>
       <Card x-chunk="dashboard-07-chunk-3">
@@ -20,7 +24,10 @@ const ProductStatus = () => {
           <div className="grid gap-6">
             <div className="grid gap-3">
               <Label htmlFor="status">Status</Label>
-              <Select defaultValue={"true"} name="isActive">
+              <Select
+                defaultValue={initialStatus === true ? "true" : "false"}
+                name="isActive"
+              >
                 <SelectTrigger id="status" aria-label="Select status">
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>

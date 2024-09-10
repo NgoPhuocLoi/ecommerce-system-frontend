@@ -34,8 +34,10 @@ import {
 } from "@/utils/variant-option";
 import { useAtom } from "jotai";
 import { PlusCircle, Trash } from "lucide-react";
-import { ChangeEventHandler, useRef, useState } from "react";
+import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import { v4 } from "uuid";
+import ProductVariantsTable from "./product-variants-table";
+import { VariantResponse } from "@/app/interfaces/product";
 
 export interface VariantOption {
   id: string;
@@ -49,51 +51,48 @@ export interface VariantOption {
   }[];
 }
 
-const DEFAULT_VARIANT_OPTIONS: VariantOption[] = [
-  {
-    id: "E-1",
-    name: "Color",
-    isOpen: false,
-    values: [
-      {
-        id: "EV-1",
-        name: "Red",
-      },
-      {
-        id: "EV-2",
-        name: "Blue",
-      },
-      {
-        id: "EV-3",
-        name: "Green",
-      },
-    ],
-  },
-  {
-    id: "E-2",
-    name: "Size",
-    isOpen: false,
-    values: [
-      {
-        id: "EV-4",
-        name: "S",
-      },
-      {
-        id: "EV-5",
-        name: "M",
-      },
-      {
-        id: "EV-6",
-        name: "L",
-      },
-    ],
-  },
-];
+interface IProductVariantListProps {
+  initialVariants?: VariantResponse[];
+  initialAttributes?: Attribute[];
+}
 
-const ProductVariantList = () => {
+const ProductVariantList = ({
+  initialVariants,
+  initialAttributes,
+}: IProductVariantListProps) => {
   const [variantOptions, setVariantOptions] = useState<VariantOption[]>([]);
+  const [variantCustomValues, setVariantCustomValues] = useState({
+    mappingId: "id1-index/id2-index/id3-index",
+    price: 0,
+    quantity: 0,
+    uploadedThumbnail: {
+      publicId: "",
+      url: "",
+    },
+  });
   const timer = useRef<NodeJS.Timeout | null>(null);
   const [selectedCategory] = useAtom(selectedCategoryAtom);
+
+  useEffect(() => {
+    if (initialAttributes) {
+      setVariantOptions(
+        initialAttributes.map((attr) => ({
+          id: attr.id.toString(),
+          name: attr.name,
+          isOpen: false,
+          isRecommend: !!attr.recommend_attribute_id,
+          values: attr.values.map((value) => ({
+            id: value.id.toString(),
+            name: value.name,
+            selected: !!attr.recommend_attribute_id,
+          })),
+        })),
+      );
+    }
+
+    if (initialVariants) {
+    }
+  }, [initialAttributes]);
 
   const handleAddOption = (option?: VariantOption) => {
     const emptyOption = {
@@ -275,6 +274,11 @@ const ProductVariantList = () => {
 
   return (
     <>
+      <input
+        name="attributes"
+        className="hidden"
+        value={JSON.stringify(variantOptions)}
+      />
       <div className="flex flex-col gap-2">
         {/* {selectedCategory && <div>{JSON.stringify(selectedCategory)}</div>} */}
         {variantOptions.length > 0 && (
@@ -518,113 +522,8 @@ const ProductVariantList = () => {
       </div>
 
       <Separator className="my-6" />
-      <Button
-        type="button"
-        onClick={() => {
-          console.log(variantOptions);
-        }}
-      >
-        Test
-      </Button>
 
-      <div>
-        <div className="grid grid-cols-6 gap-4 rounded-sm border bg-gray-100 p-2 text-sm text-gray-800">
-          <div className="col-span-3">Variant</div>
-          <div className="col-span-2">Price</div>
-          <div>Quantity</div>
-        </div>
-        <Separator />
-
-        {variantOptions.length > 0 &&
-          getNonEmptyNameOptionsList(
-            variantOptions[0].values,
-            variantOptions[0].isRecommend,
-          ).map((value) => (
-            <Collapsible key={value.id}>
-              <CollapsibleTrigger asChild>
-                <div className="grid cursor-pointer grid-cols-6 items-center gap-4 rounded-sm border border-t-0 p-2 hover:bg-gray-50">
-                  <div className="col-span-3 flex items-center gap-3">
-                    <div className="h-16 w-16 rounded-md border border-dashed"></div>
-
-                    <div>
-                      <p className="text-sm">{value.name}</p>
-                      {variantOptions.length > 1 && (
-                        <p className="text-[13px] text-gray-400">
-                          {getNumberOfVairants(variantOptions)} variants
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <div className="col-span-2">
-                    <Input />
-                  </div>
-                  <div>
-                    <Input />
-                  </div>
-                </div>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                {variantOptions.length > 1 &&
-                  getNonEmptyNameOptionsList(
-                    variantOptions[1].values,
-                    variantOptions[1].isRecommend,
-                  )
-                    .map((value) => {
-                      let innerValues: any[] = [];
-
-                      if (variantOptions[2]) {
-                        innerValues = getNonEmptyNameOptionsList(
-                          variantOptions[2].values,
-                          variantOptions[2].isRecommend,
-                        );
-                      }
-
-                      if (innerValues.length > 0) {
-                        return innerValues.map((innerValue) => (
-                          <div
-                            key={value.id + innerValue.id}
-                            className="grid cursor-pointer grid-cols-6 items-center gap-4 rounded-sm border border-t-0 p-2 hover:bg-gray-50"
-                          >
-                            <div className="col-span-3 flex items-center gap-3 pl-10">
-                              <div className="h-10 w-10 rounded-md border border-dashed"></div>
-
-                              <p className="text-sm">
-                                {value.name} / {innerValue.name}
-                              </p>
-                            </div>
-                            <div className="col-span-2">
-                              <Input />
-                            </div>
-                            <div>
-                              <Input />
-                            </div>
-                          </div>
-                        ));
-                      }
-                      return (
-                        <div
-                          key={value.id}
-                          className="grid cursor-pointer grid-cols-6 items-center gap-4 rounded-sm border border-t-0 p-2 hover:bg-gray-50"
-                        >
-                          <div className="col-span-3 flex items-center gap-3 pl-10">
-                            <div className="h-10 w-10 rounded-md border border-dashed"></div>
-
-                            <p className="text-sm">{value.name}</p>
-                          </div>
-                          <div className="col-span-2">
-                            <Input />
-                          </div>
-                          <div>
-                            <Input />
-                          </div>
-                        </div>
-                      );
-                    })
-                    .flat()}
-              </CollapsibleContent>
-            </Collapsible>
-          ))}
-      </div>
+      <ProductVariantsTable variantOptions={variantOptions} />
     </>
   );
 };

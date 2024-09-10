@@ -10,7 +10,12 @@ import ServerTextField from "@/components/ui/server-text-field";
 import { Textarea } from "@/components/ui/textarea";
 import React from "react";
 
-const ProductDetails = () => {
+interface IProductDetailsProps {
+  name?: string;
+  description?: string;
+}
+
+const ProductDetails = ({ name, description }: IProductDetailsProps) => {
   return (
     <div>
       <Card x-chunk="dashboard-07-chunk-0">
@@ -29,6 +34,7 @@ const ProductDetails = () => {
                 id={"add-product-name"}
                 type={"text"}
                 placeholder="Enter product name"
+                defaultValue={name ?? ""}
               />
             </div>
             <div className="grid gap-3">
@@ -38,6 +44,7 @@ const ProductDetails = () => {
                 name="description"
                 className="min-h-32"
                 placeholder="Enter product description"
+                defaultValue={description ?? ""}
               />
             </div>
           </div>

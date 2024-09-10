@@ -1,27 +1,22 @@
 "use client";
 import TextField from "@/app/auth/_components/text-field";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import ServerTextField from "@/components/ui/server-text-field";
-import { PlusCircle } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React, { useMemo } from "react";
 
-const ProductPricing = () => {
+interface IProductPricingProps {
+  initialPricing?: {
+    price: number;
+    compareAtPrice: number;
+    cost: number;
+  };
+}
+
+const ProductPricing = ({ initialPricing }: IProductPricingProps) => {
   const [productPricing, setProductPricing] = React.useState<{
     price?: number;
     compareAtPrice?: number;
     cost?: number;
-  }>({
-    price: undefined,
-    compareAtPrice: undefined,
-    cost: undefined,
-  });
+  }>(initialPricing ?? {});
 
   const profit = useMemo(() => {
     if (

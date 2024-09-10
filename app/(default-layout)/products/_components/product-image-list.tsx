@@ -1,27 +1,34 @@
 "use client";
 import { CloudinaryUploadWidgetInfo } from "next-cloudinary";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UploadButton from "./upload-btn";
+import { PreviewUploadedContent } from "@/app/interfaces/uploaded-content";
 
 interface IProductImageListProps {
   shopId: string;
+  initialImages?: PreviewUploadedContent[];
 }
 
-export interface UploadedContentPreview {
-  publicId: string;
-  url: string;
-}
-
-const ProductImageList = ({ shopId }: IProductImageListProps) => {
+const ProductImageList = ({
+  shopId,
+  initialImages,
+}: IProductImageListProps) => {
   const [uploadedImages, setUploadedImages] = useState<
-    UploadedContentPreview[]
+    PreviewUploadedContent[]
   >([]);
+
+  useEffect(() => {
+    if (initialImages) {
+      setUploadedImages(initialImages);
+    }
+  }, [initialImages]);
+
   return (
     <>
       <div className="grid grid-cols-3 gap-2">
         {uploadedImages.map((previewContent) => (
-          <button key={previewContent.publicId}>
+          <button key={previewContent.uploaded_public_id}>
             <Image
               alt="Product image"
               className="aspect-square w-full rounded-md object-contain"
@@ -37,14 +44,7 @@ const ProductImageList = ({ shopId }: IProductImageListProps) => {
             setUploadedImages(selectedImages);
           }}
           onSuccess={(result) => {
-            const info = result.info as CloudinaryUploadWidgetInfo;
-            setUploadedImages((prev) => [
-              ...prev,
-              {
-                publicId: info.public_id,
-                url: info.url,
-              },
-            ]);
+            setUploadedImages((prev) => [...prev, result]);
           }}
           folder={shopId.replace(/-/g, "_") ?? ""}
         />
@@ -54,7 +54,7 @@ const ProductImageList = ({ shopId }: IProductImageListProps) => {
         type="text"
         name="productImages"
         className="hidden"
-        value={JSON.stringify(uploadedImages)}
+        value={JSON.stringify(uploadedImages.map((image) => Number(image.id)))}
         onChange={() => {}}
       />
     </>

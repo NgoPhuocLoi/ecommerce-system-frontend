@@ -9,8 +9,13 @@ import {
 import React from "react";
 import { auth } from "@/auth";
 import ProductImageList from "./product-image-list";
+import { PreviewUploadedContent } from "@/app/interfaces/uploaded-content";
 
-const ProductImages = async () => {
+interface IProductImagesProps {
+  initialImages?: PreviewUploadedContent[];
+}
+
+const ProductImages = async ({ initialImages }: IProductImagesProps) => {
   const session = await auth();
   if (!session || !session.selectedShopId) return null;
   return (
@@ -23,7 +28,10 @@ const ProductImages = async () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <ProductImageList shopId={session.selectedShopId} />
+          <ProductImageList
+            initialImages={initialImages}
+            shopId={session.selectedShopId}
+          />
         </CardContent>
       </Card>
     </div>

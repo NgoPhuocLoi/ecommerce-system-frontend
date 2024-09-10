@@ -1,9 +1,13 @@
 import { getTopLevelCategories } from "@/actions/categories";
-import { Category } from "@/app/interfaces/category";
+import { Category, CategoryResponse } from "@/app/interfaces/category";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CategoryList from "./category-list";
 
-const ProductCategory = async () => {
+interface IProductCategoryProps {
+  initialCategory?: CategoryResponse;
+}
+
+const ProductCategory = async ({ initialCategory }: IProductCategoryProps) => {
   const topLevelCategories: Category[] = (await getTopLevelCategories())
     .metadata;
   console.log({ topLevelCategories });
@@ -15,7 +19,10 @@ const ProductCategory = async () => {
         </CardHeader>
         <CardContent>
           <div className="w-full">
-            <CategoryList topLevelCategories={topLevelCategories} />
+            <CategoryList
+              topLevelCategories={topLevelCategories}
+              initialCategory={initialCategory}
+            />
           </div>
         </CardContent>
       </Card>

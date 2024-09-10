@@ -1,27 +1,11 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import ServerTextField from "@/components/ui/server-text-field";
-import {
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  Table,
-} from "@/components/ui/table";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { PlusCircle } from "lucide-react";
 
-const ProductStock = () => {
+interface IProductStockProps {
+  initialQuantity?: number;
+}
+
+const ProductStock = ({ initialQuantity }: IProductStockProps) => {
   return (
     <div>
       <Card>
@@ -35,7 +19,7 @@ const ProductStock = () => {
               label={"Total quantity"}
               id={"add-product-availableQuantity"}
               type={"number"}
-              defaultValue={0}
+              defaultValue={initialQuantity ?? 0}
             />
           </div>
         </CardContent>

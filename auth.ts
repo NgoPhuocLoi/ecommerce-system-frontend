@@ -62,7 +62,7 @@ export const {
   },
 
   session: {
-    maxAge: 60 * 60 * 1, // 1 hour
+    maxAge: 60 * 60 * 8, // 8 hour
   },
 
   callbacks: {
