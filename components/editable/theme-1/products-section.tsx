@@ -1,4 +1,4 @@
-import ProductCard from "@/app/shop/_components/product-card";
+import ProductCard from "@/app/[locale]/shop/_components/product-card";
 import { InputSetting } from "@/components/settings";
 import { Button } from "@/components/ui/button";
 import { useApplyRef } from "@/hooks/useApplyRef";
@@ -41,7 +41,7 @@ interface IProductsSectionProps {
 
 export const ProductsSection = ({ title }: IProductsSectionProps) => {
   return (
-    <div className="px-10 mt-10 pb-9 border-b">
+    <div className="mt-10 border-b px-10 pb-9">
       <h1 className="mb-8 text-2xl font-bold">{title}</h1>
 
       <div className="grid grid-cols-4 gap-4">

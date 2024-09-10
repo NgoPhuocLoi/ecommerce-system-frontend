@@ -1,4 +1,4 @@
-import MyEditor from "@/app/editor/my-editor";
+import MyEditor from "@/app/[locale]/editor/my-editor";
 import {
   FeaturedCollection,
   ImageBanner,

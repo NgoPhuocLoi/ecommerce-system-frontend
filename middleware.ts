@@ -1,5 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-export { auth as middleware } from "@/auth";
+import createIntlMiddleware from "next-intl/middleware";
+import { locales } from "./i18n/routing";
+import { auth } from "@/auth";
+
+const intlMiddleware = createIntlMiddleware({
+  locales,
+  localePrefix: "always",
+  defaultLocale: "vi",
+});
+
+export default auth(intlMiddleware);
 // export function middleware(req: NextRequest) {
 //     const hostname = req?.headers?.get('host');
 //     console.log({hostname})

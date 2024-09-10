@@ -15,11 +15,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Square, SquareCheckBig } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function Dashboard() {
+  const t = useTranslations("DashBoard");
   return (
     <main className="container flex flex-col gap-4">
-      <p className="font-bold">Things to do next</p>
+      <p className="font-bold">{t("title")}</p>
 
       <Card className="bg-gray-50 shadow-md">
         <CardHeader>
@@ -34,7 +36,7 @@ export default function Dashboard() {
         <CardContent>
           <Accordion type="single" collapsible className="w-full shadow-md">
             <AccordionItem value="item-1" className="bg-white px-2">
-              <AccordionTrigger className="hover:no-underline ">
+              <AccordionTrigger className="hover:no-underline">
                 <div className="flex items-center gap-2">
                   <SquareCheckBig size={16} />
                   <span>Add your first product</span>
@@ -55,7 +57,7 @@ export default function Dashboard() {
             </AccordionItem>
 
             <AccordionItem value="item-2" className="bg-white px-2">
-              <AccordionTrigger className="hover:no-underline ">
+              <AccordionTrigger className="hover:no-underline">
                 <div className="flex items-center gap-2">
                   <Square size={16} />
                   <span>Cusomize your online shop</span>
@@ -73,7 +75,7 @@ export default function Dashboard() {
             </AccordionItem>
 
             <AccordionItem value="item-3" className="bg-white px-2">
-              <AccordionTrigger className="hover:no-underline ">
+              <AccordionTrigger className="hover:no-underline">
                 <div className="flex items-center gap-2">
                   <Square size={16} />
                   <span>Setup a payment provider </span>
@@ -90,7 +92,7 @@ export default function Dashboard() {
             </AccordionItem>
 
             <AccordionItem value="item-4" className="bg-white px-2">
-              <AccordionTrigger className="hover:no-underline ">
+              <AccordionTrigger className="hover:no-underline">
                 <div className="flex items-center gap-2">
                   <Square size={16} />
                   <span>Place a test order</span>
