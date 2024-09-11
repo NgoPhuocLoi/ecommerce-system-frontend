@@ -105,5 +105,50 @@
       "saveButton": "Lưu",
       "cancelButton": "Hủy"
     }
+  },
+  "Auth": {
+    "login": {
+      "title": "Đăng nhập",
+      "description": "Đăng nhập vào tài khoản của bạn để tiếp tục.",
+      "emailInput": {
+        "label": "Email",
+        "placeholder": "Nhập email"
+      },
+      "passwordInput": {
+        "label": "Mật khẩu",
+        "placeholder": "Nhập mật khẩu"
+      },
+      "loginButton": "Đăng nhập với Email",
+      "registerButton": "Đăng ký ngay",
+      "dontHaveAccount": "Chưa có tài khoản?"
+    },
+    "register": {
+      "title": "Đăng ký",
+      "description": "Đăng ký tài khoản để bắt đầu sử dụng dịch vụ của chúng tôi.",
+      "firstNameInput": {
+        "label": "Tên",
+        "placeholder": "Nhập tên"
+      },
+      "lastNameInput": {
+        "label": "Họ",
+        "placeholder": "Nhập họ"
+      },
+      "emailInput": {
+        "label": "Email",
+        "placeholder": "Nhập email"
+      },
+      "passwordInput": {
+        "label": "Mật khẩu",
+        "placeholder": "Nhập mật khẩu"
+      },
+      "confirmPasswordInput": {
+        "label": "Nhập lại mật khẩu"
+      },
+      "registerButton": "Đăng ký",
+      "loginButton": "Đăng nhập ngay",
+      "alreadyHaveAccount": "Đã có tài khoản?"
+    },
+    "orContinueWith": "Hoặc tiếp tục với",
+    "policy": "Bằng cách nhấn tiếp tục, bạn đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của chúng tôi."
   }
 }

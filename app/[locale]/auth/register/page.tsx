@@ -8,8 +8,9 @@ import React, { FormEventHandler, useState } from "react";
 import TextField from "../_components/text-field";
 import { toast } from "sonner";
 import { buildFormData } from "@/utils/form-data";
-import { useRouter } from "next/navigation";
 import { register } from "@/app/services/auth";
+import { useRouter } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 
 type RegisterField =
   | "email"
@@ -36,6 +37,7 @@ const LoginPage = () => {
   });
 
   const router = useRouter();
+  const t = useTranslations("Auth");
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -99,10 +101,10 @@ const LoginPage = () => {
     <>
       <div className="flex flex-col space-y-2 text-center">
         <h1 className="text-2xl font-semibold tracking-tight">
-          Create an account
+          {t("register.title")}
         </h1>
         <p className="text-muted-foreground text-sm">
-          Enter your email below to create your account
+          {t("register.description")}
         </p>
       </div>
       <div className="grid gap-6">
@@ -116,7 +118,8 @@ const LoginPage = () => {
                 onChange={(value) => {
                   onChangeValue("firstName", value);
                 }}
-                label={"First Name"}
+                label={t("register.firstNameInput.label")}
+                placeholder={t("register.firstNameInput.placeholder")}
                 error={errors.firstName}
               />
               <TextField
@@ -126,7 +129,8 @@ const LoginPage = () => {
                 onChange={(value) => {
                   onChangeValue("lastName", value);
                 }}
-                label={"Last name"}
+                label={t("register.lastNameInput.label")}
+                placeholder={t("register.lastNameInput.placeholder")}
                 error={errors.lastName}
               />
             </div>
@@ -138,8 +142,8 @@ const LoginPage = () => {
               onChange={(value) => {
                 onChangeValue("email", value);
               }}
-              label={"Email"}
-              placeholder="yourmail@gmail.com"
+              label={t("register.emailInput.label")}
+              placeholder={t("register.emailInput.placeholder")}
               error={errors.email}
             />
 
@@ -150,7 +154,8 @@ const LoginPage = () => {
               onChange={(value) => {
                 onChangeValue("password", value);
               }}
-              label={"Password"}
+              label={t("register.passwordInput.label")}
+              placeholder={t("register.passwordInput.placeholder")}
               error={errors.password}
             />
 
@@ -161,20 +166,20 @@ const LoginPage = () => {
               onChange={(value) => {
                 onChangeValue("confirmPassword", value);
               }}
-              label={"Confirm password"}
+              label={t("register.confirmPasswordInput.label")}
               error={errors.confirmPassword}
             />
 
             <Button disabled={isLoading}>
               {isLoading && <LoaderCircle />}
-              Sign Up with Email
+              {t("register.registerButton")}
             </Button>
           </div>
         </form>
         <div className="text-center text-sm">
-          Already has an account?{" "}
+          {t("register.alreadyHaveAccount")}{" "}
           <Link className="text-blue-500 hover:underline" href={"/auth/login"}>
-            Login now
+            {t("register.loginButton")}
           </Link>
         </div>
         <div className="relative">
@@ -183,7 +188,7 @@ const LoginPage = () => {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-background text-muted-foreground px-2">
-              Or continue with
+              {t("orContinueWith")}
             </span>
           </div>
         </div>

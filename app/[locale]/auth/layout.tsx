@@ -1,11 +1,10 @@
-import React, { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import { UserAuthForm } from "./_components/user-auth-form";
+import { ReactNode } from "react";
 
 const Layout = ({ children }: { children: ReactNode }) => {
+  const t = useTranslations("Auth");
   return (
     <>
       <div className="md:hidden">
@@ -54,24 +53,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
           </div>
         </div>
         <div className="lg:p-8">
-          <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+          <div className="mx-auto flex w-full flex-col justify-center space-y-6 px-[100px]">
             {children}
             <p className="text-muted-foreground px-8 text-center text-sm">
-              By clicking continue, you agree to our{" "}
-              <Link
-                href="/terms"
-                className="hover:text-primary underline underline-offset-4"
-              >
-                Terms of Service
-              </Link>{" "}
-              and{" "}
-              <Link
-                href="/privacy"
-                className="hover:text-primary underline underline-offset-4"
-              >
-                Privacy Policy
-              </Link>
-              .
+              {t("policy")}
             </p>
           </div>
         </div>

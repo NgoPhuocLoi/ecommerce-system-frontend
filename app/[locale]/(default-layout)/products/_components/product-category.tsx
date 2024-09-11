@@ -1,15 +1,15 @@
 import { getTopLevelCategories } from "@/actions/categories";
 import { Category, CategoryResponse } from "@/app/interfaces/category";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getTranslations } from "next-intl/server";
 import CategoryList from "./category-list";
-import { useTranslations } from "next-intl";
 
 interface IProductCategoryProps {
   initialCategory?: CategoryResponse;
 }
 
 const ProductCategory = async ({ initialCategory }: IProductCategoryProps) => {
-  const t = useTranslations("ProductDetailAndAddPage");
+  const t = await getTranslations("ProductDetailAndAddPage");
   const topLevelCategories: Category[] = (await getTopLevelCategories())
     .metadata;
   return (

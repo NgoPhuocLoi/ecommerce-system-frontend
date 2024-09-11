@@ -3,13 +3,25 @@ import createIntlMiddleware from "next-intl/middleware";
 import { locales } from "./i18n/routing";
 import { auth } from "@/auth";
 
+const publicPages = [
+  "/",
+  "/auth/login",
+  // (/secret requires auth)
+];
+
 const intlMiddleware = createIntlMiddleware({
   locales,
   localePrefix: "always",
   defaultLocale: "vi",
 });
 
-export default auth(intlMiddleware);
+export default auth((req) => {
+  // if (!req.auth && req.nextUrl.pathname !== "/login") {
+  //   const newUrl = new URL("/login", req.nextUrl.origin);
+  //   return Response.redirect(newUrl);
+  // }
+  return intlMiddleware(req);
+});
 // export function middleware(req: NextRequest) {
 //     const hostname = req?.headers?.get('host');
 //     console.log({hostname})
@@ -25,14 +37,5 @@ export default auth(intlMiddleware);
 //   }
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    "/((?!api|_next/static|_next/image|favicon.ico|auth).*)",
-  ],
+  matcher: ["/((?!api|_next|.*\\..*).*)"],
 };

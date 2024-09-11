@@ -1,4 +1,49 @@
 {
+  "Auth": {
+    "login": {
+      "title": "Login to our system",
+      "description": "Enter your credentials below",
+      "emailInput": {
+        "label": "Email",
+        "placeholder": "Enter your email"
+      },
+      "passwordInput": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      },
+      "loginButton": "Login with Email",
+      "registerButton": "Register now",
+      "dontHaveAccount": "Don't have an account?"
+    },
+    "register": {
+      "title": "Create an account",
+      "description": "Create an account",
+      "firstNameInput": {
+        "label": "First name",
+        "placeholder": "Enter your first name"
+      },
+      "lastNameInput": {
+        "label": "Last name",
+        "placeholder": "Enter your last name"
+      },
+      "emailInput": {
+        "label": "Email",
+        "placeholder": "Enter your email"
+      },
+      "passwordInput": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      },
+      "confirmPasswordInput": {
+        "label": "Confirm Password"
+      },
+      "registerButton": "Register with Email",
+      "loginButton": "Login now",
+      "haveAccount": "Already have an account?"
+    },
+    "orContinueWith": "Or continue with",
+    "policy": "By clicking continue, you agree to our Terms of Service and Privacy Policy."
+  },
   "DashBoard": {
     "title": "Things to do next",
     "cardTitle": "Set up your shop now!",

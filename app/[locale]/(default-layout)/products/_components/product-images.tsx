@@ -6,18 +6,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import React from "react";
-import { auth } from "@/auth";
-import ProductImageList from "./product-image-list";
 import { PreviewUploadedContent } from "@/app/interfaces/uploaded-content";
-import { useTranslations } from "next-intl";
+import { auth } from "@/auth";
+import { getTranslations } from "next-intl/server";
+import ProductImageList from "./product-image-list";
 
 interface IProductImagesProps {
   initialImages?: PreviewUploadedContent[];
 }
 
 const ProductImages = async ({ initialImages }: IProductImagesProps) => {
-  const t = useTranslations("ProductDetailAndAddPage");
+  const t = await getTranslations("ProductDetailAndAddPage");
   const session = await auth();
   if (!session || !session.selectedShopId) return null;
   return (

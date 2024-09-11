@@ -25,9 +25,8 @@ export default async function RootLayout({
         <SessionProvider>
           <NextIntlClientProvider messages={messages}>
             <JotaiProviders>{children}</JotaiProviders>
+            <Toaster richColors position="top-right" />
           </NextIntlClientProvider>
-
-          <Toaster richColors position="top-right" />
         </SessionProvider>
       </body>
     </html>

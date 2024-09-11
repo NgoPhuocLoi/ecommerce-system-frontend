@@ -1,17 +1,13 @@
 "use client";
 import { handleLogin } from "@/actions/auth";
-import { signIn } from "@/auth";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { LoaderCircle } from "lucide-react";
-import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
-import React, { FormEventHandler, useState } from "react";
-import TextField from "../_components/text-field";
-import { AuthError } from "next-auth";
-import { toast } from "sonner";
 import { buildFormData } from "@/utils/form-data";
+import { LoaderCircle } from "lucide-react";
+import { FormEventHandler, useState } from "react";
+import { toast } from "sonner";
+import TextField from "../_components/text-field";
+import { Link, useRouter } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 
 const LoginPage = () => {
   const [isLoading, setLoading] = useState(false);
@@ -20,6 +16,7 @@ const LoginPage = () => {
     password: "",
   });
   const router = useRouter();
+  const t = useTranslations("Auth");
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -51,10 +48,10 @@ const LoginPage = () => {
     <>
       <div className="flex flex-col space-y-2 text-center">
         <h1 className="text-2xl font-semibold tracking-tight">
-          Login to our system
+          {t("login.title")}
         </h1>
         <p className="text-muted-foreground text-sm">
-          Enter your credentials below
+          {t("login.description")}
         </p>
       </div>
       <div className="grid gap-6">
@@ -66,7 +63,8 @@ const LoginPage = () => {
               onChange={(value) => {
                 onChangeValue("email", value);
               }}
-              label={"Email"}
+              label={t("login.emailInput.label")}
+              placeholder={t("login.emailInput.placeholder")}
               id={"login-email"}
             />
 
@@ -76,23 +74,24 @@ const LoginPage = () => {
               onChange={(value) => {
                 onChangeValue("password", value);
               }}
-              label={"Password"}
+              label={t("login.passwordInput.label")}
+              placeholder={t("login.passwordInput.placeholder")}
               id={"login-password"}
             />
 
             <Button className="flex gap-2" disabled={isLoading}>
               {isLoading && <LoaderCircle className="animate-spin" />}
-              Sign In with Email
+              {t("login.loginButton")}
             </Button>
           </div>
         </form>
         <div className="text-center text-sm">
-          Don't have an account?{" "}
+          {t("login.dontHaveAccount")}{" "}
           <Link
             className="text-blue-500 hover:underline"
             href={"/auth/register"}
           >
-            Register now
+            {t("login.registerButton")}
           </Link>
         </div>
 
@@ -102,7 +101,7 @@ const LoginPage = () => {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-background text-muted-foreground px-2">
-              Or continue with
+              {t("orContinueWith")}
             </span>
           </div>
         </div>
