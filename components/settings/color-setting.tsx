@@ -8,13 +8,16 @@ interface IColorSettingProps extends IBaseSetting<string> {
 const ColorSetting = ({ value, onChange, ...rest }: IColorSettingProps) => {
   return (
     <BaseSetting value={value} {...rest}>
-      <input
-        type="color"
-        value={value}
-        onChange={(e) => {
-          onChange(e.target.value);
-        }}
-      />
+      <div className="flex items-center gap-2">
+        <input
+          type="color"
+          value={value}
+          onChange={(e) => {
+            onChange(e.target.value);
+          }}
+        />
+        <p className="text-sm">{value}</p>
+      </div>
     </BaseSetting>
   );
 };
