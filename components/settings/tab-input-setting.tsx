@@ -16,7 +16,6 @@ const TabInputSetting = ({
   value,
   ...rest
 }: ITabInputSettingProps) => {
-  console.log({ value });
   return (
     <BaseSetting value={value} {...rest}>
       <div

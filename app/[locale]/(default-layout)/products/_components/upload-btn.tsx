@@ -31,12 +31,15 @@ import prettyBytes from "pretty-bytes";
 import { useEffect, useRef, useState } from "react";
 import { saveUploadedImagesInfo } from "@/actions/uploaded-content";
 import { useTranslations } from "next-intl";
+import clsx from "clsx";
 
 interface IUploadButtonProps {
   folder: string;
   onSuccess: (result: PreviewUploadedContent) => void;
   onSelectExisting: (selectedImages: PreviewUploadedContent[]) => void;
-  selectedImages: PreviewUploadedContent[];
+  selectedImages?: PreviewUploadedContent[];
+  isSquare?: boolean;
+  mode?: "single" | "multiple";
 }
 
 const ImageSkeleton = () => {
@@ -56,6 +59,8 @@ const UploadButton = ({
   onSuccess,
   onSelectExisting,
   selectedImages,
+  isSquare = true,
+  mode = "multiple",
 }: IUploadButtonProps) => {
   const [fetchingExistingImages, setFetchingExistingImages] = useState(false);
   const [existingImages, setExistingImages] = useState<
@@ -63,10 +68,11 @@ const UploadButton = ({
   >([]);
   const selectedExistingImages = useRef<Set<string>>(new Set());
   const t = useTranslations("ProductDetailAndAddPage");
+  const [openExistingImagesModal, setOpenExistingImagesModal] = useState(false);
 
   useEffect(() => {
     selectedExistingImages.current = new Set(
-      selectedImages.map((image) => image.uploaded_public_id),
+      selectedImages?.map((image) => image.uploaded_public_id),
     );
   }, [selectedImages]);
 
@@ -104,7 +110,15 @@ const UploadButton = ({
           open();
         }
         return (
-          <div className="flex aspect-square w-full flex-col items-center justify-center gap-1 rounded-md border border-dashed">
+          <div
+            className={clsx(
+              "flex w-full flex-col items-center justify-center gap-1 rounded-md border border-dashed",
+              {
+                "aspect-square": isSquare,
+                "h-full": !isSquare,
+              },
+            )}
+          >
             <button
               type="button"
               onClick={handleOnClick}
@@ -116,7 +130,10 @@ const UploadButton = ({
               </span>
             </button>
             <div className="text-xs text-black">or</div>
-            <Dialog>
+            <Dialog
+              open={openExistingImagesModal}
+              onOpenChange={setOpenExistingImagesModal}
+            >
               <DialogTrigger onClick={handleLoadUploadedImages}>
                 <div className="cursor-pointer text-xs text-gray-400 hover:text-gray-500 hover:underline">
                   {t("productImage.imageInput.selectExistingButtonLabel")}
@@ -134,41 +151,49 @@ const UploadButton = ({
 
                 <div className="grid grid-cols-4 gap-4">
                   {existingImages.map((existingImage) => (
-                    <div className="rounded-md p-2 hover:bg-gray-100">
+                    <div
+                      onClick={() => {
+                        if (mode === "single") {
+                          onSelectExisting([existingImage]);
+                          setOpenExistingImagesModal(false);
+                        }
+                      }}
+                      className="rounded-md p-2 hover:bg-gray-100"
+                    >
                       <div
                         key={existingImage.uploaded_public_id}
                         className="relative cursor-pointer"
                       >
-                        <Checkbox
-                          defaultChecked={selectedExistingImages.current.has(
-                            existingImage.uploaded_public_id,
-                          )}
-                          name="heelo"
-                          className="absolute left-2 top-2"
-                          id={existingImage.uploaded_public_id}
-                          onCheckedChange={(checked) => {
-                            if (checked) {
-                              selectedExistingImages.current.add(
-                                existingImage.uploaded_public_id,
-                              );
-                            } else {
-                              selectedExistingImages.current.delete(
-                                existingImage.uploaded_public_id,
-                              );
-                            }
-                          }}
-                        />
-                        <label htmlFor={existingImage.uploaded_public_id}>
-                          <div className="cursor-pointer rounded-md border p-1">
-                            <Image
-                              alt="Product image"
-                              className="aspect-square rounded-md object-contain"
-                              height="100"
-                              src={existingImage.url}
-                              width="100"
-                            />
-                          </div>
-                        </label>
+                        {mode === "multiple" && (
+                          <Checkbox
+                            defaultChecked={selectedExistingImages.current.has(
+                              existingImage.uploaded_public_id,
+                            )}
+                            name="heelo"
+                            className="absolute left-2 top-2"
+                            id={existingImage.uploaded_public_id}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                selectedExistingImages.current.add(
+                                  existingImage.uploaded_public_id,
+                                );
+                              } else {
+                                selectedExistingImages.current.delete(
+                                  existingImage.uploaded_public_id,
+                                );
+                              }
+                            }}
+                          />
+                        )}
+                        <div className="cursor-pointer rounded-md border p-1">
+                          <Image
+                            alt="Product image"
+                            className="aspect-square rounded-md object-contain"
+                            height="100"
+                            src={existingImage.url}
+                            width="100"
+                          />
+                        </div>
                       </div>
 
                       <div className="mt-2 flex flex-col gap-1 text-center text-xs">
@@ -183,34 +208,36 @@ const UploadButton = ({
                   {fetchingExistingImages && <ImageSkeleton />}
                 </div>
 
-                <DialogFooter className="flex gap-1">
-                  <DialogClose asChild>
-                    <Button size={"sm"} variant={"outline"}>
-                      {t(
-                        "productImage.selectExistingFilesModal.secondaryButtonLabel",
-                      )}
-                    </Button>
-                  </DialogClose>
-                  <DialogClose asChild>
-                    <Button
-                      onClick={() => {
-                        const selectedImages = existingImages.filter(
-                          (image) => {
-                            return selectedExistingImages.current.has(
-                              image.uploaded_public_id,
-                            );
-                          },
-                        );
-                        onSelectExisting(selectedImages);
-                      }}
-                      size={"sm"}
-                    >
-                      {t(
-                        "productImage.selectExistingFilesModal.primaryButtonLabel",
-                      )}
-                    </Button>
-                  </DialogClose>
-                </DialogFooter>
+                {mode === "multiple" && (
+                  <DialogFooter className="flex gap-1">
+                    <DialogClose asChild>
+                      <Button size={"sm"} variant={"outline"}>
+                        {t(
+                          "productImage.selectExistingFilesModal.secondaryButtonLabel",
+                        )}
+                      </Button>
+                    </DialogClose>
+                    <DialogClose asChild>
+                      <Button
+                        onClick={() => {
+                          const selectedImages = existingImages.filter(
+                            (image) => {
+                              return selectedExistingImages.current.has(
+                                image.uploaded_public_id,
+                              );
+                            },
+                          );
+                          onSelectExisting(selectedImages);
+                        }}
+                        size={"sm"}
+                      >
+                        {t(
+                          "productImage.selectExistingFilesModal.primaryButtonLabel",
+                        )}
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                )}
               </DialogContent>
             </Dialog>
           </div>

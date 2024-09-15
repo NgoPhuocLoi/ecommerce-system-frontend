@@ -1,50 +1,26 @@
-"use client";
 import ColorSetting from "@/components/settings/color-setting";
 import TabInputSetting from "@/components/settings/tab-input-setting";
 import TabSelectionSetting from "@/components/settings/tab-selection-setting";
 import { useSetting } from "@/hooks/useSetting";
-import React, { useMemo } from "react";
-import { Element } from "@craftjs/core";
-import { v4 } from "uuid";
-import { Column } from "./column";
 import { getPaddingLikeValue } from "@/utils/component-setting";
+import { Element } from "@craftjs/core";
+import React, { ReactNode, useEffect, useMemo, useRef } from "react";
+import { v4 } from "uuid";
 
-interface ILayoutProps {
-  children: React.ReactNode;
+interface IColumnProps {
   bgColor?: string;
-  flexDirection?: "row" | "column";
   padding?: string;
   margin?: string;
-  gap?: number;
-  cols?: number;
+  children: ReactNode;
 }
 
-export const LayoutSetting = () => {
+export const ColumnSetting = () => {
   const { props, handlePropChange } = useSetting();
-  const { bgColor, gap, cols, padding, margin } = props;
+  const { bgColor, padding, margin } = props;
   const paddingValues = useMemo(() => getPaddingLikeValue(padding), [padding]);
   const marginValues = useMemo(() => getPaddingLikeValue(margin), [margin]);
   return (
     <div className="flex flex-col gap-4">
-      <TabSelectionSetting
-        id="shop-common-layout"
-        title="Columns"
-        description="Config the number of columns for layout"
-        value={cols.toString()}
-        selections={[
-          { title: "1", value: "1" },
-          { title: "2", value: "2" },
-          { title: "3", value: "3" },
-          { title: "4", value: "4" },
-          { title: "5", value: "5" },
-          { title: "6", value: "6" },
-        ]}
-        onValueChange={(value) => {
-          console.log({ value });
-          handlePropChange("cols", value);
-        }}
-      />
-
       <TabInputSetting
         values={[
           { title: "Top", value: "top" },
@@ -112,52 +88,48 @@ export const LayoutSetting = () => {
   );
 };
 
-export const Layout = ({
-  children,
-  bgColor = "#aaa",
-  flexDirection = "row",
+export const Column = ({
+  bgColor,
   padding,
   margin,
-  gap = 8,
-  cols = 2,
-}: ILayoutProps) => {
+  children,
+}: IColumnProps) => {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      const parent = (ref.current as HTMLDivElement).parentElement;
+      if (parent) {
+        parent.style.margin = margin as string;
+      }
+    }
+  }, [margin]);
+
   return (
     <div
-      className={`grid h-full min-h-20 w-full grid-cols-2 rounded-md`}
+      ref={ref}
       style={{
         backgroundColor: bgColor,
-        gap: `${gap}px`,
-        gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+
         padding,
-        margin,
       }}
+      className="flex h-full items-center justify-center border border-dashed text-sm text-gray-600 hover:outline hover:outline-green-400"
     >
-      {Array.from({ length: cols }).map((_, i) => (
-        <Element id={v4()} is={Column} canvas>
-          Drag components here
-        </Element>
-      ))}
+      {children}
     </div>
   );
 };
 
-Layout.craft = {
+Column.craft = {
   props: {
     bgColor: "#aaa",
-    gap: 8,
-    cols: 2,
     margin: "0px 0px 0px 0px",
     padding: "8px 8px 8px 8px",
   },
   related: {
-    setting: LayoutSetting,
+    setting: ColumnSetting,
   },
   data: {
-    name: "Layout",
-  },
-  rules: {
-    canDrop: (target: any) => {
-      return target.data.name !== "Column";
-    },
+    name: "Column",
   },
 };

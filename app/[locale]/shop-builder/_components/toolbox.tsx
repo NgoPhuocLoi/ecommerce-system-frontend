@@ -2,7 +2,7 @@ import { useEditor } from "@craftjs/core";
 import SettingPanel from "./setting-panel";
 import Image from "next/image";
 import { icons } from "@/public/icons";
-import { Layout, Text } from "@/components/editable/v2";
+import { Layout, Text, Image as EditableImage } from "@/components/editable/v2";
 import { useEditorCreate } from "@/hooks/useEditorCreate";
 
 const ELEMEMENTS = [
@@ -23,7 +23,7 @@ const ELEMEMENTS = [
     id: 3,
     label: "Image",
     icon: icons.image,
-    component: Layout,
+    component: EditableImage,
   },
   {
     id: 4,
@@ -84,7 +84,7 @@ const ELEMEMENTS = [
 const Toolbox = () => {
   const { createElement } = useEditorCreate();
   return (
-    <div className="h-full w-[264px] bg-white">
+    <div className="fixed right-0 top-14 h-full w-[264px] bg-white shadow">
       <div className="grid grid-cols-2 gap-2 p-2">
         {ELEMEMENTS.map((element) => (
           <div

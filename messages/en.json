@@ -150,5 +150,10 @@
       "saveButton": "Save",
       "cancelButton": "Cancel"
     }
+  },
+  "ShopSelection": {
+    "title": "Welcome back, ",
+    "description": "Select your shop to continue.",
+    "createShopButton": "Create shop"
   }
 }

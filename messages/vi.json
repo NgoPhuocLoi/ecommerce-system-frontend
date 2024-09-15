@@ -150,5 +150,10 @@
     },
     "orContinueWith": "Hoặc tiếp tục với",
     "policy": "Bằng cách nhấn tiếp tục, bạn đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của chúng tôi."
+  },
+  "ShopSelection": {
+    "title": "Chào mừng bạn, ",
+    "description": "Chọn cửa hàng bạn muốn quản lý hoặc tạo cửa hàng mới.",
+    "createShopButton": "Tạo cửa hàng mới"
   }
 }

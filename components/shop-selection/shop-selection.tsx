@@ -11,6 +11,7 @@ import {
 } from "../ui/card";
 import { Separator } from "../ui/separator";
 import ShopList from "./shop-list";
+import { getTranslations } from "next-intl/server";
 
 export interface Shop {
   id: string;
@@ -23,7 +24,7 @@ const ShopSelection = async () => {
   if (!session) {
     return null;
   }
-
+  const t = await getTranslations("ShopSelection");
   const shops: Shop[] = (await getShops(session.accessToken)).metadata;
 
   return (
@@ -31,12 +32,12 @@ const ShopSelection = async () => {
       <Card className="h-full w-[476px]">
         <div className="flex items-center justify-between">
           <CardHeader>
-            <CardTitle>Welcome back, Loi</CardTitle>
-            <CardDescription>Select your shop to continue.</CardDescription>
+            <CardTitle>{t("title")}Loi</CardTitle>
+            <CardDescription>{t("description")}</CardDescription>
           </CardHeader>
 
           <Button className="mr-6" asChild>
-            <Link href="/shop/question">Create Shop</Link>
+            <Link href="/shop/question">{t("createShopButton")}</Link>
           </Button>
         </div>
         <Separator />

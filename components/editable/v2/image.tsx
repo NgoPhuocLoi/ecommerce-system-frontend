@@ -1,50 +1,32 @@
-"use client";
-import ColorSetting from "@/components/settings/color-setting";
+import ImageUploadSetting from "@/components/settings/image-upload-setting";
 import TabInputSetting from "@/components/settings/tab-input-setting";
-import TabSelectionSetting from "@/components/settings/tab-selection-setting";
 import { useSetting } from "@/hooks/useSetting";
-import React, { useMemo } from "react";
-import { Element } from "@craftjs/core";
-import { v4 } from "uuid";
-import { Column } from "./column";
 import { getPaddingLikeValue } from "@/utils/component-setting";
+import NextImage from "next/image";
+import { useMemo } from "react";
 
-interface ILayoutProps {
-  children: React.ReactNode;
-  bgColor?: string;
-  flexDirection?: "row" | "column";
+interface IImageProps {
   padding?: string;
   margin?: string;
-  gap?: number;
-  cols?: number;
+  imageUrl?: string;
 }
 
-export const LayoutSetting = () => {
+export const ImageSetting = () => {
   const { props, handlePropChange } = useSetting();
-  const { bgColor, gap, cols, padding, margin } = props;
+  const { padding, margin, imageUrl } = props;
   const paddingValues = useMemo(() => getPaddingLikeValue(padding), [padding]);
   const marginValues = useMemo(() => getPaddingLikeValue(margin), [margin]);
   return (
     <div className="flex flex-col gap-4">
-      <TabSelectionSetting
-        id="shop-common-layout"
-        title="Columns"
-        description="Config the number of columns for layout"
-        value={cols.toString()}
-        selections={[
-          { title: "1", value: "1" },
-          { title: "2", value: "2" },
-          { title: "3", value: "3" },
-          { title: "4", value: "4" },
-          { title: "5", value: "5" },
-          { title: "6", value: "6" },
-        ]}
-        onValueChange={(value) => {
-          console.log({ value });
-          handlePropChange("cols", value);
+      <ImageUploadSetting
+        onFileChange={(url) => {
+          handlePropChange("imageUrl", url);
         }}
+        id={"shop-common-image-url"}
+        title={"Image"}
+        value={imageUrl}
+        description={"Upload or select existing images"}
       />
-
       <TabInputSetting
         values={[
           { title: "Top", value: "top" },
@@ -100,64 +82,42 @@ export const LayoutSetting = () => {
         value={marginValues}
         description={"Change the margin of layout"}
       />
+    </div>
+  );
+};
 
-      <ColorSetting
-        value={bgColor}
-        onChange={(value) => handlePropChange("bgColor", value)}
-        id={"shop-common-layout-bgColor"}
-        title={"Background color"}
-        description={"Change the background color of layout"}
+export const Image = ({ padding, margin, imageUrl }: IImageProps) => {
+  return (
+    <div
+      style={{
+        margin,
+        padding,
+      }}
+      className="relative h-full w-full"
+    >
+      <NextImage
+        alt="test"
+        src={imageUrl ?? ""}
+        width="0"
+        height="0"
+        sizes="100vw"
+        className="h-auto w-full"
       />
     </div>
   );
 };
 
-export const Layout = ({
-  children,
-  bgColor = "#aaa",
-  flexDirection = "row",
-  padding,
-  margin,
-  gap = 8,
-  cols = 2,
-}: ILayoutProps) => {
-  return (
-    <div
-      className={`grid h-full min-h-20 w-full grid-cols-2 rounded-md`}
-      style={{
-        backgroundColor: bgColor,
-        gap: `${gap}px`,
-        gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
-        padding,
-        margin,
-      }}
-    >
-      {Array.from({ length: cols }).map((_, i) => (
-        <Element id={v4()} is={Column} canvas>
-          Drag components here
-        </Element>
-      ))}
-    </div>
-  );
-};
-
-Layout.craft = {
+Image.craft = {
   props: {
-    bgColor: "#aaa",
-    gap: 8,
-    cols: 2,
+    imageUrl:
+      "https://images.unsplash.com/photo-1487700160041-babef9c3cb55?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2000&q=80",
     margin: "0px 0px 0px 0px",
     padding: "8px 8px 8px 8px",
   },
   related: {
-    setting: LayoutSetting,
+    setting: ImageSetting,
   },
   data: {
-    name: "Layout",
-  },
-  rules: {
-    canDrop: (target: any) => {
-      return target.data.name !== "Column";
-    },
+    name: "Image",
   },
 };
