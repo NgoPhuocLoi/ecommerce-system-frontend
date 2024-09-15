@@ -10,7 +10,7 @@ import EditorHeader from "./editor-header";
 import Toolbox from "./toolbox";
 import SettingPanel from "./setting-panel";
 
-const { Layout, Column, Text, Image } = editableComponentsV2;
+const { Layout, Column, Text, HeroBanner, Image } = editableComponentsV2;
 
 const defaultLayout =
   "N4IgSg8hAqIFygC4E8AOBTeIAmBLAbiADQi4DOAwgIYB2+VZ8iATgK7omrMD2qjCpbFgDG3Goiq4a6ZiAC+JPGVQAbKsgByVALaY4OAsRDDWZRN23xgCkAAtc2bOhrwAZlRVkOIGtyf8AbRAALQBlUIBHXGQANQANVAAjIwj0AHENDBiAWgAJAAYjABEaAFUAaSpQ4QB3XHKQAF0SFSkAa3RsDT90fmsbVIysvMKBFAwrEGZe7hV8Tq1dLABBGl9WGmF0XXEAISpZG3JqOgY3Dy9OHj5J1zFEUNwALz0ARgA2EkR0AA9ELAA6ugVKJdAACcxg7TIMFmbjTeSKciqdSLPQgVbrTbbZyIfayEgmOGWBA2VAHXFYSAwIz2RzOc6eby+fzwALNECtGgdLo9PpyGxhSLReJJSbjPSgaZkWbzLo6dGhczTXLoKhOQ4kY60ej8dxMq68flI5RqTQKrBK+HoVXqmRGInmEnWTgU8RUqCwEh0pwuOD6y4+PlsjlcnndVmkmwlCpVWr1cVoSVTGZzBYW/QASW0VAA5uh9mt7UdKDqzv6Lt4uEarDYlCjzUsszn84XpATjKYnbXXdN3fpqV67A5fYzAyzeiGWu0FsGo3IgA";
@@ -67,7 +67,7 @@ const PageBuilder = () => {
                 <Element is={Column} id="column-1" canvas>
                   <Text />
                 </Element>
-                <Column>hello</Column>
+                <HeroBanner />
                 <Image />
                 {/* <AnnouncementBar text="Welcome to my store" />
                 <StoreHeader />

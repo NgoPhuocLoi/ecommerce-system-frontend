@@ -2,7 +2,12 @@ import { useEditor } from "@craftjs/core";
 import SettingPanel from "./setting-panel";
 import Image from "next/image";
 import { icons } from "@/public/icons";
-import { Layout, Text, Image as EditableImage } from "@/components/editable/v2";
+import {
+  Layout,
+  Text,
+  Image as EditableImage,
+  HeroBanner,
+} from "@/components/editable/v2";
 import { useEditorCreate } from "@/hooks/useEditorCreate";
 
 const ELEMEMENTS = [
@@ -29,7 +34,7 @@ const ELEMEMENTS = [
     id: 4,
     label: "Hero Banner",
     icon: icons.heroBanner,
-    component: Layout,
+    component: HeroBanner,
   },
   {
     id: 5,

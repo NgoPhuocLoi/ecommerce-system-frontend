@@ -1,21 +1,20 @@
-import React from "react";
+import { Textarea } from "../ui/textarea";
 import BaseSetting, { IBaseSetting } from "./base-setting";
-import { Input } from "../ui/input";
 
-interface IInputSetting extends IBaseSetting<string> {
+interface ITextAreaSetting extends IBaseSetting<string> {
   onChange: (value: string) => void;
   placeholder?: string;
 }
 
-export const InputSetting = ({
+export const TextAreaSetting = ({
   onChange,
   value,
   placeholder,
   ...rest
-}: IInputSetting) => {
+}: ITextAreaSetting) => {
   return (
     <BaseSetting value={value} {...rest}>
-      <Input
+      <Textarea
         value={value}
         onChange={(e) => {
           onChange(e.target.value);

@@ -41,14 +41,12 @@ const ImageUploadSetting = ({
             mode="single"
             isSquare={false}
             onSelectExisting={(selectedImages) => {
-              console.log({ selectedImages });
               if (selectedImages[0]) {
                 onFileChange(selectedImages[0].url);
               }
             }}
             onSuccess={(result) => {
-              console.log({ result });
-              // setUploadedImages((prev) => [...prev, result]);
+              onFileChange(result.url);
             }}
             folder={data?.selectedShopId?.replace(/-/g, "_") ?? ""}
           />

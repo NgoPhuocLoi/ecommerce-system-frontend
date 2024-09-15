@@ -12,6 +12,7 @@ interface IColumnProps {
   padding?: string;
   margin?: string;
   children: ReactNode;
+  contentAlign?: "flex-start" | "center" | "flex-end";
 }
 
 export const ColumnSetting = () => {
@@ -21,6 +22,21 @@ export const ColumnSetting = () => {
   const marginValues = useMemo(() => getPaddingLikeValue(margin), [margin]);
   return (
     <div className="flex flex-col gap-4">
+      <TabSelectionSetting
+        id="shop-common-layout"
+        title="Content align"
+        description="Config the content align for layout"
+        value={props.contentAlign}
+        selections={[
+          { title: "Start", value: "flex-start" },
+          { title: "Center", value: "center" },
+          { title: "End", value: "flex-end" },
+        ]}
+        onValueChange={(value) => {
+          handlePropChange("contentAlign", value);
+        }}
+      />
+
       <TabInputSetting
         values={[
           { title: "Top", value: "top" },
@@ -93,6 +109,7 @@ export const Column = ({
   padding,
   margin,
   children,
+  contentAlign,
 }: IColumnProps) => {
   const ref = useRef(null);
 
@@ -110,10 +127,10 @@ export const Column = ({
       ref={ref}
       style={{
         backgroundColor: bgColor,
-
+        justifyContent: contentAlign,
         padding,
       }}
-      className="flex h-full items-center justify-center border border-dashed text-sm text-gray-600 hover:outline hover:outline-green-400"
+      className="flex h-full flex-col items-center justify-center border border-dashed text-sm text-gray-600 hover:outline hover:outline-green-400"
     >
       {children}
     </div>
@@ -125,6 +142,7 @@ Column.craft = {
     bgColor: "#aaa",
     margin: "0px 0px 0px 0px",
     padding: "8px 8px 8px 8px",
+    contentAlign: "center",
   },
   related: {
     setting: ColumnSetting,

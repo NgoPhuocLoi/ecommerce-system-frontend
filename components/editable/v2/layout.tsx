@@ -10,7 +10,7 @@ import { Column } from "./column";
 import { getPaddingLikeValue } from "@/utils/component-setting";
 
 interface ILayoutProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   bgColor?: string;
   flexDirection?: "row" | "column";
   padding?: string;
@@ -133,7 +133,7 @@ export const Layout = ({
       }}
     >
       {Array.from({ length: cols }).map((_, i) => (
-        <Element id={v4()} is={Column} canvas>
+        <Element key={i} id={v4()} is={Column} canvas>
           Drag components here
         </Element>
       ))}
