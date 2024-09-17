@@ -12,26 +12,111 @@ import { Progress } from "@/components/ui/progress";
 import React, { useEffect, useMemo } from "react";
 import CreateShopForm from "./create-store-form";
 import { useRouter } from "next/navigation";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import RadioQuestions from "./radio-questions";
+import { Category } from "@/app/interfaces/category";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import TextField from "@/app/[locale]/auth/_components/text-field";
 
 const NUMBER_OF_QUESTIONS = 5;
 
-const OnboardingQuestions = () => {
+const QUESTIONS = [
+  {
+    id: 1,
+    question: "Let’s get started. Which of these best describes you?",
+    description: "We’ll help you get set up based on your business needs.",
+    options: [
+      { label: "I'm new with this platform", value: "false" },
+      { label: "I've used this platform before", value: "true" },
+    ],
+  },
+  {
+    id: 2,
+    question: " What will you be selling?",
+    description:
+      "Pick one that best describes your business. We'll help you import your products, customers, and other shop data.",
+  },
+  {
+    id: 3,
+    question: "What do you sell?",
+    description: "Select up to 5 categories.",
+  },
+  {
+    id: 4,
+    question: "Where are you located?",
+    description: "This will help us show your business to local customers.",
+  },
+  {
+    id: 5,
+    question: "What’s your email address?",
+    description: "We’ll use this to send you important updates.",
+  },
+];
+
+const VIETNAMESE_QUESTIONS = [
+  {
+    id: 1,
+    question: "Bắt đầu thôi. Bạn thuộc nhóm nào sau đây?",
+    description:
+      "Chúng tôi sẽ giúp bạn thiết lập dựa trên nhu cầu kinh doanh của bạn.",
+    options: [
+      { label: "Tôi mới với nền tảng này", value: "false" },
+      { label: "Tôi đã sử dụng nền tảng này trước đây", value: "true" },
+    ],
+  },
+  {
+    id: 2,
+    question: "Bạn sẽ bán gì?",
+    description:
+      "Chọn một trong số các lựa chọn dưới đây mà phù hợp nhất với doanh nghiệp của bạn. Chúng tôi sẽ giúp bạn nhập sản phẩm, khách hàng và dữ liệu cửa hàng khác.",
+    type: "select",
+  },
+
+  {
+    id: 4,
+    question: "Địa chỉ cửa hàng của bạn ở đâu?",
+    description:
+      "Điều này sẽ giúp chúng tôi thiết lập địa chỉ vận chuyển và hiển thị doanh nghiệp của bạn cho khách hàng địa phương.",
+    type: "form",
+  },
+  {
+    id: 5,
+    question: "Xác nhận địa chỉ email của bạn",
+    description:
+      "Chúng tôi đã gửi một email xác nhận đến địa chỉ email của bạn. Vui lòng kiểm tra hộp thư đến của bạn và nhấn vào liên kết xác nhận để tiếp tục.",
+  },
+];
+
+interface IOnboardingQuestionsProps {
+  categories: Category[];
+}
+
+const OnboardingQuestions = ({ categories }: IOnboardingQuestionsProps) => {
   const [question, setQuestion] = React.useState(0);
   const router = useRouter();
 
   const percentageComplete = useMemo(() => {
-    return Math.ceil((question * 100) / NUMBER_OF_QUESTIONS);
+    return Math.ceil((question * 100) / VIETNAMESE_QUESTIONS.length);
   }, [question]);
 
   useEffect(() => {
-    if (question === NUMBER_OF_QUESTIONS) {
+    if (question === VIETNAMESE_QUESTIONS.length) {
       router.push("/shop/create");
     }
   }, [question]);
 
   return (
     <>
-      {question === NUMBER_OF_QUESTIONS ? (
+      {question === VIETNAMESE_QUESTIONS.length ? (
         <></>
       ) : (
         // <CreateShopForm
@@ -45,46 +130,84 @@ const OnboardingQuestions = () => {
           <Card className="flex h-full flex-col">
             <CardHeader>
               <Progress className="mb-6" max={100} value={percentageComplete} />
-              <CardTitle>
-                Let’s get started. Which of these best describes you?
-              </CardTitle>
+              <CardTitle>{VIETNAMESE_QUESTIONS[question].question}</CardTitle>
               <CardDescription>
-                We’ll help you get set up based on your business needs.
+                {VIETNAMESE_QUESTIONS[question].description}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center rounded border border-gray-200 ps-4 dark:border-gray-700">
-                  <input
-                    id="bordered-radio-1"
-                    type="radio"
-                    value=""
-                    name="bordered-radio"
-                    className="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+              {VIETNAMESE_QUESTIONS[question].type === "select" ? (
+                <Select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Chọn danh mục sản phẩm muốn bán" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {/* <SelectLabel>Fruits</SelectLabel> */}
+                      {categories.map((category) => (
+                        <SelectItem
+                          key={category.id}
+                          value={category.id.toString()}
+                        >
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              ) : VIETNAMESE_QUESTIONS[question].type === "form" ? (
+                <div className="flex flex-col gap-4">
+                  <TextField
+                    label="Địa chỉ"
+                    type={"number"}
+                    value={""}
+                    onChange={(v) => {
+                      console.log(v);
+                    }}
+                    id={""}
                   />
-                  <label
-                    htmlFor="bordered-radio-1"
-                    className="ms-2 w-full py-4 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >
-                    Default radio
-                  </label>
-                </div>
-                <div className="flex items-center rounded border border-gray-200 ps-4 dark:border-gray-700">
-                  <input
-                    id="bordered-radio-2"
-                    type="radio"
-                    value=""
-                    name="bordered-radio"
-                    className="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+
+                  <div className="flex w-full gap-4">
+                    <TextField
+                      label="Thành phố / Tỉnh"
+                      type={"text"}
+                      value={""}
+                      onChange={(v) => {
+                        console.log(v);
+                      }}
+                      id={""}
+                    />
+                    <TextField
+                      label="Mã bưu chính"
+                      type={"text"}
+                      value={""}
+                      onChange={(v) => {
+                        console.log(v);
+                      }}
+                      id={""}
+                    />
+                  </div>
+
+                  <TextField
+                    label="Số điện thoại"
+                    type={"text"}
+                    value={""}
+                    onChange={(v) => {
+                      console.log(v);
+                    }}
+                    id={""}
                   />
-                  <label
-                    htmlFor="bordered-radio-2"
-                    className="ms-2 w-full py-4 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >
-                    Checked state
-                  </label>
                 </div>
-              </div>
+              ) : (
+                <RadioQuestions
+                  id="onboarding-questions"
+                  defaultValue="individual"
+                  options={VIETNAMESE_QUESTIONS[question].options ?? []}
+                  onValueChange={(value) => {
+                    console.log(value);
+                  }}
+                />
+              )}
             </CardContent>
             <CardFooter className="mt-auto">
               <div className="ml-auto mt-auto flex gap-2">
@@ -92,7 +215,7 @@ const OnboardingQuestions = () => {
                 <Button variant={"ghost"}>Skip</Button>
                 <Button
                   onClick={() => {
-                    if (question < NUMBER_OF_QUESTIONS) {
+                    if (question < VIETNAMESE_QUESTIONS.length) {
                       setQuestion((prev) => prev + 1);
                     }
                   }}

@@ -1,5 +1,10 @@
 import { Button } from "@/components/ui/button";
 import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
@@ -8,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
 import { useEditor } from "@craftjs/core";
 import {
   ChevronLeft,
@@ -50,7 +56,7 @@ const SettingPanel = () => {
 
   return (
     <div className="fixed right-0 top-14 h-full w-[264px] bg-white p-4">
-      <div className="mb-4 flex items-center gap-2">
+      <div className="flex items-center gap-2">
         <Button
           onClick={() => {
             // selectNode(undefined);
@@ -108,7 +114,8 @@ const SettingPanel = () => {
           </div>
         )}
       </div>
-      {selected && selected.settings && React.createElement(selected.settings)}
+      <Separator className="my-4 bg-gray-400" />
+      {selected?.settings && React.createElement(selected.settings)}
     </div>
   );
 };

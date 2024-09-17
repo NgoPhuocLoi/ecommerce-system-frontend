@@ -22,7 +22,11 @@ const TabSelectionSetting = ({
       >
         <TabsList className="w-full">
           {selections.map((selection) => (
-            <TabsTrigger className="w-full" value={selection.value}>
+            <TabsTrigger
+              key={selection.value}
+              className="w-full"
+              value={selection.value}
+            >
               {selection.title}
             </TabsTrigger>
           ))}

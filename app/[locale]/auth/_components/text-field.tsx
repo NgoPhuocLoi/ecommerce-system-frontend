@@ -29,7 +29,7 @@ const TextField = ({
   disabled,
 }: ITextFieldProps) => {
   return (
-    <div>
+    <div className="w-full">
       <div className="grid gap-1">
         <Label htmlFor={id}>{label}</Label>
         <Input

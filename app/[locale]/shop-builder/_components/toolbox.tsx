@@ -7,6 +7,8 @@ import {
   Text,
   Image as EditableImage,
   HeroBanner,
+  Carousel,
+  Product,
 } from "@/components/editable/v2";
 import { useEditorCreate } from "@/hooks/useEditorCreate";
 
@@ -40,7 +42,7 @@ const ELEMEMENTS = [
     id: 5,
     label: "Carousel",
     icon: icons.carousel,
-    component: Layout,
+    component: Carousel,
   },
   {
     id: 6,
@@ -52,7 +54,7 @@ const ELEMEMENTS = [
     id: 7,
     label: "Product",
     icon: icons.product,
-    component: Layout,
+    component: Product,
   },
   {
     id: 8,

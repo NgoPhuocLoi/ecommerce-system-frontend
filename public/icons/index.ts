@@ -10,6 +10,7 @@ import htmlSvg from "./html.svg";
 import buttonSvg from "./button.svg";
 import spacerSvg from "./spacer.svg";
 import dividerSvg from "./divider.svg";
+import productPlaceholderSvg from "./product-placeholder.svg";
 
 export const icons = {
   layout: layoutSvg,
@@ -24,4 +25,5 @@ export const icons = {
   html: htmlSvg,
   spacer: spacerSvg,
   divider: dividerSvg,
+  productPlaceholder: productPlaceholderSvg,
 };
