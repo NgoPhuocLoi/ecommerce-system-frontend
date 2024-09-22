@@ -3,7 +3,8 @@ import TabInputSetting from "@/components/settings/tab-input-setting";
 import TabSelectionSetting from "@/components/settings/tab-selection-setting";
 import { useSetting } from "@/hooks/useSetting";
 import { getPaddingLikeValue } from "@/utils/component-setting";
-import { Element } from "@craftjs/core";
+import { Element, useEditor } from "@craftjs/core";
+import clsx from "clsx";
 import React, { ReactNode, useEffect, useMemo, useRef } from "react";
 import { v4 } from "uuid";
 
@@ -11,7 +12,7 @@ interface IColumnProps {
   bgColor?: string;
   padding?: string;
   margin?: string;
-  children: ReactNode;
+  children?: ReactNode;
   contentAlign?: "flex-start" | "center" | "flex-end";
 }
 
@@ -112,6 +113,9 @@ export const Column = ({
   contentAlign,
 }: IColumnProps) => {
   const ref = useRef(null);
+  const { enabled } = useEditor((state) => ({
+    enabled: state.options.enabled,
+  }));
 
   useEffect(() => {
     if (ref.current) {
@@ -130,16 +134,22 @@ export const Column = ({
         justifyContent: contentAlign,
         padding,
       }}
-      className="flex h-full flex-col items-center justify-center border border-dashed text-sm text-gray-600 hover:outline hover:outline-green-400"
+      className={clsx(
+        "d flex h-full flex-col items-center justify-center text-sm text-gray-600",
+        {
+          "hover:outline hover:outline-green-400": enabled,
+          "border border-dashed": !children,
+        },
+      )}
     >
-      {children}
+      {children ?? "Drop component here"}
     </div>
   );
 };
 
 Column.craft = {
   props: {
-    bgColor: "#aaa",
+    bgColor: "#ffffff",
     margin: "0px 0px 0px 0px",
     padding: "8px 8px 8px 8px",
     contentAlign: "center",

@@ -15,6 +15,7 @@ import {
   CarouselPrevious,
   Carousel as ShaDCNCarousel,
 } from "../../ui/carousel";
+import { useEditor } from "@craftjs/core";
 
 interface ICarouselProps {
   bgColor?: string;
@@ -184,15 +185,11 @@ export const CarouselSetting = () => {
   );
 };
 
-export const Carousel = ({
-  bgColor,
-  padding,
-  margin,
-  contentAlign,
-  activeIndex,
-  slides,
-}: ICarouselProps) => {
+export const Carousel = ({ activeIndex, slides }: ICarouselProps) => {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+  const { enabled } = useEditor((state) => ({
+    enabled: state.options.enabled,
+  }));
 
   useEffect(() => {
     if (carouselApi && activeIndex !== undefined) {
@@ -201,12 +198,12 @@ export const Carousel = ({
   }, [activeIndex, carouselApi]);
 
   return (
-    <div className="p-2">
+    <div className="">
       <ShaDCNCarousel
         setApi={setCarouselApi}
-        className="pointer-events-none w-full"
+        className={clsx("w-full", { "pointer-events-none": enabled })}
       >
-        <CarouselContent className="pointer-events-none">
+        <CarouselContent>
           {slides?.map((slide, index) => (
             <CarouselItem className="min-h-[500px]" key={slide.id}>
               <div
@@ -214,7 +211,7 @@ export const Carousel = ({
                   backgroundImage: `url(${slide.imageUrl})`,
                   backgroundPosition: "center",
                 }}
-                className="flex h-full w-full items-center justify-center overflow-hidden rounded-md border"
+                className="flex h-full w-full items-center justify-center overflow-hidden border"
               >
                 <div className="flex w-2/3 flex-col items-center gap-6 bg-white p-8 text-gray-700">
                   <h1 className="text-4xl">{slide.title}</h1>

@@ -10,7 +10,7 @@ import { Column } from "./column";
 import { getPaddingLikeValue } from "@/utils/component-setting";
 
 interface ILayoutProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
   bgColor?: string;
   flexDirection?: "row" | "column";
   padding?: string;
@@ -133,17 +133,19 @@ export const Layout = ({
       }}
     >
       {Array.from({ length: cols }).map((_, i) => (
-        <Element key={i} id={v4()} is={Column} canvas>
-          Drag components here
-        </Element>
+        <Element key={i} id={i.toString()} is={Column} canvas />
       ))}
+      {/* <Element id={"1"} is={Column} canvas />
+      <Element id={"2"} is={Column} canvas />
+      <Element id={"3"} is={Column} canvas />
+      <Element id={"4"} is={Column} canvas /> */}
     </div>
   );
 };
 
 Layout.craft = {
   props: {
-    bgColor: "#aaa",
+    bgColor: "#ffffff",
     gap: 8,
     cols: 2,
     margin: "0px 0px 0px 0px",

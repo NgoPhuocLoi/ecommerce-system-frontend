@@ -22,3 +22,20 @@ export const getProductById = async (id: string) => {
 
   return await res?.json();
 };
+
+export const getProducts = async (filter?: { name: string }) => {
+  let url = PRODUCTS_API;
+  if (filter?.name) {
+    url += `?name=${filter.name}`;
+  }
+  const res = await tenantSpecificFetch({
+    url: url,
+    method: "GET",
+  });
+
+  if (!res) {
+    return null;
+  }
+
+  return await res.json();
+};

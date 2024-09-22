@@ -1,6 +1,7 @@
 "use client";
-import { InputSetting } from "@/components/settings";
+import { InputSetting, SliderSetting } from "@/components/settings";
 import ColorSetting from "@/components/settings/color-setting";
+import InlineInputSetting from "@/components/settings/inline-input-setting";
 import TabInputSetting from "@/components/settings/tab-input-setting";
 import TabSelectionSetting from "@/components/settings/tab-selection-setting";
 import { useSetting } from "@/hooks/useSetting";
@@ -10,11 +11,11 @@ interface ITextProps {
   bgColor?: string;
   padding?: string;
   margin?: string;
-  gap?: number;
-  cols?: number;
   content?: string;
   textAlign?: "left" | "center" | "right";
   textColor?: string;
+  fontWeight?: "300" | "400" | "700";
+  fontSize?: number;
 }
 
 const getPaddingLikeValue = (inputValues: string) => {
@@ -37,7 +38,16 @@ const getPaddingLikeValue = (inputValues: string) => {
 
 export const TextSetting = () => {
   const { props, handlePropChange } = useSetting();
-  const { bgColor, padding, margin, textAlign, content, textColor } = props;
+  const {
+    bgColor,
+    padding,
+    margin,
+    textAlign,
+    content,
+    textColor,
+    fontWeight,
+    fontSize,
+  } = props;
   const paddingValues = useMemo(() => getPaddingLikeValue(padding), [padding]);
   const marginValues = useMemo(() => getPaddingLikeValue(margin), [margin]);
   return (
@@ -65,6 +75,34 @@ export const TextSetting = () => {
           console.log({ value });
           handlePropChange("textAlign", value);
         }}
+      />
+
+      <TabSelectionSetting
+        id="shop-common-text-font-weight"
+        title="Font weight"
+        description="Config the font weight of the text"
+        value={fontWeight}
+        selections={[
+          { title: "Light", value: "300" },
+          { title: "Medium", value: "400" },
+          { title: "Bold", value: "700" },
+        ]}
+        onValueChange={(value) => {
+          console.log({ value });
+          handlePropChange("fontWeight", value);
+        }}
+      />
+
+      <InlineInputSetting
+        onValueChange={(value) => {
+          console.log("RUN HERE");
+          handlePropChange("fontSize", value);
+        }}
+        value={fontSize}
+        id={"shop-common-text-font-size"}
+        title={"Font size"}
+        description={"Change the font size of text"}
+        postfixText="px"
       />
 
       <TabInputSetting
@@ -146,11 +184,11 @@ export const Text = ({
   bgColor = "#aaa",
   padding,
   margin,
-  gap = 8,
-  cols = 2,
   content,
   textAlign,
   textColor,
+  fontWeight,
+  fontSize,
 }: ITextProps) => {
   return (
     <div
@@ -163,14 +201,21 @@ export const Text = ({
         color: textColor,
       }}
     >
-      <p>{content}</p>
+      <p
+        style={{
+          fontWeight: fontWeight,
+          fontSize: fontSize + "px",
+        }}
+      >
+        {content}
+      </p>
     </div>
   );
 };
 
 Text.craft = {
   props: {
-    bgColor: "#aaa",
+    bgColor: "#ffffff",
     gap: 8,
     cols: 2,
     margin: "0px 0px 0px 0px",
@@ -178,6 +223,8 @@ Text.craft = {
     content: "You can edit this text",
     textAlign: "center",
     textColor: "#000",
+    fontWeight: "400",
+    fontSize: 16,
   },
   related: {
     setting: TextSetting,

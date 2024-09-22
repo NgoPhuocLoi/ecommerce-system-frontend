@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import {
   HoverCard,
   HoverCardContent,
@@ -17,6 +17,8 @@ export interface IBaseSetting<T> {
 interface IBaseSettingProps extends IBaseSetting<any> {
   children: ReactNode;
   displayValueOnTop?: boolean;
+  onChangeValue?: (value: any) => void;
+  postfixText?: string;
 }
 
 const BaseSetting = ({
@@ -26,7 +28,10 @@ const BaseSetting = ({
   value,
   displayValueOnTop = false,
   children,
+  onChangeValue,
+  postfixText,
 }: IBaseSettingProps) => {
+  const [displayedValue, setDisplayedValue] = useState(value);
   return (
     <HoverCard openDelay={200}>
       <div className="grid gap-2">
@@ -38,16 +43,35 @@ const BaseSetting = ({
             </HoverCardTrigger>
           </div>
           {displayValueOnTop && (
-            <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
-              {value}
-            </span>
+            <div className="flex gap-1">
+              <input
+                value={displayedValue}
+                onBlur={(e) => {
+                  if (onChangeValue) {
+                    onChangeValue(e.target.value);
+                  }
+                }}
+                onChange={(e) => {
+                  setDisplayedValue(e.target.value);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Delete" || e.key === "Backspace") {
+                    setDisplayedValue("");
+                  }
+                }}
+                className="text-muted-foreground w-12 rounded-md border px-2 py-0.5 text-right text-sm"
+              />
+              <span className="text-sm text-gray-600">{postfixText}</span>
+            </div>
+            //   {value}
+            // </span>
           )}
         </div>
         {children}
       </div>
       <HoverCardContent
         align="start"
-        className="relative w-[260px] text-sm z-10"
+        className="relative z-10 w-[260px] text-sm"
         side="top"
       >
         {description}

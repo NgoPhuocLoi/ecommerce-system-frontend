@@ -27,6 +27,7 @@ export const SliderSetting = ({
       value={value}
       id={id}
       displayValueOnTop={true}
+      onChangeValue={(value) => onValueChange([value])}
       {...baseSettingProps}
     >
       <Slider
