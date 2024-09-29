@@ -16,6 +16,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+# # Installs the doctl command-line client using DigitalOcean doctl Action
+#       - name: Install doctl
+#         uses: digitalocean/action-doctl@v2
+#         with:
+#           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Setup Environment
+        run: |
+          touch .env;
+          echo "NEXT_PUBLIC_BACKEND_BASE_URL=${{ secrets.CONTAINER_REGISTRY }}" >> .env
+
+
 ## logins to ghcr
       - name: Login to Github Container Registry
         uses: docker/login-action@v3
@@ -32,26 +43,15 @@ jobs:
           push: true
           tags: |
             ngophuocloi/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
-#   Test-on-cluster:
-#     runs-on: ubuntu-latest
-#     steps:
-# ## starts the cluster
-#       - name: Testing on a k8s Kind Cluster
-#         uses: helm/kind-action@v1.4.0
-# ## makes sure cluster is up and running
-#       - run: |
-#           kubectl cluster-info
-#           kubectl get nodes
-#       - name : Preparing cluster for kube-ez
-# ## Commands that setup the cluster as per my project needs
-#         run: |
-#           kubectl apply -f https://raw.githubusercontent.com/kitarp29/kube-ez/main/yamls/sa.yaml
-#           kubectl apply -f https://raw.githubusercontent.com/kitarp29/kube-ez/main/yamls/crb.yaml
-#           kubectl run kube-ez --image=ghcr.io/${{ github.repository_owner }}/${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }} --port=8000
-#           sleep 20
-#           kubectl get po
-#           kubectl port-forward kube-ez 8000:8000 &>/dev/null &
-#           sleep 5
-#           kubectl port-forward kube-ez 8000:8000 &>/dev/null &
-#       - run: |
-#           curl -i http://localhost:8000/
+
+      # - name: Update deployment file
+      #   run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/<registry-name>/<repository_name>:'${TAG}'|' $GITHUB_WORKSPACE/config/deployment.yml
+
+      # - name: Save DigitalOcean kubeconfig with short-lived credentials
+      #   run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 <cluster-name>
+
+      # - name: Deploy to DigitalOcean Kubernetes
+      #   run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml
+
+      # - name: Verify deployment
+      #   run: kubectl rollout status deployment/<deployment_name>
