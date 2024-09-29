@@ -30,6 +30,10 @@ jobs:
           echo "NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}" >> .env
           echo "NEXT_PUBLIC_CLOUDINARY_API_KEY=${{ secrets.NEXT_PUBLIC_CLOUDINARY_API_KEY }}" >> .env
           echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env
+          echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}" >> .env
+          echo "CLERK_SECRET_KEY=${{ secrets.CLERK_SECRET_KEY }}" >> .env
+          echo "NEXT_PUBLIC_CLERK_SIGN_IN_URL=https://my-ecommerce.live/vi/sign-in" >> .env
+          echo "NEXT_PUBLIC_CLERK_SIGN_UP_URL=https://my-ecommerce.live/vi/sign-up" >> .env
 
 ## logins to ghcr
       - name: Login to Github Container Registry

@@ -10,5 +10,6 @@ export const createNewShop = async (shopName: string, accessToken: string) => {
 
 export const getShops = async (accessToken: string) => {
   const res = await authenticatedFetch(SHOP_API, "GET", accessToken);
+  console.log({ res });
   return await res.json();
 };

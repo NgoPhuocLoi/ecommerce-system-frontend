@@ -8,16 +8,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { createShop } from "@/actions/shops";
-import { auth } from "@/auth";
 import ServerTextField from "@/components/ui/server-text-field";
 import { revalidatePath } from "next/cache";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import { Link } from "@/i18n/routing";
+import { redirect } from "@/i18n/routing";
+import { auth } from "@clerk/nextjs/server";
 
 const CreateShopForm = async () => {
-  const session = await auth();
+  const token = await auth().getToken();
 
-  if (!session) {
+  if (!token) {
     return null;
   }
 
@@ -25,7 +25,7 @@ const CreateShopForm = async () => {
     "use server";
     console.log(Object.fromEntries(formData));
     const shopName = formData.get("name") as string;
-    await createShop(shopName, session.accessToken);
+    await createShop(shopName, token);
     revalidatePath("/");
     redirect("/");
   };

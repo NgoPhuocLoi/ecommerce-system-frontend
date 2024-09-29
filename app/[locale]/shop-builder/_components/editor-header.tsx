@@ -3,7 +3,7 @@ import { useRouter } from "@/i18n/routing";
 import { useEditor } from "@craftjs/core";
 import { Eye, LogOut, Redo2, Undo2 } from "lucide-react";
 import lz from "lz-string";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import PagesPopover from "./pages-popover";
 
 const EditorHeader = () => {

@@ -1,6 +1,4 @@
 import { getShops } from "@/app/services/shop";
-import { auth } from "@/auth";
-import Link from "next/link";
 import { Button } from "../ui/button";
 import {
   Card,
@@ -12,6 +10,8 @@ import {
 import { Separator } from "../ui/separator";
 import ShopList from "./shop-list";
 import { getTranslations } from "next-intl/server";
+import { auth } from "@clerk/nextjs/server";
+import { Link } from "@/i18n/routing";
 
 export interface Shop {
   id: string;
@@ -19,13 +19,13 @@ export interface Shop {
 }
 
 const ShopSelection = async () => {
-  const session = await auth();
-
-  if (!session) {
+  const token = await auth().getToken({});
+  console.log({ tokennnn: token });
+  if (!token) {
     return null;
   }
   const t = await getTranslations("ShopSelection");
-  const shops: Shop[] = (await getShops(session.accessToken)).metadata;
+  const shops: Shop[] = (await getShops(token)).metadata || [];
 
   return (
     <div className="flex h-screen w-screen items-center justify-center py-20">

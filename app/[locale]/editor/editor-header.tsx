@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { LogOut, Undo2, Redo2, Eye } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import React from "react";
 import PagesPopover from "./pages-popover";
 import { useEditor } from "@craftjs/core";

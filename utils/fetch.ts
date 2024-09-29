@@ -1,5 +1,6 @@
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/routing";
+import { auth } from "@clerk/nextjs/server";
+import { cookies } from "next/headers";
 
 export const authenticatedFetch = (
   url: string,
@@ -26,16 +27,17 @@ export const tenantSpecificFetch = async ({
   method: string;
   body?: any;
 }) => {
-  const session = await auth();
-  if (!session || !session.selectedShopId) {
-    return redirect("/auth/login");
+  const token = await auth().getToken();
+  const selectedShopId = cookies().get("selectedShopId");
+  if (!token || !selectedShopId) {
+    return redirect("/sign-in");
   }
   return fetch(url, {
     method,
     headers: {
-      Authorization: `Bearer ${session.accessToken}`,
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
-      "x-shop-id": session.selectedShopId,
+      "x-shop-id": selectedShopId.value,
     },
     body: JSON.stringify(body),
   });

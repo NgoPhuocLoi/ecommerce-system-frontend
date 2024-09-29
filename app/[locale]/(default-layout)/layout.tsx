@@ -9,19 +9,10 @@ import {
   ShoppingCart,
   Users2,
 } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import React from "react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -30,8 +21,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import AccountMenu from "./_components/account-menu";
 import { Sidebar } from "./dashboard/_components";
-import LogoutButton from "../auth/_components/logout-button";
 
 export default function DefautlLayout({
   children,
@@ -152,33 +143,7 @@ export default function DefautlLayout({
               className="bg-background w-full rounded-lg pl-8 md:w-[200px] lg:w-[336px]"
             />
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="overflow-hidden rounded-full"
-              >
-                <Avatar>
-                  {/* <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn"
-                  /> */}
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <LogoutButton>Logout</LogoutButton>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <AccountMenu />
         </header>
 
         {children}

@@ -1,7 +1,7 @@
 "use client";
-import { handleUpdateSession } from "@/actions/auth";
+import { useRouter } from "@/i18n/routing";
+import { setCookie } from "cookies-next";
 import { ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { Shop } from "./shop-selection";
 
 interface IShopItemProps {
@@ -12,7 +12,7 @@ const ShopItem = ({ shop }: IShopItemProps) => {
   const router = useRouter();
 
   const handleSelectShop = async () => {
-    await handleUpdateSession({ selectedShopId: shop.id });
+    setCookie("selectedShopId", shop.id);
     router.push("/dashboard");
   };
 

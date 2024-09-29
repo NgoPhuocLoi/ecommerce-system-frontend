@@ -7,8 +7,8 @@ import {
 } from "@/components/ui/card";
 
 import { PreviewUploadedContent } from "@/app/interfaces/uploaded-content";
-import { auth } from "@/auth";
 import { getTranslations } from "next-intl/server";
+import { cookies } from "next/headers";
 import ProductImageList from "./product-image-list";
 
 interface IProductImagesProps {
@@ -17,8 +17,8 @@ interface IProductImagesProps {
 
 const ProductImages = async ({ initialImages }: IProductImagesProps) => {
   const t = await getTranslations("ProductDetailAndAddPage");
-  const session = await auth();
-  if (!session || !session.selectedShopId) return null;
+  const selectedShopId = cookies().get("selectedShopId");
+  if (!selectedShopId) return null;
   return (
     <div>
       <Card className="overflow-hidden">
@@ -31,7 +31,7 @@ const ProductImages = async ({ initialImages }: IProductImagesProps) => {
         <CardContent>
           <ProductImageList
             initialImages={initialImages}
-            shopId={session.selectedShopId}
+            shopId={selectedShopId.value}
           />
         </CardContent>
       </Card>

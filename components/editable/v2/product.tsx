@@ -41,7 +41,6 @@ interface PreviewProduct {
 
 export const ProductSetting = () => {
   const { props, handlePropChange } = useSetting();
-  const { data } = useSession();
   const { bgColor, padding, margin } = props;
   const [openModal, setOpenModal] = React.useState(false);
   const [foundProducts] = useAtom(productsAtom);
