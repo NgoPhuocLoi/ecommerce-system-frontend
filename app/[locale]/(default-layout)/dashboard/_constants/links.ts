@@ -62,7 +62,7 @@ export const links = [
   {
     id: 9,
     title: "Editor",
-    path: "/editor",
+    path: "/shop-builder",
     iconComponent: LayoutPanelTop,
   },
 ];
