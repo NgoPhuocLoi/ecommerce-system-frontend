@@ -24,7 +24,9 @@ jobs:
       - name: Setup Environment
         run: |
           touch .env;
-          echo "NEXT_PUBLIC_BACKEND_BASE_URL=${{ secrets.CONTAINER_REGISTRY }}" >> .env
+          echo "NEXT_PUBLIC_BACKEND_BASE_URL=${{ secrets.BACKEND_BASE_URL }}" >> .env
+          echo "AUTH_TRUST_HOST=true" >> .env
+          echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> .env
 
 
 ## logins to ghcr
