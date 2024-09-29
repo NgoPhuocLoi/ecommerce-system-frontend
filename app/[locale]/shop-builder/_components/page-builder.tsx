@@ -13,6 +13,8 @@ import { useAtom } from "jotai";
 import { productsAtom } from "../_atoms/product-atom";
 import { getProducts } from "@/actions/product";
 import * as theme2 from "@/components/editable/theme-2";
+import { useHydrateAtoms } from "jotai/utils";
+import { pagesAtom } from "../_atoms/page-atom";
 
 const { ShopHeader } = theme2;
 
@@ -21,7 +23,6 @@ const defaultLayout =
 
 const RenderNode = ({ render }: { render: ReactElement }) => {
   const { isActive, applyRef } = useApplyRef();
-  console.log(render);
   return (
     <div
       ref={applyRef}
@@ -38,7 +39,15 @@ const RenderNode = ({ render }: { render: ReactElement }) => {
   );
 };
 
-const PageBuilder = () => {
+interface IShopHeaderProps {
+  pages: {
+    id: number;
+    name: string;
+  }[];
+}
+
+const PageBuilder = ({ pages }: IShopHeaderProps) => {
+  useHydrateAtoms([[pagesAtom, pages]]);
   const [json, setJson] = useState("");
   const [loading, setLoading] = useState(false);
   const [, setProducts] = useAtom(productsAtom);

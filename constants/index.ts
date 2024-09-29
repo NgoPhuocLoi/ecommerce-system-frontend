@@ -1,4 +1,6 @@
-export const BACKEND_BASE_URL = "http://localhost:8888/api";
+export const BACKEND_BASE_URL =
+  process.env.NEXT_PUBLIC_BACKEND_BASE_URL ||
+  "http://host.docker.internal:8888/api";
 export const SHOP_API = `${BACKEND_BASE_URL}/shops`;
 export const AUTH_API = `${BACKEND_BASE_URL}/auth`;
 export const PRODUCTS_API = `${BACKEND_BASE_URL}/products`;

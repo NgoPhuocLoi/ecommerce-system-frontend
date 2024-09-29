@@ -1,11 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { LogOut, Undo2, Redo2, Eye } from "lucide-react";
-import Link from "next/link";
-import React from "react";
-import PagesPopover from "./pages-popover";
-import { useEditor } from "@craftjs/core";
-import lz from "lz-string";
 import { useRouter } from "@/i18n/routing";
+import { useEditor } from "@craftjs/core";
+import { Eye, LogOut, Redo2, Undo2 } from "lucide-react";
+import lz from "lz-string";
+import Link from "next/link";
+import PagesPopover from "./pages-popover";
 
 const EditorHeader = () => {
   const { actions, query, enabled } = useEditor((state) => ({

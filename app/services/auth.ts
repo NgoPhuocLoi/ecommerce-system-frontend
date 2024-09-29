@@ -3,6 +3,7 @@ import { AuthError } from "next-auth";
 import { RegisterData } from "../interfaces/auth";
 
 export const login = async (email: string, password: string) => {
+  console.log({ AUTH_API });
   try {
     const response = await fetch(`${AUTH_API}/login`, {
       method: "POST",

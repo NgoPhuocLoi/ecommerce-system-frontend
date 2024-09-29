@@ -10,7 +10,7 @@ import { Column } from "./column";
 import { getPaddingLikeValue } from "@/utils/component-setting";
 
 interface ILayoutProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   bgColor?: string;
   flexDirection?: "row" | "column";
   padding?: string;

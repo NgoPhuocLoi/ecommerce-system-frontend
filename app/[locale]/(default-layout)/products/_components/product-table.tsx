@@ -1,8 +1,8 @@
 import React from "react";
 import { columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
-import { getProducts } from "@/app/services/product";
 import { Product } from "@/app/interfaces/product";
+import { getProducts } from "@/actions/product";
 
 const ProductTable = async () => {
   const products: Product[] = (await getProducts()).metadata;
