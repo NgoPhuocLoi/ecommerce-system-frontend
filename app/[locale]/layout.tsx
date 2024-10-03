@@ -1,6 +1,5 @@
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
-import { SessionProvider } from "next-auth/react";
 import { NextIntlClientProvider } from "next-intl";
 import "../globals.css";
 import JotaiProviders from "./jotai-provider";

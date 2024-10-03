@@ -2,7 +2,6 @@ import { UploadCloud } from "lucide-react";
 import React from "react";
 import BaseSetting, { IBaseSetting } from "./base-setting";
 import UploadButton from "@/app/[locale]/(default-layout)/products/_components/upload-btn";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { getCookie } from "cookies-next";
 
