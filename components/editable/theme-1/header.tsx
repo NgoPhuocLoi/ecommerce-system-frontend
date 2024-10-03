@@ -22,8 +22,8 @@ import { useSetting } from "@/hooks/useSetting";
 import { useNode } from "@craftjs/core";
 import clsx from "clsx";
 import { CircleUser, Menu, Package2, Search, ShoppingCart } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link } from "@/i18n/routing";
+import { usePathname } from "@/i18n/routing";
 
 const links = [
   {
@@ -115,7 +115,7 @@ const NavigationDrawer = ({ isDrawerMode }: { isDrawerMode: boolean }) => {
         <Button
           variant="outline"
           size="icon"
-          className={clsx("shrink-0 ", {
+          className={clsx("shrink-0", {
             "md:hidden": !isDrawerMode,
           })}
         >
@@ -171,7 +171,7 @@ const NavigationMenu = ({ isMenuMode }: { isMenuMode: boolean }) => {
     <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
       <Link
         href="#"
-        className="flex items-center gap-2 text-lg font-semibold md:text-xl whitespace-nowrap"
+        className="flex items-center gap-2 whitespace-nowrap text-lg font-semibold md:text-xl"
       >
         My Store
       </Link>
@@ -189,7 +189,7 @@ const NavigationMenu = ({ isMenuMode }: { isMenuMode: boolean }) => {
               href={link.path}
               className={clsx("transition-colors", {
                 "border-b-2 border-b-gray-800 text-gray-800": isActiveLink,
-                "hover:text-gray-800 text-gray-600": !isActiveLink,
+                "text-gray-600 hover:text-gray-800": !isActiveLink,
               })}
             >
               {link.title}
@@ -213,7 +213,7 @@ export const StoreHeader = ({
         backgroundColor: bgColor,
         color: textColor,
       }}
-      className="flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6"
+      className="bg-background flex h-16 items-center gap-4 border-b px-4 md:px-6"
     >
       <NavigationDrawer isDrawerMode={headerMode === "drawer"} />
       <NavigationMenu isMenuMode={headerMode === "menu"} />
@@ -222,7 +222,7 @@ export const StoreHeader = ({
         {showSearchbar ? (
           <form className="ml-auto flex-1 sm:flex-initial">
             <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Search className="text-muted-foreground absolute left-2.5 top-2.5 h-4 w-4" />
               <Input
                 type="search"
                 placeholder="Search products..."
@@ -231,11 +231,11 @@ export const StoreHeader = ({
             </div>
           </form>
         ) : (
-          <div className="w-10 h-10 flex-center rounded-full hover:bg-gray-100 cursor-pointer">
+          <div className="flex-center h-10 w-10 cursor-pointer rounded-full hover:bg-gray-100">
             <Search size={17} />
           </div>
         )}
-        <div className="w-10 h-10 flex-center rounded-full hover:bg-gray-100 cursor-pointer">
+        <div className="flex-center h-10 w-10 cursor-pointer rounded-full hover:bg-gray-100">
           <ShoppingCart size={17} />
         </div>
         <DropdownMenu>

@@ -5,6 +5,8 @@ import { NextIntlClientProvider } from "next-intl";
 import "../globals.css";
 import JotaiProviders from "./jotai-provider";
 import { getMessages } from "next-intl/server";
+import { ClerkProvider } from "@clerk/nextjs";
+import { viVN } from "@clerk/localizations";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -22,12 +24,12 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <SessionProvider>
+        <ClerkProvider localization={viVN}>
           <NextIntlClientProvider messages={messages}>
             <JotaiProviders>{children}</JotaiProviders>
             <Toaster richColors position="top-right" />
           </NextIntlClientProvider>
-        </SessionProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

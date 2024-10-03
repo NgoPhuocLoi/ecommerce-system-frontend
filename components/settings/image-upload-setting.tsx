@@ -4,6 +4,7 @@ import BaseSetting, { IBaseSetting } from "./base-setting";
 import UploadButton from "@/app/[locale]/(default-layout)/products/_components/upload-btn";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { getCookie } from "cookies-next";
 
 interface IImageUploadSettingProps extends IBaseSetting<string> {
   onFileChange: (url: string) => void;
@@ -14,7 +15,7 @@ const ImageUploadSetting = ({
   value,
   ...rest
 }: IImageUploadSettingProps) => {
-  const { data } = useSession();
+  const selectedShopId = getCookie("selectedShopId");
 
   const handleFileChange = (e: any) => {
     const file = e.target.files[0];
@@ -48,7 +49,7 @@ const ImageUploadSetting = ({
             onSuccess={(result) => {
               onFileChange(result.url);
             }}
-            folder={data?.selectedShopId?.replace(/-/g, "_") ?? ""}
+            folder={selectedShopId?.replace(/-/g, "_") ?? ""}
           />
         </div>
       </div>

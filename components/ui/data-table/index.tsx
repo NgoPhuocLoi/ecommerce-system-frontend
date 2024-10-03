@@ -25,7 +25,7 @@ import { useState } from "react";
 import { Input } from "../input";
 import { DataTablePagination } from "./table-pagination";
 import { Checkbox } from "../checkbox";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

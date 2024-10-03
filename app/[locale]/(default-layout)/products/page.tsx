@@ -9,8 +9,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { File, ListFilter, PlusCircle } from "lucide-react";
-import Link from "next/link";
+
 import ProductTable from "./_components/product-table";
+import { Link } from "@/i18n/routing";
 
 const Page = () => {
   return (

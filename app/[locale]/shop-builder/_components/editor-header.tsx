@@ -1,22 +1,38 @@
 import { Button } from "@/components/ui/button";
 import { useRouter } from "@/i18n/routing";
 import { useEditor } from "@craftjs/core";
-import { Eye, LogOut, Redo2, Undo2 } from "lucide-react";
+import { Eye, EyeOff, LogOut, Redo2, Undo2 } from "lucide-react";
 import lz from "lz-string";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import PagesPopover from "./pages-popover";
+import { useAtom } from "jotai";
+import { selectedPageAtom } from "../_atoms/page-atom";
+import { useState } from "react";
+import { updatePage } from "@/actions/online-shop";
 
 const EditorHeader = () => {
   const { actions, query, enabled } = useEditor((state) => ({
     enabled: state.options.enabled,
   }));
+  const [selectedPage, setSelectedPage] = useAtom(selectedPageAtom);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
-  const handleSave = () => {
-    const json = query.serialize();
-    const encoded = lz.compressToBase64(json);
-    localStorage.setItem("layout", encoded);
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      const json = query.serialize();
+      const encoded = lz.compressToBase64(json);
+      if (!selectedPage) return;
+      const updatedRes = await updatePage(selectedPage.id, { layout: encoded });
+      // if (updatedRes.statusCode === 200) {
+      //   setSelectedPage(updatedRes.metadata);
+      // }
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -35,11 +51,16 @@ const EditorHeader = () => {
       <div className="flex gap-4">
         <div className="flex items-center gap-1">
           <div
-            onClick={() => router.push("/shop/12/display")}
+            onClick={() => {
+              console.log("RUN HERE");
+              actions.setOptions((options) => {
+                options.enabled = !options.enabled;
+              });
+            }}
             title="View your online shop"
             className="mr-6 cursor-pointer rounded-md px-1 py-2 hover:bg-gray-100"
           >
-            <Eye className="h-5" />
+            {enabled ? <Eye className="h-5" /> : <EyeOff className="h-5" />}
           </div>
           <div className="cursor-pointer rounded-md px-1 py-2 hover:bg-gray-100">
             <Undo2 className="h-5" />
@@ -48,7 +69,10 @@ const EditorHeader = () => {
             <Redo2 className="h-5 cursor-pointer" />
           </div>
         </div>
-        <Button onClick={handleSave}>Save</Button>
+        <Button disabled={loading} onClick={handleSave}>
+          {" "}
+          {loading ? "Updating...." : "Save"}
+        </Button>
       </div>
     </header>
   );

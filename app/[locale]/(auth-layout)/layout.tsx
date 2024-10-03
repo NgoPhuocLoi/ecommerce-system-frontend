@@ -1,10 +1,10 @@
-import { useTranslations } from "next-intl";
 import Image from "next/image";
-import Link from "next/link";
-import { ReactNode } from "react";
 
-const Layout = ({ children }: { children: ReactNode }) => {
-  const t = useTranslations("Auth");
+export default function DefautlLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <>
       <div className="md:hidden">
@@ -55,14 +55,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 px-[100px]">
             {children}
-            <p className="text-muted-foreground px-8 text-center text-sm">
-              {t("policy")}
-            </p>
           </div>
         </div>
       </div>
     </>
   );
-};
-
-export default Layout;
+}

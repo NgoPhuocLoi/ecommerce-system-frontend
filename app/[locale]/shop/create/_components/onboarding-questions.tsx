@@ -11,7 +11,6 @@ import {
 import { Progress } from "@/components/ui/progress";
 import React, { useEffect, useMemo } from "react";
 import CreateShopForm from "./create-store-form";
-import { useRouter } from "next/navigation";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import RadioQuestions from "./radio-questions";
@@ -25,7 +24,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import TextField from "@/app/[locale]/auth/_components/text-field";
+import TextField from "./text-field";
+import { useRouter } from "@/i18n/routing";
 
 const NUMBER_OF_QUESTIONS = 5;
 

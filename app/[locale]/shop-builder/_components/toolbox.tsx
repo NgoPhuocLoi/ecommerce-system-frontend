@@ -90,6 +90,7 @@ const ELEMEMENTS = [
 
 const Toolbox = () => {
   const { createElement } = useEditorCreate();
+
   return (
     <div className="fixed right-0 top-14 h-full w-[264px] bg-white shadow">
       <div className="grid grid-cols-2 gap-2 p-2">

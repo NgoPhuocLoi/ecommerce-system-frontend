@@ -5,8 +5,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import clsx from "clsx";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, Link } from "@/i18n/routing";
 import React from "react";
 import { links } from "../_constants";
 
@@ -27,7 +26,7 @@ export const Sidebar = () => {
                   "flex h-9 w-9 items-center justify-center rounded-lg text-gray-600 transition-colors hover:text-black md:h-8 md:w-8",
                   {
                     "bg-black": isActive,
-                  }
+                  },
                 )}
               >
                 <link.iconComponent

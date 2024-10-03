@@ -5,8 +5,10 @@ import { Product } from "@/app/interfaces/product";
 import { getProducts } from "@/actions/product";
 
 const ProductTable = async () => {
-  const products: Product[] = (await getProducts()).metadata;
-  console.log({ products });
+  const productRes = await getProducts();
+  console.log({ productRes });
+  const products: Product[] = productRes.metadata ?? [];
+  // console.log({ products });
   // const
   return (
     <div>

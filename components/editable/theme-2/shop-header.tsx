@@ -43,6 +43,12 @@ export const ShopHeader = ({}: IShopHeaderProps) => {
 
 ShopHeader.craft = {
   props: {
-    disableEdit: true,
+    editable: false,
+  },
+  data: {
+    name: "Shop Header",
+  },
+  rules: {
+    canDrag: () => false,
   },
 };

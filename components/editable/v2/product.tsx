@@ -21,7 +21,6 @@ import { icons } from "@/public/icons";
 import clsx from "clsx";
 import { atom, useAtom } from "jotai";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useMemo, useState } from "react";
 
@@ -41,7 +40,6 @@ interface PreviewProduct {
 
 export const ProductSetting = () => {
   const { props, handlePropChange } = useSetting();
-  const { data } = useSession();
   const { bgColor, padding, margin } = props;
   const [openModal, setOpenModal] = React.useState(false);
   const [foundProducts] = useAtom(productsAtom);
@@ -83,11 +81,11 @@ export const ProductSetting = () => {
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-full p-0">
-          <Command>
+          <Command defaultValue={props.selectedProductId}>
             <CommandInput placeholder="Search framework..." />
-            <CommandList>
+            <CommandList defaultValue={props.selectedProductId}>
               <CommandEmpty>No framework found.</CommandEmpty>
-              <CommandGroup>
+              <CommandGroup defaultValue={props.selectedProductId}>
                 {foundProducts.map((foundProduct) => (
                   <CommandItem
                     key={foundProduct.id}

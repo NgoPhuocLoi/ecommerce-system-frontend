@@ -1,41 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
 import createIntlMiddleware from "next-intl/middleware";
-import { locales } from "./i18n/routing";
-import { auth } from "@/auth";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { locales, routing } from "./i18n/routing";
 
-const publicPages = [
-  "/",
-  "/auth/login",
-  // (/secret requires auth)
-];
+const handleI18nRouting = createIntlMiddleware(routing);
 
-const intlMiddleware = createIntlMiddleware({
-  locales,
-  localePrefix: "always",
-  defaultLocale: "vi",
-});
+const isProtectedRoute = createRouteMatcher(["/:locale/dashboard(.*)"]);
+const isPublicRoute = createRouteMatcher([
+  "/:locale/sign-in(.*)",
+  "/:locale/sign-up(.*)",
+]);
 
-export default auth((req) => {
-  // if (!req.auth && req.nextUrl.pathname !== "/login") {
-  //   const newUrl = new URL("/login", req.nextUrl.origin);
-  //   return Response.redirect(newUrl);
-  // }
-  return intlMiddleware(req);
-});
-// export function middleware(req: NextRequest) {
-//     const hostname = req?.headers?.get('host');
-//     console.log({hostname})
-//     const subdomain = hostname?.split('.');
-//     if(!subdomain || subdomain.length < 2 || hostname?.startsWith("host.docker.internal")) {
-//         return NextResponse.next()
-//     }
-//     const url = req.nextUrl.clone();
+export default clerkMiddleware(
+  (auth, req) => {
+    // console.log({ isPublicRoute });
+    if (!isPublicRoute(req)) auth().protect();
 
-//     req.nextUrl.pathname = `/store/${[subdomain[0], url.pathname].join('')}`;
-//     return NextResponse.rewrite(req.nextUrl);
-//     // return NextResponse.next()
-//   }
+    return handleI18nRouting(req);
+  },
+  {
+    signInUrl: "/vi/sign-in",
+    signUpUrl: "/vi/sign-up",
+  },
+);
 
 export const config = {
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  // Match only internationalized pathnames
+  matcher: ["/", "/(vi|en)/:path*"],
 };

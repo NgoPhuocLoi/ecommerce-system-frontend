@@ -1,5 +1,5 @@
 "use client";
-import TextField from "@/app/[locale]/auth/_components/text-field";
+import TextField from "@/app/[locale]/shop/create/_components/text-field";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import React, { useMemo } from "react";

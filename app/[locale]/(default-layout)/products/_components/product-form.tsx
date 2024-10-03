@@ -11,9 +11,9 @@ import { VariantOption } from "./product-variant-list";
 import ProductVariants from "./product-variants";
 import { createProduct } from "@/actions/product";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/routing";
 import { Product } from "@/app/interfaces/product";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 
 interface IProductFormProps {
   title: string;
