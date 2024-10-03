@@ -1,4 +1,4 @@
-import { getPages } from "@/actions/online-shop";
+import { createPage, getPages } from "@/actions/online-shop";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,44 +20,77 @@ import { Separator } from "@/components/ui/separator";
 import { useAtom } from "jotai";
 import { ChevronDown, ChevronRight, House, Search } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { pagesAtom } from "../_atoms/page-atom";
+import { pagesAtom, selectedPageAtom } from "../_atoms/page-atom";
+import slugify from "slugify";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+  Form,
+} from "@/components/ui/form";
+import { Page } from "@/app/interfaces/online-shop";
+
+const createPageFormSchema = z.object({
+  name: z
+    .string()
+    .min(2, "Tên trang phải trên 2 ký tự")
+    .max(50, "Tên trang không được quá 50 ký tự"),
+});
 
 const PagesPopover = () => {
-  const [pages] = useAtom(pagesAtom);
-  const [selectedPageId, setSelectedPageId] = useState<number | null>(
-    pages[0]?.id,
-  );
-  // const [pages, setPages] = useState<
-  //   {
-  //     id: number;
-  //     name: string;
-  //   }[]
-  // >([]);
-  const [newPageName, setNewPageName] = useState("");
-  const newPageLink = useMemo(
-    () => newPageName.toLowerCase().replace(/\s/g, "-"),
-    [newPageName],
-  );
+  const [pages, setPages] = useAtom(pagesAtom);
+  const [selectedPage, setSelectedPage] = useAtom(selectedPageAtom);
+  const [openCreateNewPageForm, setOpenCreateNewPageForm] = useState(false);
+  const [openPopover, setOpenPopover] = useState(false);
 
-  // useEffect(() => {
-  //   const fetchPages = async () => {
-  //     const result = await getPages();
-  //     setPages(result.metadata);
-  //   };
-  //   fetchPages();
-  // }, []);
+  useEffect(() => {
+    setSelectedPage(pages[0]);
+  }, []);
+
+  const form = useForm<z.infer<typeof createPageFormSchema>>({
+    resolver: zodResolver(createPageFormSchema),
+    defaultValues: {
+      name: "",
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof createPageFormSchema>) => {
+    const newPageName = values.name;
+    const isPageNameExist = pages.some((page) => page.name === newPageName);
+    if (isPageNameExist) {
+      return;
+    }
+    const res = await createPage(newPageName);
+    if (res.statusCode === 201) {
+      setPages([...pages, res.metadata]);
+      form.reset();
+      setOpenCreateNewPageForm(false);
+    }
+  };
+
+  const onSelectPage = (page: Page) => {
+    setSelectedPage(page);
+    setOpenPopover(false);
+  };
 
   return (
-    <Popover>
+    <Popover open={openPopover} onOpenChange={setOpenPopover}>
       <PopoverTrigger asChild>
         <Button className="flex items-center gap-2" variant="ghost">
           <House size={16} />
-          <span>Home page {selectedPageId}</span>
+          <span>{selectedPage?.name}</span>
           <ChevronDown size={16} />
         </Button>
       </PopoverTrigger>
       <PopoverContent>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2">
           <div className="relative ml-auto w-full flex-1">
             <Search size={16} className="absolute left-2 top-2" />
             <Input
@@ -68,6 +101,7 @@ const PagesPopover = () => {
           </div>
           {pages.map((page) => (
             <div
+              onClick={() => onSelectPage(page)}
               key={page.id}
               className="flex cursor-pointer items-center gap-2 rounded-md p-2 hover:bg-gray-100"
             >
@@ -77,46 +111,46 @@ const PagesPopover = () => {
           ))}
 
           <Separator />
-          <Dialog>
+          <Dialog
+            open={openCreateNewPageForm}
+            onOpenChange={setOpenCreateNewPageForm}
+          >
             <DialogTrigger asChild>
-              <Button size={"sm"}>Create new page</Button>
+              <Button size={"sm"}>Tạo trang mới</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
-                <DialogTitle>Create new page</DialogTitle>
-                {/* <DialogDescription>
-                  Make changes to your profile here. Click save when you're
-                  done.
-                </DialogDescription> */}
+                <DialogTitle>Tạo trang mới</DialogTitle>
+                <DialogDescription>
+                  Tạo trang mới để bắt đầu thiết kế
+                </DialogDescription>
               </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                    Name
-                  </Label>
-                  <Input
-                    id="new-page-name"
-                    placeholder="Enter page name"
-                    value={newPageName}
-                    onChange={(e) => setNewPageName(e.target.value)}
-                    className="col-span-3"
+
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="flex flex-col space-y-8"
+                >
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Tên trang</FormLabel>
+                        <FormControl>
+                          <Input placeholder="shadcn" {...field} />
+                        </FormControl>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="username" className="text-right">
-                    Link
-                  </Label>
-                  <Input
-                    id="new-page-link"
-                    disabled
-                    defaultValue={newPageLink}
-                    className="col-span-3"
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button type="submit">Save changes</Button>
-              </DialogFooter>
+
+                  <Button className="ml-auto" type="submit">
+                    Submit
+                  </Button>
+                </form>
+              </Form>
             </DialogContent>
           </Dialog>
         </div>
