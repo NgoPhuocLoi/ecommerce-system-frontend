@@ -20,11 +20,13 @@ import { useEffect, useRef, useState } from "react";
 interface ICategoryListProps {
   topLevelCategories: Category[];
   initialCategory?: CategoryResponse;
+  title?: string;
 }
 
 const CategoryList = ({
   topLevelCategories,
   initialCategory,
+  title,
 }: ICategoryListProps) => {
   const [displayedCategories, setDisplayedCategories] =
     useState<Category[]>(topLevelCategories);
@@ -77,7 +79,7 @@ const CategoryList = ({
   return (
     <div className="grid gap-3">
       <Label htmlFor="category">
-        {t("productCategory.categoryInput.label")}
+        {title ?? t("productCategory.categoryInput.label")}
       </Label>
       <Select
         defaultValue={initialCategory?.id + ""}

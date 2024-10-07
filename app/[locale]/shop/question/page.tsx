@@ -4,8 +4,7 @@ import { Category } from "@/app/interfaces/category";
 import { getTopLevelCategories } from "@/actions/categories";
 
 const Page = async () => {
-  const topLevelCategories: Category[] = (await getTopLevelCategories())
-    .metadata;
+  const topLevelCategories: Category[] = await getTopLevelCategories();
   return <OnboardingQuestions categories={topLevelCategories} />;
 };
 

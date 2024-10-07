@@ -1,41 +1,38 @@
-import { createPage, getPages } from "@/actions/online-shop";
+import { createPage } from "@/actions/online-shop";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { useAtom } from "jotai";
-import { ChevronDown, ChevronRight, House, Search } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import { pagesAtom, selectedPageAtom } from "../_atoms/page-atom";
-import slugify from "slugify";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAtom } from "jotai";
+import { ChevronDown, House, Search, StickyNote } from "lucide-react";
+import { useEffect, useState } from "react";
+import { pagesAtom, selectedPageAtom } from "../_atoms/page-atom";
 
-import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { Page } from "@/app/interfaces/online-shop";
 import {
+  Form,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
-  FormDescription,
   FormMessage,
-  Form,
 } from "@/components/ui/form";
-import { Page } from "@/app/interfaces/online-shop";
+import clsx from "clsx";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const createPageFormSchema = z.object({
   name: z
@@ -84,7 +81,7 @@ const PagesPopover = () => {
     <Popover open={openPopover} onOpenChange={setOpenPopover}>
       <PopoverTrigger asChild>
         <Button className="flex items-center gap-2" variant="ghost">
-          <House size={16} />
+          <StickyNote size={16} />
           <span>{selectedPage?.name}</span>
           <ChevronDown size={16} />
         </Button>
@@ -103,9 +100,14 @@ const PagesPopover = () => {
             <div
               onClick={() => onSelectPage(page)}
               key={page.id}
-              className="flex cursor-pointer items-center gap-2 rounded-md p-2 hover:bg-gray-100"
+              className={clsx(
+                "flex cursor-pointer items-center gap-2 rounded-md p-2 hover:bg-gray-100",
+                {
+                  "bg-gray-100": selectedPage?.id === page.id,
+                },
+              )}
             >
-              <House size={16} />
+              <StickyNote size={16} />
               <p className="text-sm">{page.name}</p>
             </div>
           ))}

@@ -1,10 +1,11 @@
 "use server";
 
 import { CATEGORIES_API } from "@/constants";
+import { extractMetadataFromResponse } from "@/utils/fetch";
 
 export const getTopLevelCategories = async () => {
   const res = await fetch(`${CATEGORIES_API}?topLevel=true`);
-  return await res.json();
+  return await extractMetadataFromResponse(res, []);
 };
 
 export const getSubCategories = async (parentId: number) => {

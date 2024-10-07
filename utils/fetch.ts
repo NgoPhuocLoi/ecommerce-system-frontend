@@ -2,11 +2,12 @@ import { redirect } from "@/i18n/routing";
 import { auth } from "@clerk/nextjs/server";
 import { cookies } from "next/headers";
 
-export const authenticatedFetch = (
+export const authenticatedFetch = async (
   url: string,
   method: string,
   accessToken: string,
   body?: Record<string, unknown>,
+  tag?: string,
 ) => {
   return fetch(url, {
     method,
@@ -15,6 +16,9 @@ export const authenticatedFetch = (
       "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
+    next: {
+      tags: [tag ?? ""],
+    },
   });
 };
 
@@ -41,4 +45,20 @@ export const tenantSpecificFetch = async ({
     },
     body: JSON.stringify(body),
   });
+};
+
+export const extractMetadataFromResponse = async (
+  res: Response,
+  fallback?: object,
+) => {
+  if (!res.ok) {
+    return fallback ?? null;
+  }
+
+  const data = await res.json();
+  if (data.statusCode !== 200 && data.statusCode !== 201) {
+    return fallback ?? null;
+  }
+
+  return data.metadata;
 };

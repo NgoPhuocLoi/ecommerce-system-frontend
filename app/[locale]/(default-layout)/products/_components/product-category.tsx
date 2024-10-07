@@ -10,8 +10,7 @@ interface IProductCategoryProps {
 
 const ProductCategory = async ({ initialCategory }: IProductCategoryProps) => {
   const t = await getTranslations("ProductDetailAndAddPage");
-  const topLevelCategories: Category[] = (await getTopLevelCategories())
-    .metadata;
+  const topLevelCategories: Category[] = await getTopLevelCategories();
   return (
     <div>
       <Card>
