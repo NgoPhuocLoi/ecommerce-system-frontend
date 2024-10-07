@@ -7,6 +7,7 @@ import Image from "next/image";
 import NewThemeDialog from "./_components/new-theme-dialog";
 import { getTopLevelCategories } from "@/actions/categories";
 import { Category } from "@/app/interfaces/category";
+import ThemeActions from "./_components/theme-actions";
 
 const PLACEHOLDER_IMAGE_URL =
   "https://bc-stencil-production.s3.amazonaws.com/m/55cbfb30-4c33-013d-7a5c-52329bccbb28/large_thumb_screenshot.png";
@@ -25,8 +26,8 @@ const Page = async () => {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {themes.map((theme) => (
           <Card key={theme.id} className="cursor-pointer p-0 hover:shadow-md">
-            <Link href={`/admin/themes/${theme.id}`}>
-              <CardContent className="p-3">
+            <CardContent className="p-3">
+              <Link href={`/admin/themes/${theme.id}`}>
                 <div className="relative">
                   <Image
                     src={PLACEHOLDER_IMAGE_URL}
@@ -35,12 +36,16 @@ const Page = async () => {
                     height={450}
                   />
                 </div>
-                <div className="mt-4">
+              </Link>
+              <div className="mt-4 flex items-center justify-between">
+                <Link className="flex-1" href={`/admin/themes/${theme.id}`}>
                   <p className="text-lg font-bold">{theme.name}</p>
                   <p className="text-gray-600">{theme.description}</p>
-                </div>
-              </CardContent>
-            </Link>
+                </Link>
+
+                <ThemeActions themeId={theme.id} />
+              </div>
+            </CardContent>
           </Card>
         ))}
       </div>

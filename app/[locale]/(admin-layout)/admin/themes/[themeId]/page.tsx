@@ -9,12 +9,15 @@ import ServerTextArea from "@/components/ui/server-textarea";
 import { Link } from "@/i18n/routing";
 import { ChevronLeft } from "lucide-react";
 import React from "react";
+import PagesInTheme from "../_components/pages-in-theme";
 
 const Page = async ({ params }: { params: { themeId: string } }) => {
   const [topLevelCategories, theme]: [Category[], Theme] = await Promise.all([
     getTopLevelCategories(),
     getTheme(params.themeId),
   ]);
+
+  console.log({ theme });
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
@@ -55,6 +58,7 @@ const Page = async ({ params }: { params: { themeId: string } }) => {
           id={"theme-detail-description"}
           defaultValue={theme.description}
         />
+        <PagesInTheme pages={theme.defaultPages} />
       </div>
     </main>
   );

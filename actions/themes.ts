@@ -66,3 +66,50 @@ export const createTheme = async ({
     revalidatePath("/vi/admin/themes");
   }
 };
+
+export const updateTheme = async (
+  themeId: string,
+  updatedData: {
+    name?: string;
+    description?: string;
+    recommendedForCategoryId?: number;
+  },
+) => {
+  try {
+    const token = await auth().getToken();
+    if (!token) {
+      return redirect("/sign-in");
+    }
+    const url = `${BACKEND_BASE_URL}/themes/${themeId}`;
+    const res = await authenticatedFetch(url, "PUT", token, updatedData);
+
+    return await extractMetadataFromResponse(res, {});
+  } catch (error) {
+    console.log(
+      `[Themes action]: Error when updating theme with id ${themeId}`,
+    );
+    return null;
+  } finally {
+    revalidatePath("/vi/admin/themes");
+  }
+};
+
+export const deleteTheme = async (themeId: string) => {
+  try {
+    const token = await auth().getToken();
+    if (!token) {
+      return redirect("/sign-in");
+    }
+    const url = `${BACKEND_BASE_URL}/themes/${themeId}`;
+    const res = await authenticatedFetch(url, "DELETE", token);
+
+    return await extractMetadataFromResponse(res, {});
+  } catch (error) {
+    console.log(
+      `[Themes action]: Error when deleting theme with id ${themeId}`,
+    );
+    return null;
+  } finally {
+    revalidatePath("/vi/admin/themes");
+  }
+};
