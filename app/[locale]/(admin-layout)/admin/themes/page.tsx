@@ -1,6 +1,5 @@
 import { getThemes } from "@/actions/themes";
 import { Theme } from "@/app/interfaces/themes";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "@/i18n/routing";
 import Image from "next/image";

@@ -6,4 +6,5 @@ export interface Theme {
   description: string;
   recommendedForCategoryId: number;
   defaultPages: Page[];
+  defaultLayout: string;
 }

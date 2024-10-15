@@ -7,8 +7,10 @@ import TabSelectionSetting from "@/components/settings/tab-selection-setting";
 import { useApplyRef } from "@/hooks/useApplyRef";
 import { useSetting } from "@/hooks/useSetting";
 import React, { useMemo } from "react";
+import { Link as RouterLink } from "@/i18n/routing";
+import { useEditor } from "@craftjs/core";
 
-interface ITextProps {
+interface ILinkProps {
   bgColor?: string;
   padding?: string;
   margin?: string;
@@ -17,6 +19,8 @@ interface ITextProps {
   textColor?: string;
   fontWeight?: "300" | "400" | "700";
   fontSize?: number;
+  url?: string;
+  children?: React.ReactNode;
 }
 
 const getPaddingLikeValue = (inputValues: string) => {
@@ -37,7 +41,7 @@ const getPaddingLikeValue = (inputValues: string) => {
   };
 };
 
-export const TextSetting = () => {
+export const LinkSetting = () => {
   const { props, handlePropChange } = useSetting();
   const {
     bgColor,
@@ -48,22 +52,32 @@ export const TextSetting = () => {
     textColor,
     fontWeight,
     fontSize,
+    url,
   } = props;
   const paddingValues = useMemo(() => getPaddingLikeValue(padding), [padding]);
   const marginValues = useMemo(() => getPaddingLikeValue(margin), [margin]);
   return (
     <div className="flex flex-col gap-4">
       <InputSetting
-        id="shop-common-text-content"
-        title="Content"
+        id="shop-common-link-content"
+        title="Label"
         value={content}
         onChange={(value) => {
           handlePropChange("content", value);
         }}
-        description="Change the text content"
+        description="Change the label of link"
+      />
+      <InputSetting
+        id="shop-common-link-url"
+        title="URL"
+        value={url}
+        onChange={(value) => {
+          handlePropChange("url", value);
+        }}
+        description="Change the URL of link"
       />
       <TabSelectionSetting
-        id="shop-common-text"
+        id="shop-common-link"
         title="Alignment"
         description="Config the alignment of the text"
         value={textAlign}
@@ -79,7 +93,7 @@ export const TextSetting = () => {
       />
 
       <TabSelectionSetting
-        id="shop-common-text-font-weight"
+        id="shop-common-link-font-weight"
         title="Font weight"
         description="Config the font weight of the text"
         value={fontWeight}
@@ -100,7 +114,7 @@ export const TextSetting = () => {
           handlePropChange("fontSize", value);
         }}
         value={fontSize}
-        id={"shop-common-text-font-size"}
+        id={"shop-common-link-font-size"}
         title={"Font size"}
         description={"Change the font size of text"}
         postfixText="px"
@@ -144,7 +158,7 @@ export const TextSetting = () => {
         ]}
         onValueChange={(value) => {
           let margin = "";
-
+          console.log({ value });
           if (value.isAllChanged === "true") {
             margin = `${value.all}px ${value.all}px ${value.all}px ${value.all}px`;
           } else {
@@ -181,7 +195,7 @@ export const TextSetting = () => {
   );
 };
 
-export const Text = ({
+export const Link = ({
   bgColor = "#aaa",
   padding,
   margin,
@@ -190,10 +204,21 @@ export const Text = ({
   textColor,
   fontWeight,
   fontSize,
-}: ITextProps) => {
+  url,
+  children,
+}: ILinkProps) => {
+  const { enabled } = useEditor((state) => {
+    return {
+      enabled: state.options.enabled,
+    };
+  });
   const { applyRef } = useApplyRef();
   return (
-    <div
+    <RouterLink
+      onClick={(e) => {
+        if (enabled) e.preventDefault();
+      }}
+      href={url ?? ""}
       ref={applyRef}
       className={`w-fit`}
       style={{
@@ -204,32 +229,37 @@ export const Text = ({
         color: textColor,
       }}
     >
-      <p
-        style={{
-          fontWeight: fontWeight,
-          fontSize: fontSize + "px",
-        }}
-      >
-        {content}
-      </p>
-    </div>
+      {children ? (
+        children
+      ) : (
+        <p
+          style={{
+            fontWeight: fontWeight,
+            fontSize: fontSize + "px",
+          }}
+        >
+          {content}
+        </p>
+      )}
+    </RouterLink>
   );
 };
 
-Text.craft = {
+Link.craft = {
   props: {
     bgColor: "transparent",
     gap: 8,
     cols: 2,
     margin: "0px 0px 0px 0px",
     padding: "8px 8px 8px 8px",
-    content: "You can edit this text",
+    content: "Link",
     textAlign: "center",
-    textColor: "#000",
+    textColor: "blue",
     fontWeight: "400",
     fontSize: 16,
+    url: "",
   },
   related: {
-    setting: TextSetting,
+    setting: LinkSetting,
   },
 };

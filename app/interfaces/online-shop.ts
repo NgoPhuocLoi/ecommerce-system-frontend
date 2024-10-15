@@ -5,4 +5,5 @@ export interface Page {
   position?: number;
   link?: string;
   showInNavigation?: boolean;
+  themeId?: number;
 }

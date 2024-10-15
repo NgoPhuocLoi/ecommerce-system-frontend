@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/popover";
 import { EllipsisVertical, Trash } from "lucide-react";
 import React, { useState } from "react";
+import DeleteAlertDialog from "../../../_components/common/delete-alert-dialog";
 
 interface IThemeActionsProps {
   themeId: number;
@@ -26,10 +27,6 @@ interface IThemeActionsProps {
 
 const ThemeActions = ({ themeId }: IThemeActionsProps) => {
   const [openThemeActions, setOpenThemeActions] = useState(false);
-
-  const handleDeleteTheme = async () => {
-    await deleteTheme(themeId.toString());
-  };
 
   return (
     <Popover open={openThemeActions} onOpenChange={setOpenThemeActions}>
@@ -39,8 +36,12 @@ const ThemeActions = ({ themeId }: IThemeActionsProps) => {
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-fit px-4">
-        <AlertDialog onOpenChange={setOpenThemeActions}>
-          <AlertDialogTrigger>
+        <DeleteAlertDialog
+          onOpenChange={setOpenThemeActions}
+          title="Bạn có chắc muốn xoá chủ đề này không?"
+          description="Hành động này không thể hoàn tác, chủ đề bị xoá sẽ không thể khôi phục."
+          onConfirmed={deleteTheme.bind(null, themeId.toString())}
+          TriggerComponent={
             <Button
               size="sm"
               variant={"destructive"}
@@ -49,30 +50,8 @@ const ThemeActions = ({ themeId }: IThemeActionsProps) => {
               <Trash size={16} />
               <span className="text-sm">Xoá</span>
             </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                Bạn có chắc muốn xoá chủ đề này không?
-              </AlertDialogTitle>
-              <AlertDialogDescription>
-                Hành động này không thể hoàn tác, chủ đề bị xoá sẽ không thể
-                khôi phục.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Dừng</AlertDialogCancel>
-              <AlertDialogAction
-                onClick={handleDeleteTheme}
-                className="w-fit px-0"
-              >
-                <Button variant="destructive" className="w-full px-6">
-                  Xoá
-                </Button>
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+          }
+        />
       </PopoverContent>
     </Popover>
   );

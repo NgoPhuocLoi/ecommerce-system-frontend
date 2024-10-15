@@ -14,6 +14,8 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+
+
 @layer base {
   .flex-center {
     display: flex;
@@ -27,7 +29,7 @@ input[type=number] {
 
   .component-selected::after {
     content: " ";
-    @apply border border-dashed w-full h-full absolute left-0 top-0 pointer-events-none block;
+    @apply border border-dashed w-full h-full absolute left-0 top-0 pointer-events-none block border-blue-500;
   }
 
   .transition {

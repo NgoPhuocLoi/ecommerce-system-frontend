@@ -2,12 +2,12 @@
 import ColorSetting from "@/components/settings/color-setting";
 import TabInputSetting from "@/components/settings/tab-input-setting";
 import TabSelectionSetting from "@/components/settings/tab-selection-setting";
+import { useApplyRef } from "@/hooks/useApplyRef";
 import { useSetting } from "@/hooks/useSetting";
-import React, { useMemo } from "react";
-import { Element } from "@craftjs/core";
-import { v4 } from "uuid";
-import { Column } from "./column";
 import { getPaddingLikeValue } from "@/utils/component-setting";
+import { Element } from "@craftjs/core";
+import React, { useMemo } from "react";
+import { Column } from "./column";
 
 interface ILayoutProps {
   children?: React.ReactNode;
@@ -24,6 +24,7 @@ export const LayoutSetting = () => {
   const { bgColor, gap, cols, padding, margin } = props;
   const paddingValues = useMemo(() => getPaddingLikeValue(padding), [padding]);
   const marginValues = useMemo(() => getPaddingLikeValue(margin), [margin]);
+
   return (
     <div className="flex flex-col gap-4">
       <TabSelectionSetting
@@ -121,9 +122,11 @@ export const Layout = ({
   gap = 8,
   cols = 2,
 }: ILayoutProps) => {
+  const { applyRef } = useApplyRef();
   return (
     <div
-      className={`grid h-full min-h-20 w-full grid-cols-2 rounded-md`}
+      ref={applyRef}
+      className={`col-sp grid h-full min-h-20 w-full grid-cols-2 rounded-md`}
       style={{
         backgroundColor: bgColor,
         gap: `${gap}px`,

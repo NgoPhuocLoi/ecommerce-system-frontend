@@ -9,23 +9,56 @@ import { useAtom } from "jotai";
 import { selectedPageAtom } from "../_atoms/page-atom";
 import { useState } from "react";
 import { updatePage } from "@/actions/online-shop";
+import { updatePageInTheme, updateTheme } from "@/actions/themes";
+import { useSearchParams } from "next/navigation";
+import { DEFAULT_LAYOUT } from "./editor-body";
 
-const EditorHeader = () => {
+interface IEditorHeaderProps {
+  returnLink?: string;
+  isAdminBuilder?: boolean;
+}
+
+const EditorHeader = ({ returnLink, isAdminBuilder }: IEditorHeaderProps) => {
   const { actions, query, enabled } = useEditor((state) => ({
     enabled: state.options.enabled,
   }));
   const [selectedPage, setSelectedPage] = useAtom(selectedPageAtom);
   const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
 
   const router = useRouter();
 
   const handleSave = async () => {
     setLoading(true);
+    const themeId = searchParams.get("themeId") as string;
+    const pageId = searchParams.get("pageId") as string;
     try {
       const json = query.serialize();
       const encoded = lz.compressToBase64(json);
-      if (!selectedPage) return;
-      const updatedRes = await updatePage(selectedPage.id, { layout: encoded });
+      if (!selectedPage && pageId !== DEFAULT_LAYOUT) return;
+
+      if (pageId === DEFAULT_LAYOUT) {
+        await updateTheme(themeId, {
+          defaultLayout: encoded,
+        });
+        return;
+      }
+
+      if (isAdminBuilder) {
+        console.log("RUN HERE");
+        console.log({
+          themeId,
+          selectedPage: selectedPage!.id,
+          layout: encoded,
+        });
+        await updatePageInTheme(themeId, selectedPage!.id.toString(), {
+          layout: encoded,
+        });
+      } else {
+        const updatedRes = await updatePage(selectedPage!.id, {
+          layout: encoded,
+        });
+      }
       // if (updatedRes.statusCode === 200) {
       //   setSelectedPage(updatedRes.metadata);
       // }
@@ -38,14 +71,14 @@ const EditorHeader = () => {
   return (
     <header className="sticky top-0 z-10 flex h-14 items-center justify-between gap-4 border-b bg-white px-4 md:px-6">
       <Link
-        href="/dashboard"
+        href={returnLink || "/dashboard"}
         className="cursor-pointer rounded-md p-2 hover:bg-gray-100"
       >
         <LogOut className="h-5 rotate-180" />
       </Link>
 
       <div className="cursor-pointer">
-        <PagesPopover />
+        <PagesPopover isAdminBuilder={isAdminBuilder} />
       </div>
 
       <div className="flex gap-4">

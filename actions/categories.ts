@@ -4,7 +4,9 @@ import { CATEGORIES_API } from "@/constants";
 import { extractMetadataFromResponse } from "@/utils/fetch";
 
 export const getTopLevelCategories = async () => {
-  const res = await fetch(`${CATEGORIES_API}?topLevel=true`);
+  const res = await fetch(`${CATEGORIES_API}?topLevel=true`, {
+    cache: "no-cache",
+  });
   return await extractMetadataFromResponse(res, []);
 };
 

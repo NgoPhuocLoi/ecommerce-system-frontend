@@ -1,7 +1,10 @@
 "use server";
 
 import { BACKEND_BASE_URL } from "@/constants";
-import { tenantSpecificFetch } from "@/utils/fetch";
+import {
+  extractMetadataFromResponse,
+  tenantSpecificFetch,
+} from "@/utils/fetch";
 
 export const getPages = async () => {
   const res = await tenantSpecificFetch({
@@ -17,8 +20,7 @@ export const getPageLayout = async (pageId: number) => {
     url: `${BACKEND_BASE_URL}/online-shop/pages/${pageId}/layout`,
     method: "GET",
   });
-  const data = await res.json();
-  return data;
+  return await extractMetadataFromResponse(res);
 };
 
 export const createPage = async (name: string) => {

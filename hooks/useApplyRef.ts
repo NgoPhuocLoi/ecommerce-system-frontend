@@ -7,14 +7,15 @@ export const useApplyRef = () => {
     actions,
     isHover,
     editable,
+    dom,
   } = useNode((node) => {
-    console.log(node.data.props.editable);
     return {
       isActive: node.events.selected,
       isHover: node.events.hovered,
       editable: node.data.props.editable !== false,
+      dom: node.dom,
     };
   });
   const applyRef = (tag: any) => connect(drag(tag!)) as any;
-  return { applyRef, isActive, actions, isHover, editable };
+  return { applyRef, isActive, actions, isHover, editable, dom };
 };

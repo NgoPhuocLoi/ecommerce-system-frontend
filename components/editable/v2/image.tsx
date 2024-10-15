@@ -1,5 +1,6 @@
 import ImageUploadSetting from "@/components/settings/image-upload-setting";
 import TabInputSetting from "@/components/settings/tab-input-setting";
+import { useApplyRef } from "@/hooks/useApplyRef";
 import { useSetting } from "@/hooks/useSetting";
 import { getPaddingLikeValue } from "@/utils/component-setting";
 import NextImage from "next/image";
@@ -16,6 +17,7 @@ export const ImageSetting = () => {
   const { padding, margin, imageUrl } = props;
   const paddingValues = useMemo(() => getPaddingLikeValue(padding), [padding]);
   const marginValues = useMemo(() => getPaddingLikeValue(margin), [margin]);
+
   return (
     <div className="flex flex-col gap-4">
       <ImageUploadSetting
@@ -87,8 +89,10 @@ export const ImageSetting = () => {
 };
 
 export const Image = ({ padding, margin, imageUrl }: IImageProps) => {
+  const { applyRef } = useApplyRef();
   return (
     <div
+      ref={applyRef}
       style={{
         margin,
         padding,

@@ -4,6 +4,7 @@ import MultiSelectionSetting from "@/components/settings/multi-selection-setting
 import TabSelectionSetting from "@/components/settings/tab-selection-setting";
 import { TextAreaSetting } from "@/components/settings/textarea-setting";
 import { Button } from "@/components/ui/button";
+import { useApplyRef } from "@/hooks/useApplyRef";
 import { useSetting } from "@/hooks/useSetting";
 
 interface IHeroBannerProps {
@@ -118,8 +119,10 @@ export const HeroBanner = ({
   description,
   buttonLabel,
 }: IHeroBannerProps) => {
+  const { applyRef } = useApplyRef();
   return (
     <div
+      ref={applyRef}
       style={{
         height: `${Number(size)}px`,
         backgroundColor: bgColor,

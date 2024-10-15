@@ -1,4 +1,4 @@
-import { useEditor } from "@craftjs/core";
+import { useEditor, Element } from "@craftjs/core";
 import SettingPanel from "./setting-panel";
 import Image from "next/image";
 import { icons } from "@/public/icons";
@@ -9,6 +9,9 @@ import {
   HeroBanner,
   Carousel,
   Product,
+  Link,
+  Column,
+  Navbar,
 } from "@/components/editable/v2";
 import { useEditorCreate } from "@/hooks/useEditorCreate";
 
@@ -86,6 +89,24 @@ const ELEMEMENTS = [
     icon: icons.divider,
     component: Layout,
   },
+  {
+    id: 13,
+    label: "Link",
+    icon: icons.link,
+    component: Link,
+  },
+  {
+    id: 14,
+    label: "Column",
+    icon: "",
+    component: Column,
+  },
+  {
+    id: 15,
+    label: "Navbar",
+    icon: "",
+    component: Navbar,
+  },
 ];
 
 const Toolbox = () => {
@@ -103,6 +124,14 @@ const Toolbox = () => {
                   <element.component>Hello</element.component>,
                 );
               }
+
+              if (element.label === "Column") {
+                return createElement(
+                  ref,
+                  <Element id="column-aa" is={Column} canvas />,
+                );
+              }
+
               return createElement(ref, <element.component />);
             }}
             key={element.id}

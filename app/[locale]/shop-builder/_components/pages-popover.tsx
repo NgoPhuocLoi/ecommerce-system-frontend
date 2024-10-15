@@ -17,10 +17,15 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAtom } from "jotai";
-import { ChevronDown, House, Search, StickyNote } from "lucide-react";
+import {
+  ChevronDown,
+  House,
+  LayoutTemplate,
+  Search,
+  StickyNote,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { pagesAtom, selectedPageAtom } from "../_atoms/page-atom";
-
 import { Page } from "@/app/interfaces/online-shop";
 import {
   Form,
@@ -33,6 +38,10 @@ import {
 import clsx from "clsx";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { updatePagesPositionInTheme } from "@/actions/themes";
 
 const createPageFormSchema = z.object({
   name: z
@@ -41,15 +50,31 @@ const createPageFormSchema = z.object({
     .max(50, "Tên trang không được quá 50 ký tự"),
 });
 
-const PagesPopover = () => {
+const reorder = (list: Array<any>, startIndex: number, endIndex: number) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
+const PagesPopover = ({ isAdminBuilder }: { isAdminBuilder?: boolean }) => {
   const [pages, setPages] = useAtom(pagesAtom);
   const [selectedPage, setSelectedPage] = useAtom(selectedPageAtom);
   const [openCreateNewPageForm, setOpenCreateNewPageForm] = useState(false);
   const [openPopover, setOpenPopover] = useState(false);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
-    setSelectedPage(pages[0]);
-  }, []);
+    const pageId = searchParams.get("pageId");
+    if (pageId) {
+      const page = pages.find((page) => page.id === parseInt(pageId));
+      if (page) {
+        setSelectedPage(page);
+      }
+    }
+  }, [searchParams]);
 
   const form = useForm<z.infer<typeof createPageFormSchema>>({
     resolver: zodResolver(createPageFormSchema),
@@ -72,17 +97,48 @@ const PagesPopover = () => {
     }
   };
 
-  const onSelectPage = (page: Page) => {
+  const onSelectPage = (page: Page | null) => {
     setSelectedPage(page);
     setOpenPopover(false);
+  };
+
+  const onDragEnd = async (result: any) => {
+    if (!result.destination) {
+      return;
+    }
+
+    if (result.destination.index === result.source.index) {
+      return;
+    }
+
+    const reOrderedPages = reorder(
+      pages,
+      result.source.index,
+      result.destination.index,
+    );
+    setPages(reOrderedPages);
+    await updatePagesPositionInTheme(
+      searchParams.get("themeId") as string,
+      reOrderedPages.map((page) => page.id),
+    );
   };
 
   return (
     <Popover open={openPopover} onOpenChange={setOpenPopover}>
       <PopoverTrigger asChild>
         <Button className="flex items-center gap-2" variant="ghost">
-          <StickyNote size={16} />
-          <span>{selectedPage?.name}</span>
+          {selectedPage ? (
+            <>
+              <StickyNote size={16} />
+              <span>{selectedPage?.name}</span>
+            </>
+          ) : (
+            <>
+              <LayoutTemplate size={16} />
+              <span>Layout mặc định</span>
+            </>
+          )}
+
           <ChevronDown size={16} />
         </Button>
       </PopoverTrigger>
@@ -96,9 +152,83 @@ const PagesPopover = () => {
               className="bg-background h-8 w-full rounded-lg py-1 pl-8"
             />
           </div>
-          {pages.map((page) => (
+          {isAdminBuilder && (
+            <>
+              <div
+                onClick={() => {
+                  router.replace(
+                    `/admin-builder?themeId=${searchParams.get("themeId")}&pageId=defaultLayout`,
+                  );
+                  onSelectPage(null);
+                }}
+                className={clsx(
+                  "flex cursor-pointer items-center gap-2 rounded-md p-2 hover:bg-gray-100",
+                  {
+                    "bg-gray-100": selectedPage === null,
+                  },
+                )}
+              >
+                <LayoutTemplate size={16} />
+                <p className="text-sm">Layout mặc định</p>
+              </div>
+              <Separator />
+            </>
+          )}
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="list">
+              {(provided) => (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+                  {pages.map((page, index) => (
+                    <Draggable
+                      key={page.id}
+                      draggableId={page.id.toString()}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className={clsx(
+                            "flex cursor-pointer items-center gap-2 rounded-md p-2 hover:bg-gray-100",
+                            {
+                              "bg-gray-100": selectedPage?.id === page.id,
+                            },
+                          )}
+                          onClick={() => {
+                            onSelectPage(page);
+                            router.replace(
+                              `/admin-builder?themeId=${searchParams.get("themeId")}&pageId=${page.id}`,
+                            );
+                          }}
+                          style={{
+                            ...provided.draggableProps.style,
+                            top: 36 * index + 36 + 16 + 32 + 16,
+                            backgroundColor: snapshot.isDragging
+                              ? "#ccc"
+                              : "#fff",
+                            left: 0,
+                          }}
+                        >
+                          <StickyNote size={16} />
+                          <p className="text-sm">{page.name}</p>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+          {/* {pages.map((page) => (
             <div
-              onClick={() => onSelectPage(page)}
+              onClick={() => {
+                onSelectPage(page);
+                router.replace(
+                  `/admin-builder?themeId=${searchParams.get("themeId")}&pageId=${page.id}`,
+                );
+              }}
               key={page.id}
               className={clsx(
                 "flex cursor-pointer items-center gap-2 rounded-md p-2 hover:bg-gray-100",
@@ -110,7 +240,7 @@ const PagesPopover = () => {
               <StickyNote size={16} />
               <p className="text-sm">{page.name}</p>
             </div>
-          ))}
+          ))} */}
 
           <Separator />
           <Dialog

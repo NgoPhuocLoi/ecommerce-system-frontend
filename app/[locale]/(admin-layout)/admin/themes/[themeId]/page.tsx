@@ -8,16 +8,15 @@ import ServerTextField from "@/components/ui/server-text-field";
 import ServerTextArea from "@/components/ui/server-textarea";
 import { Link } from "@/i18n/routing";
 import { ChevronLeft } from "lucide-react";
-import React from "react";
 import PagesInTheme from "../_components/pages-in-theme";
+import ThemeDefaultLayout from "../_components/theme-default-layout";
+import DetailThemeAction from "./_components/detail-theme-actions";
 
 const Page = async ({ params }: { params: { themeId: string } }) => {
   const [topLevelCategories, theme]: [Category[], Theme] = await Promise.all([
     getTopLevelCategories(),
     getTheme(params.themeId),
   ]);
-
-  console.log({ theme });
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
@@ -31,10 +30,7 @@ const Page = async ({ params }: { params: { themeId: string } }) => {
           Chi tiết chủ đề
         </h1>
 
-        <div className="flex gap-2">
-          <Button variant={"secondary"}>Tuỳ chỉnh</Button>
-          <Button variant="destructive">Xóa</Button>
-        </div>
+        <DetailThemeAction />
       </div>
       <div className="flex flex-col gap-4">
         <div className="grid grid-cols-2 gap-4">
@@ -59,6 +55,7 @@ const Page = async ({ params }: { params: { themeId: string } }) => {
           defaultValue={theme.description}
         />
         <PagesInTheme pages={theme.defaultPages} />
+        <ThemeDefaultLayout />
       </div>
     </main>
   );

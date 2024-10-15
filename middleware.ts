@@ -1,12 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
 import createIntlMiddleware from "next-intl/middleware";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-import { locales, routing } from "./i18n/routing";
+import { routing } from "./i18n/routing";
 
 const handleI18nRouting = createIntlMiddleware(routing);
 
-const isProtectedRoute = createRouteMatcher(["/:locale/dashboard(.*)"]);
 const isPublicRoute = createRouteMatcher([
+
   "/:locale/sign-in(.*)",
   "/:locale/sign-up(.*)",
 ]);

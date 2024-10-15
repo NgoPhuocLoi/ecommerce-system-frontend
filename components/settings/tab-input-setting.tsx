@@ -1,6 +1,7 @@
 import React from "react";
 import BaseSetting, { IBaseSetting } from "./base-setting";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+import { Toggle } from "../ui/toggle";
 
 interface ITabInputSettingProps
   extends IBaseSetting<{
@@ -16,6 +17,7 @@ const TabInputSetting = ({
   value,
   ...rest
 }: ITabInputSettingProps) => {
+  console.log({ values, value });
   return (
     <BaseSetting value={value} {...rest}>
       <div
@@ -25,9 +27,26 @@ const TabInputSetting = ({
         }}
       >
         {values.map((v, index) => (
-          <div key={index} className="flex flex-col gap-1">
+          <div key={index} className="flex flex-col justify-end gap-1">
+            {v.title !== "All" && (
+              <Toggle
+                pressed={value[v.value] === "auto"}
+                onPressedChange={(pressed) => {
+                  onValueChange({
+                    ...value,
+                    [v.value]: pressed ? "auto" : "0",
+                    isAllChanged: "false",
+                    all: "0",
+                  });
+                }}
+                className="mx-1 h-fit py-1"
+              >
+                <span className="text-xs leading-none">Auto</span>
+              </Toggle>
+            )}
             <input
               value={Number(value[v.value])}
+              disabled={value[v.value] === "auto"}
               className="h-8 border text-center"
               type="number"
               onChange={(e) => {

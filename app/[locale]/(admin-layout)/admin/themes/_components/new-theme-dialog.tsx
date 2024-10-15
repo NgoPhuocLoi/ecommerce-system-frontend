@@ -33,13 +33,13 @@ import { Category } from "@/app/interfaces/category";
 import { createTheme } from "@/actions/themes";
 import { revalidatePath } from "next/cache";
 
-const createPageFormSchema = z.object({
+const createThemeFormSchema = z.object({
   name: z
     .string()
     .min(2, "Tên trang phải trên 2 ký tự")
     .max(50, "Tên trang không được quá 50 ký tự"),
   description: z.string(),
-  recommendedForCategoryId: z.number().optional(),
+  recommendedForCategoryId: z.string().optional(),
 });
 
 interface INewThemeDialogProps {
@@ -49,8 +49,8 @@ interface INewThemeDialogProps {
 const NewThemeDialog = ({ topLevelCategories }: INewThemeDialogProps) => {
   const [openCreateNewPageForm, setOpenCreateNewPageForm] = useState(false);
 
-  const form = useForm<z.infer<typeof createPageFormSchema>>({
-    resolver: zodResolver(createPageFormSchema),
+  const form = useForm<z.infer<typeof createThemeFormSchema>>({
+    resolver: zodResolver(createThemeFormSchema),
     defaultValues: {
       name: "",
       description: "",
@@ -58,11 +58,15 @@ const NewThemeDialog = ({ topLevelCategories }: INewThemeDialogProps) => {
     },
   });
 
-  const onSubmitForm = async (values: z.infer<typeof createPageFormSchema>) => {
+  const onSubmitForm = async (
+    values: z.infer<typeof createThemeFormSchema>,
+  ) => {
     const res = await createTheme({
       name: values.name,
       description: values.description,
-      recommendedForCategoryId: values.recommendedForCategoryId,
+      recommendedForCategoryId: values.recommendedForCategoryId
+        ? Number(values.recommendedForCategoryId)
+        : undefined,
     });
     console.log({ res });
     form.reset();

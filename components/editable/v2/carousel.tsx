@@ -16,6 +16,7 @@ import {
   Carousel as ShaDCNCarousel,
 } from "../../ui/carousel";
 import { useEditor } from "@craftjs/core";
+import { useApplyRef } from "@/hooks/useApplyRef";
 
 interface ICarouselProps {
   bgColor?: string;
@@ -190,6 +191,7 @@ export const Carousel = ({ activeIndex, slides }: ICarouselProps) => {
   const { enabled } = useEditor((state) => ({
     enabled: state.options.enabled,
   }));
+  const { applyRef } = useApplyRef();
 
   useEffect(() => {
     if (carouselApi && activeIndex !== undefined) {
@@ -198,7 +200,7 @@ export const Carousel = ({ activeIndex, slides }: ICarouselProps) => {
   }, [activeIndex, carouselApi]);
 
   return (
-    <div className="">
+    <div ref={applyRef} className="">
       <ShaDCNCarousel
         setApi={setCarouselApi}
         className={clsx("w-full", { "pointer-events-none": enabled })}

@@ -15,6 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useApplyRef } from "@/hooks/useApplyRef";
 import { useSetting } from "@/hooks/useSetting";
 import { cn } from "@/lib/utils";
 import { icons } from "@/public/icons";
@@ -147,8 +148,9 @@ export const Product = ({
     () => products.find((p) => p.id === Number(selectedProductId)),
     [selectedProductId, products],
   );
+  const { applyRef } = useApplyRef();
   return (
-    <div className="flex w-full flex-col gap-2">
+    <div ref={applyRef} className="flex w-full flex-col gap-2">
       <div className="p-2">
         <div
           className={clsx(

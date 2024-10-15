@@ -1,6 +1,7 @@
 import ColorSetting from "@/components/settings/color-setting";
 import TabInputSetting from "@/components/settings/tab-input-setting";
 import TabSelectionSetting from "@/components/settings/tab-selection-setting";
+import { useApplyRef } from "@/hooks/useApplyRef";
 import { useSetting } from "@/hooks/useSetting";
 import { getPaddingLikeValue } from "@/utils/component-setting";
 import { Element, useEditor } from "@craftjs/core";
@@ -14,6 +15,7 @@ interface IColumnProps {
   margin?: string;
   children?: ReactNode;
   contentAlign?: "flex-start" | "center" | "flex-end";
+  flexDirection?: "row" | "column";
 }
 
 export const ColumnSetting = () => {
@@ -35,6 +37,20 @@ export const ColumnSetting = () => {
         ]}
         onValueChange={(value) => {
           handlePropChange("contentAlign", value);
+        }}
+      />
+
+      <TabSelectionSetting
+        id="shop-common-column-flex-direction"
+        title="Directioon"
+        description="Config the direction of content inside"
+        value={props.flexDirection}
+        selections={[
+          { title: "Row", value: "row" },
+          { title: "Column", value: "column" },
+        ]}
+        onValueChange={(value) => {
+          handlePropChange("flexDirection", value);
         }}
       />
 
@@ -111,33 +127,26 @@ export const Column = ({
   margin,
   children,
   contentAlign,
+  flexDirection,
 }: IColumnProps) => {
-  const ref = useRef(null);
+  const { applyRef } = useApplyRef();
   const { enabled } = useEditor((state) => ({
     enabled: state.options.enabled,
   }));
 
-  useEffect(() => {
-    if (ref.current) {
-      const parent = (ref.current as HTMLDivElement).parentElement;
-      if (parent) {
-        parent.style.margin = margin as string;
-      }
-    }
-  }, [margin]);
-
   return (
     <div
-      ref={ref}
+      ref={applyRef}
       style={{
         backgroundColor: bgColor,
         justifyContent: contentAlign,
         padding,
+        flexDirection,
       }}
       className={clsx(
-        "d flex h-full flex-col items-center justify-center text-sm text-gray-600",
+        "d flex h-full w-full items-center justify-center text-sm text-gray-600",
         {
-          "hover:outline hover:outline-green-400": enabled,
+          // "hover:outline hover:outline-green-400": enabled,
           "border border-dashed": !children,
         },
       )}
@@ -149,10 +158,11 @@ export const Column = ({
 
 Column.craft = {
   props: {
-    bgColor: "#ffffff",
+    bgColor: "transparent",
     margin: "0px 0px 0px 0px",
     padding: "8px 8px 8px 8px",
     contentAlign: "center",
+    flexDirection: "column",
   },
   related: {
     setting: ColumnSetting,
