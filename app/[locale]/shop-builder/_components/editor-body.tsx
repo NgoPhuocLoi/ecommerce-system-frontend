@@ -35,17 +35,22 @@ const RenderEditor = ({
   loading: boolean;
   jsonLayout: string;
 }) => {
+  const { actions } = useEditor();
+
+  useEffect(() => {
+    if (jsonLayout) {
+      actions.deserialize(jsonLayout);
+    }
+  }, [jsonLayout]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   if (isAdminBuilder) {
-    console.log({ json: jsonLayout });
     return jsonLayout ? (
       <>
-        <Frame data={jsonLayout}>
-          <Element id="div" is={PlaceholderContainer} canvas></Element>
-        </Frame>
+        <Frame data={jsonLayout}></Frame>
       </>
     ) : (
       <Frame>
@@ -55,11 +60,9 @@ const RenderEditor = ({
   }
 
   return jsonLayout ? (
-    <>
-      <Frame data={jsonLayout}>
-        <Element is="div" id="container" canvas></Element>
-      </Frame>
-    </>
+    <Frame data={jsonLayout}>
+      <Element is="div" id="container" canvas></Element>
+    </Frame>
   ) : (
     <Frame>
       <Element is="div" id="container" canvas>
@@ -87,14 +90,14 @@ const EditorBody = ({ isAdminBuilder, defaultLayout }: IShopHeaderProps) => {
       const pageId = searchParams.get("pageId") as string;
       const themeId = searchParams.get("themeId") as string;
       setLoading(true);
-      console.log("RUNNNN", { pageId, themeId });
+      console.log("RUNNNN", { pageId, themeId, selectedPage });
       if (!selectedPage && pageId !== DEFAULT_LAYOUT) {
+        console.log("TERMINATE");
         setLoading(false);
         return;
       }
 
       if (pageId === DEFAULT_LAYOUT) {
-        await sleep(100);
         setJson(lz.decompressFromBase64(defaultLayout ?? ""));
         console.log("DEFAULT LAYOUT");
         setLoading(false);
@@ -110,10 +113,13 @@ const EditorBody = ({ isAdminBuilder, defaultLayout }: IShopHeaderProps) => {
       }
       console.log({ res });
       if (!res.layout) {
+        console.log("RUN LAYOUT HERE");
         setJson(lz.decompressFromBase64(defaultLayout ?? ""));
         setLoading(false);
         return;
       }
+
+      console.log("RUN LAYOUT HERE AAA", res.layout);
       const decompressedLayout = lz.decompressFromBase64(res.layout);
       setJson(decompressedLayout);
 
@@ -121,11 +127,11 @@ const EditorBody = ({ isAdminBuilder, defaultLayout }: IShopHeaderProps) => {
     };
 
     fetchPageLayout();
-  }, [searchParams]);
+  }, [selectedPage, searchParams]);
 
   return (
     <div
-      className={clsx("page-container m-2 h-full flex-1 bg-white", {
+      className={clsx("page-container m-2 mt-8 h-full flex-1 bg-white", {
         "max-w-[calc(100%-280px)]": enabled,
         "max-w-full": !enabled,
       })}

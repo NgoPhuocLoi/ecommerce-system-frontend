@@ -12,6 +12,7 @@ import {
   Link,
   Column,
   Navbar,
+  Spacer,
 } from "@/components/editable/v2";
 import { useEditorCreate } from "@/hooks/useEditorCreate";
 
@@ -81,7 +82,7 @@ const ELEMEMENTS = [
     id: 11,
     label: "Spacer",
     icon: icons.spacer,
-    component: Layout,
+    component: Spacer,
   },
   {
     id: 12,
@@ -98,13 +99,13 @@ const ELEMEMENTS = [
   {
     id: 14,
     label: "Column",
-    icon: "",
+    icon: icons.column,
     component: Column,
   },
   {
     id: 15,
     label: "Navbar",
-    icon: "",
+    icon: icons.navbar,
     component: Navbar,
   },
 ];

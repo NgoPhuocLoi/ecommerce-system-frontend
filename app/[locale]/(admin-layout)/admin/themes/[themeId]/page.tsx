@@ -55,7 +55,7 @@ const Page = async ({ params }: { params: { themeId: string } }) => {
           defaultValue={theme.description}
         />
         <PagesInTheme pages={theme.defaultPages} />
-        <ThemeDefaultLayout />
+        <ThemeDefaultLayout defaultLayout={theme.defaultLayout} />
       </div>
     </main>
   );

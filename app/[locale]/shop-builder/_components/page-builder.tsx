@@ -1,21 +1,18 @@
 "use client";
 
+import { Page } from "@/app/interfaces/online-shop";
+import { Product } from "@/app/interfaces/product";
 import * as theme2 from "@/components/editable/theme-2";
 import * as editableComponentsV2 from "@/components/editable/v2";
-import { useApplyRef } from "@/hooks/useApplyRef";
 import { Editor, ROOT_NODE, useEditor, useNode } from "@craftjs/core";
-import clsx from "clsx";
 import { useHydrateAtoms } from "jotai/utils";
+import { ArrowUp, Move, Trash } from "lucide-react";
 import { ReactElement, useCallback, useEffect, useRef } from "react";
-import { pagesAtom } from "../_atoms/page-atom";
-import EditorHeader from "./editor-header";
-import EditorBody from "./editor-body";
-import { Product } from "@/app/interfaces/product";
-import { productsAtom } from "../_atoms/product-atom";
-import { useAtom } from "jotai";
-import { Page } from "@/app/interfaces/online-shop";
 import ReactDOM from "react-dom";
-import { ArrowUp, Delete, Move, Trash } from "lucide-react";
+import { pagesAtom } from "../_atoms/page-atom";
+import { productsAtom } from "../_atoms/product-atom";
+import EditorBody from "./editor-body";
+import EditorHeader from "./editor-header";
 
 const RenderNode = ({ render }: { render: ReactElement }) => {
   const { id } = useNode();
@@ -62,6 +59,14 @@ const RenderNode = ({ render }: { render: ReactElement }) => {
     currentDOM.style.left = left;
   }, [dom, getPos]);
 
+  useEffect(() => {
+    window.addEventListener("scroll", scroll);
+
+    return () => {
+      window.removeEventListener("scroll", scroll);
+    };
+  }, [scroll]);
+
   return (
     <>
       {isHover || isActive
@@ -72,7 +77,7 @@ const RenderNode = ({ render }: { render: ReactElement }) => {
               style={{
                 left: getPos(dom!).left,
                 top: getPos(dom!).top,
-                zIndex: 9999,
+                zIndex: 2,
               }}
             >
               <h2 className="mr-3 flex-1">{name ?? "Unknow"}</h2>

@@ -16,7 +16,9 @@ const Page = async ({
   console.log({ theme });
   if (!searchParams.pageId) {
     if (theme.defaultPages?.length === 0) {
-      return redirect(`/admin/themes/${searchParams.themeId}`);
+      return redirect(
+        `/admin-builder?themeId=${searchParams.themeId}&pageId=defaultLayout`,
+      );
     }
     return redirect(
       `/admin-builder?themeId=${searchParams.themeId}&pageId=${theme.defaultPages[0].id}`,

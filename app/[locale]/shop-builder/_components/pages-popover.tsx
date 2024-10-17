@@ -156,10 +156,10 @@ const PagesPopover = ({ isAdminBuilder }: { isAdminBuilder?: boolean }) => {
             <>
               <div
                 onClick={() => {
+                  onSelectPage(null);
                   router.replace(
                     `/admin-builder?themeId=${searchParams.get("themeId")}&pageId=defaultLayout`,
                   );
-                  onSelectPage(null);
                 }}
                 className={clsx(
                   "flex cursor-pointer items-center gap-2 rounded-md p-2 hover:bg-gray-100",

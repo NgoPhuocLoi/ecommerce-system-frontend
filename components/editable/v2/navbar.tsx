@@ -29,17 +29,19 @@ export const Navbar = () => {
         fontSize={24}
       />
 
-      {pages.map((page) => (
-        <Link
-          key={page.id}
-          url={`/admin-builder?themeId=${searchParams.get("themeId")}&pageId=${page.id}`}
-          content={page.name}
-          padding="8px"
-          bgColor="transparent"
-          textColor="white"
-          fontSize={16}
-        />
-      ))}
+      {pages
+        .filter((page) => page.showInNavigation)
+        .map((page) => (
+          <Link
+            key={page.id}
+            url={`/admin-builder?themeId=${searchParams.get("themeId")}&pageId=${page.id}`}
+            content={page.name}
+            padding="8px"
+            bgColor="transparent"
+            textColor="white"
+            fontSize={16}
+          />
+        ))}
 
       <div className="ml-auto flex gap-4">
         <Link url="/login" bgColor="transparent" textColor="#fff">

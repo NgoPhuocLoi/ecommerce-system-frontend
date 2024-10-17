@@ -12,6 +12,8 @@ import spacerSvg from "./spacer.svg";
 import dividerSvg from "./divider.svg";
 import productPlaceholderSvg from "./product-placeholder.svg";
 import linkSvg from "./link.svg";
+import columnSvg from "./column.svg";
+import navbarSvg from "./navbar.svg";
 
 export const icons = {
   layout: layoutSvg,
@@ -28,4 +30,6 @@ export const icons = {
   divider: dividerSvg,
   productPlaceholder: productPlaceholderSvg,
   link: linkSvg,
+  column: columnSvg,
+  navbar: navbarSvg,
 };
