@@ -27,5 +27,5 @@ spec:
               service:
                 name: ecommerce-system-frontend-service
                 port:
-                  number: 80
+                  number: 3000
           

@@ -3,6 +3,7 @@ import PageBuilder from "../shop-builder/_components/page-builder";
 import { getTheme } from "@/actions/themes";
 import { redirect } from "@/i18n/routing";
 import { Theme } from "@/app/interfaces/themes";
+import { DEFAULT_LAYOUT } from "../shop-builder/_components/editor-body";
 
 const Page = async ({
   searchParams,
@@ -13,7 +14,7 @@ const Page = async ({
   if (!theme) {
     return redirect("/admin/themes");
   }
-  console.log({ theme });
+  console.log({ theme, searchParams });
   if (!searchParams.pageId) {
     if (theme.defaultPages?.length === 0) {
       return redirect(
@@ -27,11 +28,13 @@ const Page = async ({
   return (
     <div>
       <PageBuilder
+        shouldDisplayLayoutEditor={searchParams.pageId === "defaultLayout"}
         isAdminBuilder
         pages={theme.defaultPages}
         products={[]}
         returnLink="/admin/themes"
-        defaultLayout={theme.defaultLayout}
+        defaultHeaderLayout={theme.defaultHeaderLayout}
+        defaultFooterLayout={theme.defaultFooterLayout}
       />
     </div>
   );

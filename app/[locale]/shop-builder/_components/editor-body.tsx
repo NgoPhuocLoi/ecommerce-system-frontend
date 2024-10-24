@@ -1,32 +1,29 @@
 "use client";
 
-import { Element, Frame, useEditor } from "@craftjs/core";
-import clsx from "clsx";
-import lz from "lz-string";
-import { useEffect, useState } from "react";
-import SettingPanel from "./setting-panel";
-import Toolbox from "./toolbox";
-import { useAtom } from "jotai";
-import { pagesAtom, selectedPageAtom } from "../_atoms/page-atom";
 import { getPageLayout } from "@/actions/online-shop";
+import { getPageDetailInTheme } from "@/actions/themes";
 import { ShopHeader } from "@/components/editable/theme-2";
 import { ShopFooter } from "@/components/editable/theme-2/shop-footer";
 import { Layout, PlaceholderContainer } from "@/components/editable/v2";
-import { getPageDetailInTheme } from "@/actions/themes";
+import { Element, Frame, useEditor } from "@craftjs/core";
+import clsx from "clsx";
+import { useAtom } from "jotai";
+import lz from "lz-string";
 import { useSearchParams } from "next/navigation";
-import ViewPort from "./view-port";
-import { useApplyRef } from "@/hooks/useApplyRef";
-
-const defaultLayout =
-  "N4IgSg8hAqIFygC4E8AOBTeIAmBLAbiADQi4DOAwgIYB2+VZ8iATgK7omrMD2qjCpbFgDG3Goiq4a6ZiAC+JPGVQAbKsgByVALaY4OAsRDDWZRN23xgCkAAtc2bOhrwAZlRVkOIGtyf8AbRAALQBlUIBHXGQANQANVAAjIwj0AHENDBiAWgAJAAYjABEaAFUAaSpQ4QB3XHKQAF0SFSkAa3RsDT90fmsbVIysvMKBFAwrEGZe7hV8Tq1dLABBGl9WGmF0XXEAISpZG3JqOgY3Dy9OHj5J1zFEUNwALz0ARgA2EkR0AA9ELAA6ugVKJdAACcxg7TIMFmbjTeSKciqdSLPQgVbrTbbZyIfayEgmOGWBA2VAHXFYSAwIz2RzOc6eby+fzwALNECtGgdLo9PpyGxhSLReJJSbjPSgaZkWbzLo6dGhczTXLoKhOQ4kY60ej8dxMq68flI5RqTQKrBK+HoVXqmRGInmEnWTgU8RUqCwEh0pwuOD6y4+PlsjlcnndVmkmwlCpVWr1cVoSVTGZzBYW/QASW0VAA5uh9mt7UdKDqzv6Lt4uEarDYlCjzUsszn84XpATjKYnbXXdN3fpqV67A5fYzAyzeiGWu0FsGo3IgA";
+import { useEffect, useState } from "react";
+import DefaultLayoutRenderer from "../../admin-builder/_components/top-layout-editor";
+import { selectedPageAtom } from "../_atoms/page-atom";
+import SettingPanel from "./setting-panel";
+import Toolbox from "./toolbox";
 
 interface IShopHeaderProps {
   isAdminBuilder?: boolean;
-  defaultLayout?: string;
+  defaultHeaderLayout?: string;
+  defaultFooterLayout?: string;
 }
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const RenderEditor = ({
+export const RenderEditor = ({
   isAdminBuilder,
   loading,
   jsonLayout,
@@ -39,7 +36,8 @@ const RenderEditor = ({
 
   useEffect(() => {
     if (jsonLayout) {
-      actions.deserialize(jsonLayout);
+      console.log({ jsonLayout });
+      // actions.deserialize(jsonLayout);
     }
   }, [jsonLayout]);
 
@@ -76,7 +74,11 @@ const RenderEditor = ({
 
 export const DEFAULT_LAYOUT = "defaultLayout";
 
-const EditorBody = ({ isAdminBuilder, defaultLayout }: IShopHeaderProps) => {
+const EditorBody = ({
+  isAdminBuilder,
+  defaultHeaderLayout,
+  defaultFooterLayout,
+}: IShopHeaderProps) => {
   const [json, setJson] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedPage] = useAtom(selectedPageAtom);
@@ -98,7 +100,8 @@ const EditorBody = ({ isAdminBuilder, defaultLayout }: IShopHeaderProps) => {
       }
 
       if (pageId === DEFAULT_LAYOUT) {
-        setJson(lz.decompressFromBase64(defaultLayout ?? ""));
+        // setJson(lz.decompressFromBase64( ?? ""));
+        setJson("");
         console.log("DEFAULT LAYOUT");
         setLoading(false);
         return;
@@ -114,7 +117,7 @@ const EditorBody = ({ isAdminBuilder, defaultLayout }: IShopHeaderProps) => {
       console.log({ res });
       if (!res.layout) {
         console.log("RUN LAYOUT HERE");
-        setJson(lz.decompressFromBase64(defaultLayout ?? ""));
+        setJson(lz.decompressFromBase64(""));
         setLoading(false);
         return;
       }
@@ -136,11 +139,13 @@ const EditorBody = ({ isAdminBuilder, defaultLayout }: IShopHeaderProps) => {
         "max-w-full": !enabled,
       })}
     >
+      <DefaultLayoutRenderer defaultLayout={defaultHeaderLayout} />
       <RenderEditor
         isAdminBuilder={isAdminBuilder}
         loading={loading}
         jsonLayout={json}
       />
+      <DefaultLayoutRenderer defaultLayout={defaultFooterLayout} />
 
       {enabled && (
         <>

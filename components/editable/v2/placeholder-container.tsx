@@ -10,7 +10,7 @@ export const PlaceholderContainer = ({
 }) => {
   const { applyRef } = useApplyRef();
   return (
-    <div ref={applyRef} className="min-h-6">
+    <div ref={applyRef} className="min-h-12">
       {children}
     </div>
   );
