@@ -1,11 +1,8 @@
 import { Page } from "@/app/interfaces/online-shop";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import clsx from "clsx";
 import NewPageDialog from "./new-page-dialog";
-import { Trash } from "lucide-react";
-import PageActions from "./page-actions";
+import PageItem from "./page-item";
 
 interface IPagesInThemeProps {
   pages: Page[];
@@ -41,23 +38,11 @@ const PagesInTheme = ({ pages }: IPagesInThemeProps) => {
         )}
 
         {pages.map((page) => (
-          <div
+          <PageItem
             key={page.id}
-            className={clsx("grid grid-cols-9 border border-t-0 text-sm", {
-              "rounded-bl-md rounded-br-md":
-                page.id === pages[pages.length - 1].id,
-            })}
-          >
-            <div className="text-md col-span-3 flex-1 p-3">{page.name}</div>
-            <div className="text-md col-span-3 w-fit p-3">{page.link}</div>
-            <div className="text-md col-span-2 flex w-full justify-between p-3">
-              <Checkbox
-                className="ml-10"
-                defaultChecked={page.showInNavigation}
-              />
-            </div>
-            <PageActions page={page} />
-          </div>
+            page={page}
+            isLastPage={page.id === pages[pages.length - 1].id}
+          />
         ))}
       </div>
     </div>

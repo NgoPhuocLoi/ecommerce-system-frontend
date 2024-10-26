@@ -1,15 +1,14 @@
+import { Link } from "@/i18n/routing";
 import {
   Home,
   LineChart,
   Package,
-  Package2,
   PanelLeft,
   Search,
   Settings,
   ShoppingCart,
   Users2,
 } from "lucide-react";
-import { Link } from "@/i18n/routing";
 import React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -21,9 +20,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Image from "next/image";
 import AccountMenu from "./_components/account-menu";
 import { Sidebar } from "./dashboard/_components";
-import Image from "next/image";
 
 export default function DefautlLayout({
   children,

@@ -26,7 +26,7 @@ export default async function RootLayout({
         <ClerkProvider localization={viVN}>
           <NextIntlClientProvider messages={messages}>
             <JotaiProviders>{children}</JotaiProviders>
-            <Toaster richColors position="top-right" />
+            <Toaster richColors position="bottom-right" />
           </NextIntlClientProvider>
         </ClerkProvider>
       </body>

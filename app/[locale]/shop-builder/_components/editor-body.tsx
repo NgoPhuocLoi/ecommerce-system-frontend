@@ -134,7 +134,7 @@ const EditorBody = ({
 
   return (
     <div
-      className={clsx("page-container m-2 mt-8 h-full flex-1 bg-white", {
+      className={clsx("page-container m-2 mt-[80px] h-full flex-1 bg-white", {
         "max-w-[calc(100%-280px)]": enabled,
         "max-w-full": !enabled,
       })}

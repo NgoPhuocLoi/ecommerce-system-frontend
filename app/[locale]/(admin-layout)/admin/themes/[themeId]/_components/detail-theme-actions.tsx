@@ -5,10 +5,14 @@ import DeleteAlertDialog from "@/app/[locale]/(admin-layout)/_components/common/
 import { Button } from "@/components/ui/button";
 import { Link, useRouter } from "@/i18n/routing";
 import { useParams } from "next/navigation";
+import { useEffect, useRef } from "react";
+import { useFormStatus } from "react-dom";
+import { toast } from "sonner";
 
 const DetailThemeAction = () => {
   const themeId = useParams().themeId as string;
   const router = useRouter();
+  const formStatus = useFormStatus();
 
   const handleDeleteTheme = async () => {
     await deleteTheme(themeId);
@@ -17,7 +21,10 @@ const DetailThemeAction = () => {
 
   return (
     <div className="flex gap-2">
-      <Button variant={"secondary"}>
+      <Button disabled={formStatus.pending} type="submit">
+        {formStatus.pending ? "Đang lưu..." : "Lưu"}
+      </Button>
+      <Button asChild type="button" variant={"secondary"}>
         <Link href={`/admin-builder?themeId=${themeId}`}>Chỉnh sửa</Link>
       </Button>
       {/* <Button variant="destructive">Xóa</Button> */}
@@ -27,7 +34,9 @@ const DetailThemeAction = () => {
         onConfirmed={handleDeleteTheme}
         TriggerComponent={
           <div>
-            <Button variant="destructive">Xóa</Button>
+            <Button type="button" variant="destructive">
+              Xóa
+            </Button>
           </div>
         }
       />

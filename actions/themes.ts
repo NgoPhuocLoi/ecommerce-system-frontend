@@ -73,7 +73,8 @@ export const updateTheme = async (
     name?: string;
     description?: string;
     recommendedForCategoryId?: number;
-    defaultLayout?: string;
+    defaultHeaderLayout?: string;
+    defaultFooterLayout?: string;
   },
 ) => {
   try {

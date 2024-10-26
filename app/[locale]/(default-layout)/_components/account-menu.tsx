@@ -14,6 +14,7 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import React from "react";
 import SignOutBtn from "./sign-out-btn";
+import ChangeShopButton from "./change-shop-button";
 
 const AccountMenu = async () => {
   const user = await currentUser();
@@ -36,8 +37,13 @@ const AccountMenu = async () => {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Xin chào, {user?.fullName}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Link href="/profile">Hồ sơ</Link>
+        <DropdownMenuItem className="h-full w-full">
+          <Link href="/profile" className="h-full w-full">
+            Hồ sơ
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="h-full w-full">
+          <ChangeShopButton />
         </DropdownMenuItem>
         <DropdownMenuItem>Cài đặt</DropdownMenuItem>
         <DropdownMenuSeparator />

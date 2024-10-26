@@ -32,7 +32,7 @@ const DefaultLayoutRenderer = ({
   defaultLayout,
 }: IDefaultLayoutRendererProps) => {
   return (
-    <div className="border border-red-500 p-2">
+    <div className="">
       <Editor
         enabled={false}
         onRender={RenderNode}
