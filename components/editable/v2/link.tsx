@@ -7,8 +7,11 @@ import TabSelectionSetting from "@/components/settings/tab-selection-setting";
 import { useApplyRef } from "@/hooks/useApplyRef";
 import { useSetting } from "@/hooks/useSetting";
 import React, { useMemo } from "react";
-import { Link as RouterLink } from "@/i18n/routing";
 import { useEditor } from "@craftjs/core";
+import { useAtom } from "jotai";
+import { pagesAtom } from "@/app/shop-builder/_atoms/page-atom";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import RouterLink from "next/link";
 
 interface ILinkProps {
   bgColor?: string;
@@ -21,6 +24,7 @@ interface ILinkProps {
   fontSize?: number;
   url?: string;
   children?: React.ReactNode;
+  isIcon?: boolean;
 }
 
 const getPaddingLikeValue = (inputValues: string) => {
@@ -206,6 +210,7 @@ export const Link = ({
   fontSize,
   url,
   children,
+  isIcon,
 }: ILinkProps) => {
   const { enabled } = useEditor((state) => {
     return {
@@ -213,10 +218,33 @@ export const Link = ({
     };
   });
   const { applyRef } = useApplyRef();
+  const [pages] = useAtom(pagesAtom);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   return (
     <RouterLink
       onClick={(e) => {
-        if (enabled) e.preventDefault();
+        if (enabled) {
+          e.preventDefault();
+          return;
+        }
+
+        if (isIcon) {
+          e.preventDefault();
+          const pageToNavigate = pages.find((page) => page.link === url);
+          console.log(pageToNavigate);
+          if (pageToNavigate) {
+            const params = new URLSearchParams();
+            const themeId = searchParams.get("themeId");
+            if (themeId) {
+              params.append("themeId", themeId);
+            }
+            params.append("pageId", pageToNavigate.id.toString());
+            const urlToNavigate = `${pathname}?${params.toString()}`;
+            router.replace(urlToNavigate);
+          }
+        }
       }}
       href={url ?? ""}
       ref={applyRef}

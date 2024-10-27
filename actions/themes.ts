@@ -1,10 +1,10 @@
 "use server";
 
 import { BACKEND_BASE_URL } from "@/constants";
-import { redirect } from "@/i18n/routing";
 import { authenticatedFetch, extractMetadataFromResponse } from "@/utils/fetch";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export const getThemes = async () => {
   try {

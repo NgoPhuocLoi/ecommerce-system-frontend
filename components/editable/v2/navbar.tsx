@@ -1,17 +1,15 @@
-import React from "react";
-import { Column } from "./column";
-import { Text } from "./text";
-import { Link } from "./link";
-import { Element } from "@craftjs/core";
-import { Link as RouterLink } from "@/i18n/routing";
-import { ShoppingCart, ShoppingCartIcon, User, UserIcon } from "lucide-react";
+import { pagesAtom } from "@/app/shop-builder/_atoms/page-atom";
 import { useAtom } from "jotai";
-import { pagesAtom } from "@/app/[locale]/shop-builder/_atoms/page-atom";
-import { useSearchParams } from "next/navigation";
+import { ShoppingCart, User } from "lucide-react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { Column } from "./column";
+import { Link } from "./link";
+import { Text } from "./text";
 
 export const Navbar = () => {
   const [pages] = useAtom(pagesAtom);
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   return (
     // <Element is={Column} id="nav-bar" canvas>
     <Column
@@ -31,23 +29,35 @@ export const Navbar = () => {
 
       {pages
         .filter((page) => page.showInNavigation)
-        .map((page) => (
-          <Link
-            key={page.id}
-            url={`/admin-builder?themeId=${searchParams.get("themeId")}&pageId=${page.id}`}
-            content={page.name}
-            padding="8px"
-            bgColor="transparent"
-            textColor="white"
-            fontSize={16}
-          />
-        ))}
+        .map((page) => {
+          const themeId = searchParams.get("themeId");
+
+          const params = new URLSearchParams();
+          if (themeId) {
+            params.append("themeId", themeId);
+          }
+
+          params.append("pageId", page.id.toString());
+
+          const urlToNavigate = `${pathname}?${params.toString()}`;
+          return (
+            <Link
+              key={page.id}
+              url={urlToNavigate}
+              content={page.name}
+              padding="8px"
+              bgColor="transparent"
+              textColor="white"
+              fontSize={16}
+            />
+          );
+        })}
 
       <div className="ml-auto flex gap-4">
-        <Link url="/login" bgColor="transparent" textColor="#fff">
+        <Link isIcon url="/xac-thuc" bgColor="transparent" textColor="#fff">
           <User size={24} />
         </Link>
-        <Link url="/cart" bgColor="transparent" textColor="#fff">
+        <Link isIcon url="/gio-hang" bgColor="transparent" textColor="#fff">
           <ShoppingCart size={24} />
         </Link>
       </div>

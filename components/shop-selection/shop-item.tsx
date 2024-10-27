@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
 import { ChevronRight } from "lucide-react";
 import { Shop } from "./shop-selection";

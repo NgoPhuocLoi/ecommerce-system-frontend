@@ -1,4 +1,4 @@
-import { redirect } from "@/i18n/routing";
+import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 import { cookies } from "next/headers";
 

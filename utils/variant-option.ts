@@ -1,4 +1,4 @@
-import { VariantOption } from "@/app/[locale]/(default-layout)/products/_components/product-variant-list";
+import { VariantOption } from "@/app/(default-layout)/products/_components/product-variant-list";
 
 interface HasName {
   name: string;

@@ -12,18 +12,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import {
-  Sheet,
-  SheetContent,
-  SheetPortal,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useSetting } from "@/hooks/useSetting";
-import { useNode } from "@craftjs/core";
 import clsx from "clsx";
 import { CircleUser, Menu, Package2, Search, ShoppingCart } from "lucide-react";
-import { Link } from "@/i18n/routing";
-import { usePathname } from "@/i18n/routing";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const links = [
   {

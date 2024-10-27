@@ -1,5 +1,5 @@
 import { getProducts } from "@/actions/product";
-import { productsAtom } from "@/app/[locale]/shop-builder/_atoms/product-atom";
+import { productsAtom } from "@/app/shop-builder/_atoms/product-atom";
 import { Product as IProduct } from "@/app/interfaces/product";
 import { Button } from "@/components/ui/button";
 import {

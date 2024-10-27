@@ -11,7 +11,7 @@ import { Separator } from "../ui/separator";
 import ShopList from "./shop-list";
 import { getTranslations } from "next-intl/server";
 import { auth } from "@clerk/nextjs/server";
-import { Link } from "@/i18n/routing";
+import Link from "next/link";
 
 export interface Shop {
   id: string;

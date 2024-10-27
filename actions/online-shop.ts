@@ -15,6 +15,14 @@ export const getPages = async () => {
   return data;
 };
 
+export const getOnlineShop = async () => {
+  const res = await tenantSpecificFetch({
+    url: `${BACKEND_BASE_URL}/online-shop`,
+    method: "GET",
+  });
+  return await extractMetadataFromResponse(res);
+};
+
 export const getPageLayout = async (pageId: number) => {
   const res = await tenantSpecificFetch({
     url: `${BACKEND_BASE_URL}/online-shop/pages/${pageId}/layout`,
