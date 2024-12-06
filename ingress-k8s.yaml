@@ -3,29 +3,54 @@ kind: Ingress
 metadata:
   name: ecommerce-system-ingress
   annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "Strict-Transport-Security: max-age=31536000; includeSubDomains; preload";
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-      - my-ecommerce.live
-    secretName: ingress-cert
+    - hosts:
+        - my-ecommerce.live
+      secretName: my-ecommece-tls
+    - hosts:
+        - admin.my-ecommerce.live
+      secretName: admin-my-ecommece-tls
   rules:
     - host: my-ecommerce.live
       http:
         paths:
-          - path: /ecommerce_backend(/|$)(.*)
-            pathType: Prefix
+          - path: /__backend(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: ecommerce-system-backend-service
                 port:
                   number: 80
           - path: /()(.*)
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: ecommerce-system-frontend-service
                 port:
-                  number: 3000
-          
+                  number: 80
+    - host: admin.my-ecommerce.live
+      http:
+        paths:
+          - path: /()(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: ecommerce-system-admin-service
+                port:
+                  number: 80
+    - host: "*.my-ecommerce.live"
+      http:
+        paths:
+          - path: /()(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: ecommerce-system-onlineshop-service
+                port:
+                  number: 80

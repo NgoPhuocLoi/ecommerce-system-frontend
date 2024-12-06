@@ -7,13 +7,11 @@ import * as editableComponentsV2 from "@/components/editable/v2";
 import { Editor } from "@craftjs/core";
 import { useHydrateAtoms } from "jotai/utils";
 import RenderNode from "../../../components/render-node";
+import LayoutBuilder from "../../admin-builder/_components/layout-builder";
 import { pagesAtom } from "../_atoms/page-atom";
 import { productsAtom } from "../_atoms/product-atom";
 import EditorBody from "./editor-body";
 import EditorHeader from "./editor-header";
-import TopLayoutEditor from "../../admin-builder/_components/top-layout-editor";
-import { useSearchParams } from "next/navigation";
-import LayoutBuilder from "../../admin-builder/_components/layout-builder";
 
 interface IShopHeaderProps {
   pages: Page[];

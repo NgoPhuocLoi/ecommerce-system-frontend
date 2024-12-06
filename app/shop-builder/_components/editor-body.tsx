@@ -109,7 +109,7 @@ const EditorBody = ({
         res = await getPageLayout(selectedPage!.id);
       }
       console.log({ res });
-      if (!res.layout) {
+      if (!res?.layout) {
         setJson(lz.decompressFromBase64(""));
         setLoading(false);
         return;

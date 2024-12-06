@@ -33,7 +33,9 @@ export const tenantSpecificFetch = async ({
 }) => {
   const token = await auth().getToken();
   const selectedShopId = cookies().get("selectedShopId");
+  console.log({ token, selectedShopId });
   if (!token || !selectedShopId) {
+    console.log("HEREEEE");
     return redirect("/sign-in");
   }
   return fetch(url, {

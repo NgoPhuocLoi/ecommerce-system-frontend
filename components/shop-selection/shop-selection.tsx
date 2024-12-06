@@ -9,7 +9,6 @@ import {
 } from "../ui/card";
 import { Separator } from "../ui/separator";
 import ShopList from "./shop-list";
-import { getTranslations } from "next-intl/server";
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 
@@ -24,7 +23,6 @@ const ShopSelection = async () => {
   if (!token) {
     return null;
   }
-  const t = await getTranslations("ShopSelection");
   const shops: Shop[] = (await getShops(token)).metadata || [];
 
   return (
@@ -32,12 +30,14 @@ const ShopSelection = async () => {
       <Card className="h-full w-[476px]">
         <div className="flex items-center justify-between">
           <CardHeader>
-            <CardTitle>{t("title")}Loi</CardTitle>
-            <CardDescription>{t("description")}</CardDescription>
+            <CardTitle>Chào mừng bạn, Loi</CardTitle>
+            <CardDescription>
+              Chọn cửa hàng bạn muốn quản lý hoặc tạo cửa hàng mới.
+            </CardDescription>
           </CardHeader>
 
           <Button className="mr-6" asChild>
-            <Link href="/shop/question">{t("createShopButton")}</Link>
+            <Link href="/shop/question">Tạo cửa hàng mới</Link>
           </Button>
         </div>
         <Separator />

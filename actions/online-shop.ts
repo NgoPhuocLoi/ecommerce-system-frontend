@@ -11,8 +11,7 @@ export const getPages = async () => {
     url: `${BACKEND_BASE_URL}/online-shop/pages`,
     method: "GET",
   });
-  const data = await res.json();
-  return data;
+  return await extractMetadataFromResponse(res, []);
 };
 
 export const getOnlineShop = async () => {
@@ -20,7 +19,7 @@ export const getOnlineShop = async () => {
     url: `${BACKEND_BASE_URL}/online-shop`,
     method: "GET",
   });
-  return await extractMetadataFromResponse(res);
+  return await extractMetadataFromResponse(res, []);
 };
 
 export const getPageLayout = async (pageId: number) => {
@@ -28,7 +27,7 @@ export const getPageLayout = async (pageId: number) => {
     url: `${BACKEND_BASE_URL}/online-shop/pages/${pageId}/layout`,
     method: "GET",
   });
-  return await extractMetadataFromResponse(res);
+  return await extractMetadataFromResponse(res, {});
 };
 
 export const createPage = async (name: string) => {

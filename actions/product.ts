@@ -2,7 +2,10 @@
 
 import { CreateProductData } from "@/app/interfaces/product";
 import { PRODUCTS_API } from "@/constants";
-import { tenantSpecificFetch } from "@/utils/fetch";
+import {
+  extractMetadataFromResponse,
+  tenantSpecificFetch,
+} from "@/utils/fetch";
 
 export const createProduct = async (productData: CreateProductData) => {
   const res = await tenantSpecificFetch({
@@ -37,5 +40,5 @@ export const getProducts = async (filter?: { name: string }) => {
     return null;
   }
 
-  return await res.json();
+  return await extractMetadataFromResponse(res, []);
 };

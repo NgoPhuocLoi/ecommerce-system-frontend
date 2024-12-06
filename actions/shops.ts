@@ -2,6 +2,7 @@
 
 import { SHOP_API } from "@/constants";
 import { authenticatedFetch } from "@/utils/fetch";
+import { auth } from "@clerk/nextjs/server";
 
 export const getShops = async (accessToken: string) => {
   try {
@@ -16,10 +17,21 @@ export const getShops = async (accessToken: string) => {
   }
 };
 
-export const createShop = async (name: string, accessToken: string) => {
+export const createShop = async (data: {
+  name: string;
+  domain: string;
+  themeId: string;
+}) => {
+  const token = await auth().getToken();
+  if (!token) {
+    return null;
+  }
   try {
-    const res = await authenticatedFetch(SHOP_API, "POST", accessToken, {
-      name,
+    const res = await authenticatedFetch(SHOP_API, "POST", token, {
+      ...data,
+      hasUsedPlatformBefore: true,
+      hasConfirmedEmail: true,
+      themeId: Number(data.themeId),
     });
     if (res.ok) {
       const data = await res.json();

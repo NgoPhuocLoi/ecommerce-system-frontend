@@ -36,6 +36,11 @@ const nextConfig = {
     ],
   },
   reactStrictMode: false,
+  experimental: {
+    serverActions: {
+      allowedOrigins: ["http://localhost:3000", "http://localhost:9999"],
+    },
+  },
 };
 
 export default nextConfig;

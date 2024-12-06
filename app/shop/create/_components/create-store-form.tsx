@@ -25,7 +25,11 @@ const CreateShopForm = async () => {
     "use server";
     console.log(Object.fromEntries(formData));
     const shopName = formData.get("name") as string;
-    await createShop(shopName, token);
+    const data = {
+      name: shopName,
+      domain: formData.get("domain") as string,
+    };
+    // await createShop(data, token);
     revalidatePath("/");
     redirect("/");
   };
@@ -40,11 +44,18 @@ const CreateShopForm = async () => {
               We’ll help you get set up based on your business needs.
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex flex-col gap-4">
             <ServerTextField
               name={"name"}
               label={"Name"}
               id={"create-shop-name"}
+              type={"text"}
+            />
+
+            <ServerTextField
+              name={"domain"}
+              label={"Domain"}
+              id={"create-shop-domain"}
               type={"text"}
             />
           </CardContent>

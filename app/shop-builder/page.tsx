@@ -10,19 +10,19 @@ const Page = async ({ searchParams }: { searchParams: { pageId: string } }) => {
     getProducts(),
     getOnlineShop(),
   ]);
-  if (pagesRes.statusCode !== 200 || productsRes.statusCode !== 200) {
-    return redirect("/sign-in");
-  }
-
+  // if (pagesRes.statusCode !== 200 || productsRes.statusCode !== 200) {
+  //   return redirect("/sign-in");
+  // }
+  console.log({ productsRes });
   if (!searchParams.pageId) {
-    return redirect(`/shop-builder?pageId=${pagesRes.metadata[0].id}`);
+    return redirect(`/shop-builder?pageId=${pagesRes[0]?.id}`);
   }
 
   return (
     <div>
       <PageBuilder
-        pages={pagesRes.metadata}
-        products={productsRes.metadata}
+        pages={pagesRes}
+        products={productsRes}
         defaultHeaderLayout={onlineShop[0].defaultHeaderLayout}
         defaultFooterLayout={onlineShop[0].defaultFooterLayout}
       />

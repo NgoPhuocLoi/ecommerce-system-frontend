@@ -22,6 +22,12 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo } from "react";
 import RadioQuestions from "./radio-questions";
 import TextField from "./text-field";
+import { Theme } from "@/app/interfaces/themes";
+import { getThemes } from "@/actions/themes";
+import Image from "next/image";
+import Link from "next/link";
+import clsx from "clsx";
+import { createShop } from "@/actions/shops";
 
 const NUMBER_OF_QUESTIONS = 5;
 
@@ -35,6 +41,8 @@ interface QuestionData {
   }[];
   type: "radio" | "select" | "form";
 }
+const PLACEHOLDER_IMAGE_URL =
+  "https://bc-stencil-production.s3.amazonaws.com/m/55cbfb30-4c33-013d-7a5c-52329bccbb28/large_thumb_screenshot.png";
 
 const QUESTIONS = [
   {
@@ -116,21 +124,93 @@ const OnboardingQuestions = ({ categories }: IOnboardingQuestionsProps) => {
   const [question, setQuestion] = React.useState(0);
   const router = useRouter();
   const [anwsers, setAnwsers] = React.useState<any>({});
+  const [selectedCategoryId, setSelectedCategoryId] = React.useState<
+    string | null
+  >(null);
+  const [suggestedThemes, setSuggestedThemes] = React.useState<Theme[]>([]);
+  const [name, setName] = React.useState<string>("");
+  const [domain, setDomain] = React.useState<string>("");
+  const [selectedThemeId, setSelectedThemeId] = React.useState<string | null>(
+    null,
+  );
+
+  useEffect(() => {
+    const fetchThemes = async () => {
+      const themes: Theme[] = await getThemes();
+      const suggestedThemes = themes.filter(
+        (theme) =>
+          theme.recommendedForCategoryId.toString() === selectedCategoryId,
+      );
+      setSuggestedThemes(suggestedThemes);
+      console.log({ suggestedThemes });
+    };
+
+    fetchThemes();
+    console.log({ selectedCategoryId });
+  }, [selectedCategoryId]);
 
   const percentageComplete = useMemo(() => {
     return Math.ceil((question * 100) / VIETNAMESE_QUESTIONS.length);
   }, [question]);
 
-  useEffect(() => {
-    if (question === VIETNAMESE_QUESTIONS.length) {
-      router.push("/shop/create");
-    }
-  }, [question]);
+  // useEffect(() => {
+  //   if (question === VIETNAMESE_QUESTIONS.length) {
+  //     router.push("/shop/create");
+  //   }
+  // }, [question]);
+
+  const handleCreateShop = async () => {
+    // await createShop()
+    const data = {
+      name,
+      domain,
+      themeId: selectedThemeId!,
+    };
+
+    await createShop(data);
+  };
 
   return (
     <>
       {question === VIETNAMESE_QUESTIONS.length ? (
-        <></>
+        <div className="mx-auto flex h-screen w-1/3 items-center py-12">
+          <Card className="mx-auto my-auto flex h-full min-h-[240px] flex-col">
+            <CardHeader>
+              <CardTitle>Enter your shop details</CardTitle>
+              <CardDescription>
+                We’ll help you get set up based on your business needs.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-4">
+              <TextField
+                name={"name"}
+                label={"Name"}
+                id={"create-shop-name"}
+                type={"text"}
+                value={name}
+                onChange={setName}
+              />
+
+              <TextField
+                name={"domain"}
+                label={"Domain"}
+                id={"create-shop-domain"}
+                type={"text"}
+                value={domain}
+                onChange={setDomain}
+              />
+            </CardContent>
+            <CardFooter className="mt-auto">
+              <div className="flex w-full justify-between">
+                <Button asChild variant={"ghost"}>
+                  <Link href={"/"}>Back</Link>
+                </Button>
+
+                <Button onClick={handleCreateShop}>Create</Button>
+              </div>
+            </CardFooter>
+          </Card>
+        </div>
       ) : (
         // <CreateShopForm
         //   onBack={() => {
@@ -150,24 +230,77 @@ const OnboardingQuestions = ({ categories }: IOnboardingQuestionsProps) => {
             </CardHeader>
             <CardContent>
               {VIETNAMESE_QUESTIONS[question].type === "select" ? (
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Chọn danh mục sản phẩm muốn bán" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {/* <SelectLabel>Fruits</SelectLabel> */}
-                      {categories.map((category) => (
-                        <SelectItem
-                          key={category.id}
-                          value={category.id.toString()}
+                <div className="flex flex-col gap-4">
+                  <Select onValueChange={setSelectedCategoryId}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Chọn danh mục sản phẩm muốn bán" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {/* <SelectLabel>Fruits</SelectLabel> */}
+                        {categories.map((category) => (
+                          <SelectItem
+                            key={category.id}
+                            value={category.id.toString()}
+                          >
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+
+                  <p>Chủ đề được đề xuất</p>
+                  <div className="flex gap-6">
+                    {suggestedThemes.map((theme) => {
+                      console.log({ theme });
+                      return (
+                        // <p>{theme.name}</p>
+                        <Card
+                          onClick={() => {
+                            setSelectedThemeId(theme.id.toString());
+                          }}
+                          key={theme.id}
+                          className={clsx(
+                            "w-[200px] cursor-pointer p-0 hover:shadow-md",
+                            {
+                              "border-2 border-black":
+                                selectedThemeId === theme.id.toString(),
+                            },
+                          )}
                         >
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                          <CardContent className="p-3">
+                            {/* <Link href={`/admin/themes/${theme.id}`}> */}
+                            <div className="relative">
+                              <Image
+                                src={PLACEHOLDER_IMAGE_URL}
+                                alt="Theme"
+                                width={350}
+                                height={450}
+                              />
+                            </div>
+                            {/* </Link> */}
+                            <div className="mt-4 flex items-center justify-between">
+                              <div
+                                className="flex-1"
+                                // href={`/admin/themes/${theme.id}`}
+                              >
+                                <p className="text-lg font-bold">
+                                  {theme.name}
+                                </p>
+                                <p className="text-gray-600">
+                                  {theme.description}
+                                </p>
+                              </div>
+
+                              {/* <ThemeActions themeId={theme.id} /> */}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
+                  </div>
+                </div>
               ) : VIETNAMESE_QUESTIONS[question].type === "form" ? (
                 <div className="flex flex-col gap-4">
                   <TextField

@@ -1,7 +1,6 @@
 import { getTopLevelCategories } from "@/actions/categories";
 import { Category, CategoryResponse } from "@/app/interfaces/category";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getTranslations } from "next-intl/server";
 import CategoryList from "./category-list";
 
 interface IProductCategoryProps {
@@ -9,13 +8,12 @@ interface IProductCategoryProps {
 }
 
 const ProductCategory = async ({ initialCategory }: IProductCategoryProps) => {
-  const t = await getTranslations("ProductDetailAndAddPage");
   const topLevelCategories: Category[] = await getTopLevelCategories();
   return (
     <div>
       <Card>
         <CardHeader>
-          <CardTitle>{t("productCategory.title")}</CardTitle>
+          <CardTitle>Danh mục sản phẩm</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="w-full">

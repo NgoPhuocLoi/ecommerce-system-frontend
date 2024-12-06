@@ -42,6 +42,7 @@ const LayoutBuilder = ({
               typeOfLayout={"defaultHeaderLayout"}
             />
             <Toolbox />
+            <SettingPanel />
           </>
         )}
 
